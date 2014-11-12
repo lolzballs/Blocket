@@ -1,8 +1,8 @@
-#include <iostream>
+#include "window.h"
 
 int main()
 {
-    std::cout << "Hello World!" << std::endl;
+    Window(640, 800, "Blocket");
     return 0;
 }
 
