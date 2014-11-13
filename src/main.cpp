@@ -1,8 +1,11 @@
-#include "window.h"
+#include <iostream>
+#include "game.h"
+
+#undef main
 
 int main()
 {
-    Window(640, 800, "Blocket");
-    return 0;
+	Game().Start();
+	return 0;
 }
 
