@@ -7,7 +7,7 @@ before_install:
     - (cd SDL2-2.0.3 && ./configure --prefix=$PREFIX && make -j5 && sudo make install)
     - sudo apt-get update
 install:
-    - sudo apt-get install libglew-dev libglm-dev lib
+    - sudo apt-get install libglew-dev libglm-dev
     - sudo apt-get install cmake
 before_script:
     - mkdir build
