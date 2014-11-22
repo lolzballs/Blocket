@@ -1,7 +1,6 @@
 Blocket
 =======
 
-![CI Badge]
-(https://travis-ci.org/lolzballs/Blocket.svg?branch=master)
+[![Build Status](https://travis-ci.org/lolzballs/Blocket.svg?branch=master)](https://travis-ci.org/lolzballs/Blocket)
 
 A Voxel Game in C++
