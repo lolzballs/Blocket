@@ -5,7 +5,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <glm/glm.hpp>
 #include "util.h"
 
 class RenderBlock
@@ -14,22 +13,14 @@ public:
     RenderBlock(int blockID, glm::vec3 position, bool* facesNeeded);
 	virtual ~RenderBlock();
 
-	inline glm::vec3* GetUpFace() { return m_upFace; }
-	inline glm::vec3* GetDownFace() { return m_downFace; }
-	inline glm::vec3* GetLeftFace() { return m_leftFace; }
-	inline glm::vec3* GetRightFace() { return m_rightFace; }
-	inline glm::vec3* GetFrontFace() { return m_frontFace; }
-	inline glm::vec3* GetBackFace() { return m_backFace; }
+    int GetSize();
+    inline glm::vec3* GetFaces() { return m_faces; }
 private:
 	int m_textureID;
-	glm::vec3* m_upFace;
-	glm::vec3* m_downFace;
-	glm::vec3* m_leftFace;
-	glm::vec3* m_rightFace;
-	glm::vec3* m_frontFace;
-	glm::vec3* m_backFace;
+    int m_size;
+    glm::vec3* m_faces;
 
-	void SetUpFaces(glm::vec3 position, bool facesNeeded[]);
+    void SetUpFaces(glm::vec3 position, bool facesNeeded[]);
 };
 
 class Block

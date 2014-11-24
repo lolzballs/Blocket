@@ -23,11 +23,12 @@ public:
 private:
 	glm::vec2 m_position;
 	std::vector<Block> m_blocks;
-	int m_vbo;
-	int m_ibo;
+    GLuint m_vbo;
+    int m_size;
 
     bool* GetFacesRequired(glm::vec3 position);
     void RebufferChunk();
+    void InitGL();
 };
 
 #endif

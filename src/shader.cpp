@@ -59,7 +59,6 @@ std::string Shader::LoadShaderFromFile(std::string file)
 			getline(sourceFile, line);
 			stuff = stuff + line + "\n";
 		}
-		std::cout << "Shader " << file << ": " << stuff << std::endl;
 	}
 	else
 	{

@@ -2,7 +2,8 @@
 
 Game::Game()
 	: m_updateTime(1000.0f / 20.0f), m_width(800), m_height(640), m_title("Blocket"),
-	m_window(m_width, m_height, m_title), m_running(false)
+    m_window(m_width, m_height, m_title), m_running(false),
+    m_gameRenderer(glm::perspective(70.0f, (float)m_width / (float)m_height, 0.01f, 1000.0f))
 {
 	std::cout << "Game initalized." << std::endl;
 }
@@ -98,7 +99,7 @@ void Game::Input(InputHandler input)
 // Game logic (movement, etc.)
 void Game::Update(float delta)
 {
-	m_gameRenderer.Update(delta);
+    m_gameRenderer.Update(delta);
 	m_hud.Update(delta);
 }
 

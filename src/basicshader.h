@@ -8,7 +8,7 @@ class BasicShader
 {
 public:
 	BasicShader();
-	void UpdateUniforms(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
+    void UpdateUniforms(glm::mat4);
 private:
 	int m_uniformTransformation;
 	int m_uniformColor;

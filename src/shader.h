@@ -13,7 +13,7 @@ class Shader
 public:
 	Shader(std::string location);
 	virtual ~Shader();
-	virtual void UpdateUniforms(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) = 0;
+    virtual void UpdateUniforms(glm::mat4 projectionMatrix) = 0;
 	inline void Enable() { glUseProgram(m_program); }
 protected:
 	std::string m_vertSource;

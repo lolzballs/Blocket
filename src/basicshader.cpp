@@ -6,10 +6,9 @@ BasicShader::BasicShader()
 
 }
 
-void BasicShader::UpdateUniforms(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
+void BasicShader::UpdateUniforms(glm::mat4 projectionMatrix)
 {
 	Enable();
 
-	glm::mat4 finalMatrix = projectionMatrix * modelViewMatrix;
-	glUniformMatrix4fv(m_uniformTransformation, 1, GL_FALSE, &finalMatrix[0][0]);
+    glUniformMatrix4fv(m_uniformTransformation, 1, GL_FALSE, &projectionMatrix[0][0]);
 }
