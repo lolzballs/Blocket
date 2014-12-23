@@ -29,42 +29,42 @@ void RenderBlock::SetUpFaces(glm::vec3 position, bool facesNeeded[])
 	}
 	if (facesNeeded[1]) // Down
 	{
-        m_faces[0] = glm::vec3(0.5, -0.5, -0.5);
-        m_faces[1] = glm::vec3(-0.5, -0.5, -0.5);
-        m_faces[2] = glm::vec3(-0.5, -0.5, 0.5);
-        m_faces[3] = glm::vec3(0.5, -0.5, 0.5);
+        m_faces[0 + m_size] = glm::vec3(0.5, -0.5, -0.5);
+        m_faces[1 + m_size] = glm::vec3(-0.5, -0.5, -0.5);
+        m_faces[2 + m_size] = glm::vec3(-0.5, -0.5, 0.5);
+        m_faces[3 + m_size] = glm::vec3(0.5, -0.5, 0.5);
         m_size += 4;
 	}
 	if (facesNeeded[2]) // Left
 	{
-        m_faces[0] = glm::vec3(-0.5, 0.5, 0.5);
-        m_faces[1] = glm::vec3(-0.5, 0.5, -0.5);
-        m_faces[2] = glm::vec3(-0.5, -0.5, -0.5);
-        m_faces[3] = glm::vec3(-0.5, -0.5, 0.5);
+        m_faces[0 + m_size] = glm::vec3(-0.5, 0.5, 0.5);
+        m_faces[1 + m_size] = glm::vec3(-0.5, 0.5, -0.5);
+        m_faces[2 + m_size] = glm::vec3(-0.5, -0.5, -0.5);
+        m_faces[3 + m_size] = glm::vec3(-0.5, -0.5, 0.5);
         m_size += 4;
 	}
 	if (facesNeeded[3]) // Right
 	{
-        m_faces[0] = glm::vec3(0.5, -0.5, 0.5);
-        m_faces[1] = glm::vec3(0.5, -0.5, -0.5);
-        m_faces[2] = glm::vec3(0.5, 0.5, -0.5);
-        m_faces[3] = glm::vec3(0.5, 0.5, 0.5);
+        m_faces[0 + m_size] = glm::vec3(0.5, -0.5, 0.5);
+        m_faces[1 + m_size] = glm::vec3(0.5, -0.5, -0.5);
+        m_faces[2 + m_size] = glm::vec3(0.5, 0.5, -0.5);
+        m_faces[3 + m_size] = glm::vec3(0.5, 0.5, 0.5);
         m_size += 4;
 	}
 	if (facesNeeded[4]) // Front
 	{
-        m_faces[0] = glm::vec3(0.5, 0.5, 0.5);
-        m_faces[1] = glm::vec3(-0.5, 0.5, 0.5);
-        m_faces[2] = glm::vec3(-0.5, -0.5, 0.5);
-        m_faces[3] = glm::vec3(0.5, -0.5, 0.5);
+        m_faces[0 + m_size] = glm::vec3(0.5, 0.5, 0.5);
+        m_faces[1 + m_size] = glm::vec3(-0.5, 0.5, 0.5);
+        m_faces[2 + m_size] = glm::vec3(-0.5, -0.5, 0.5);
+        m_faces[3 + m_size] = glm::vec3(0.5, -0.5, 0.5);
         m_size += 4;
 	}
 	if (facesNeeded[5]) // Back
 	{
-        m_faces[0] = glm::vec3(0.5, -0.5, -0.5);
-        m_faces[1] = glm::vec3(-0.5, -0.5, -0.5);
-        m_faces[2] = glm::vec3(-0.5, 0.5, -0.5);
-        m_faces[3] = glm::vec3(0.5, 0.5, -0.5);
+        m_faces[0 + m_size] = glm::vec3(0.5, -0.5, -0.5);
+        m_faces[1 + m_size] = glm::vec3(-0.5, -0.5, -0.5);
+        m_faces[2 + m_size] = glm::vec3(-0.5, 0.5, -0.5);
+        m_faces[3 + m_size] = glm::vec3(0.5, 0.5, -0.5);
         m_size += 4;
 	}
 }

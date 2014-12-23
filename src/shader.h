@@ -23,6 +23,7 @@ protected:
 	GLhandleARB m_program;
 
 	inline GLint GetUniform(std::string name) { return glGetUniformLocation(m_program, name.c_str()); }
+	inline void BindAttrib(GLuint id, std::string name) { glBindAttribLocation(m_program, id, name.c_str()); }
 private:
 	std::string LoadShaderFromFile(std::string file);
 	bool CompileShader(GLhandleARB shader, std::string source);

@@ -11,6 +11,8 @@ file(GLOB_RECURSE SRCS
         ${Blocket_SOURCE_DIR}/src/*.c
 )
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${Blocket_SOURCE_DIR}/build")
+
 # C++ 11
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
@@ -23,6 +25,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
 INCLUDE(FindPkgConfig)
+
 # GLM
 
 # default search dirs

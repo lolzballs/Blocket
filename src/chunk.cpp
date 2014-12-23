@@ -24,7 +24,7 @@ void Chunk::Render()
 //    glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 //    glVertexAttribPointer(1, 2, GL_FLOAT, false, VERTEX_SIZE * sizeof(float), (GLvoid*) 12);
 //    glVertexAttribPointer(2, 3, GL_FLOAT, false, VERTEX_SIZE * sizeof(float), (GLvoid*) 20);
 
@@ -71,7 +71,7 @@ void Chunk::RebufferChunk()
         m_size = renderBlock.GetSize();
         // TODO: Finish rebuffering
         glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-        glBufferData(GL_ARRAY_BUFFER, m_size, renderBlock.GetFaces(), GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, m_size * 3 * sizeof(float), renderBlock.GetFaces(), GL_DYNAMIC_DRAW);
 //        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
     }
 }

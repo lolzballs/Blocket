@@ -6,7 +6,7 @@
 class GameRenderer
 {
 public:
-    GameRenderer(glm::mat4 perspective);
+    GameRenderer(float fov, float aspect, float zNear, float zFar);
 	virtual ~GameRenderer();
 
 	void Input(InputHandler input);

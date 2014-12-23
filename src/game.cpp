@@ -3,7 +3,7 @@
 Game::Game()
 	: m_updateTime(1000.0f / 20.0f), m_width(800), m_height(640), m_title("Blocket"),
     m_window(m_width, m_height, m_title), m_running(false),
-    m_gameRenderer(glm::perspective(70.0f, (float)m_width / (float)m_height, 0.01f, 1000.0f))
+    m_gameRenderer(70.0f, (float)m_width / (float)m_height, 0.01f, 1000.0f)
 {
 	std::cout << "Game initalized." << std::endl;
 }
@@ -72,7 +72,7 @@ void Game::Run()
 }
 
 
-// Function to seperate OpenGL initalization things
+// Function to separate OpenGL initialization things
 void Game::InitGL()
 {
 	glEnable(GL_MULTISAMPLE);
@@ -109,7 +109,7 @@ void Game::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_gameRenderer.Render();
-	
+
     // Render afterwards to overlay
 	m_hud.InitOrtho(m_width, m_height, -1.0f, 1000.0f);
 	m_hud.Render();
