@@ -1,5 +1,3 @@
-#define GLM_FORCE_RADIANS
-
 #ifndef GAME_H
 #define GAME_H
 

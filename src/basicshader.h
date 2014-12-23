@@ -11,7 +11,6 @@ public:
     void UpdateUniforms(glm::mat4);
 private:
 	int m_uniformTransformation;
-	int m_uniformColor;
 };
 
 #endif
