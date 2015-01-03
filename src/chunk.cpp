@@ -5,6 +5,12 @@ Chunk::Chunk(int x, int y)
 {
     InitGL();
 	AddBlock(1, glm::vec3(0, 0, 0));
+//    AddBlock(1, glm::vec3(0, 1, 1));
+//    AddBlock(1, glm::vec3(1, 1, 0));
+//    AddBlock(1, glm::vec3(1, 1, 1));
+//    AddBlock(1, glm::vec3(0, 1, -1));
+//    AddBlock(1, glm::vec3(-1, 1, 0));
+//    AddBlock(1, glm::vec3(-1, 1, -1));
     RebufferChunk();
 }
 
@@ -19,16 +25,20 @@ void Chunk::InitGL()
 
 void Chunk::Render()
 {
+    //glDisable(GL_CULL_FACE);
+    std::cout << m_size << std::endl;
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+
     glEnableVertexAttribArray(0);
 //    glEnableVertexAttribArray(1);
 //    glEnableVertexAttribArray(2);
 
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 //    glVertexAttribPointer(1, 2, GL_FLOAT, false, VERTEX_SIZE * sizeof(float), (GLvoid*) 12);
 //    glVertexAttribPointer(2, 3, GL_FLOAT, false, VERTEX_SIZE * sizeof(float), (GLvoid*) 20);
 
-    glDrawArrays(GL_QUADS, 0, m_size);
+    glDrawArrays(GL_QUADS, 0, (GLsizei) m_size);
 //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 //    glDrawElements(GL_TRIANGLES, m_size, GL_UNSIGNED_INT, 0);
 
@@ -62,18 +72,23 @@ Block Chunk::GetBlockAtPosition(glm::vec3 position)
 
 void Chunk::RebufferChunk()
 {
+    std::vector<glm::vec3> faces;
 	for (unsigned long i = 0; i < m_blocks.size(); i++)
 	{
 		Block block = m_blocks[i];
 
         RenderBlock renderBlock = RenderBlock(block.GetBlockID(), block.GetPosition(), GetFacesRequired(block.GetPosition()));
 
-        m_size = renderBlock.GetSize();
-        // TODO: Finish rebuffering
-        glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-        glBufferData(GL_ARRAY_BUFFER, m_size * 3 * sizeof(float), renderBlock.GetFaces(), GL_DYNAMIC_DRAW);
-//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+        glm::vec3* blockFaces = renderBlock.GetFaces();
+        for (unsigned int j = 0; j < renderBlock.GetSize(); j++)
+        {
+            faces.push_back(blockFaces[j]);
+        }
+        m_size += renderBlock.GetSize();
     }
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glBufferData(GL_ARRAY_BUFFER, m_size * 3 * sizeof(float), &faces[0], GL_DYNAMIC_DRAW);
 }
 
 

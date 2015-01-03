@@ -79,6 +79,7 @@ void Game::InitGL()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 	glEnable(GL_TEXTURE_2D);
 
 	glClearColor(0, 0, 0, 1);
@@ -111,6 +112,6 @@ void Game::Render()
 	m_gameRenderer.Render();
 
     // Render afterwards to overlay
-	m_hud.InitOrtho(m_width, m_height, -1.0f, 1000.0f);
-	m_hud.Render();
+    m_hud.InitOrtho(m_width, m_height, -0.1f, 1000.0f);
+    m_hud.Render();
 }

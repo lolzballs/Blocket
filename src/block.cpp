@@ -21,18 +21,18 @@ void RenderBlock::SetUpFaces(glm::vec3 position, bool facesNeeded[])
     m_faces = new glm::vec3[24]; // TODO: GET ACTUAL SIZE
 	if (facesNeeded[0]) // Top
 	{
-        m_faces[0] = glm::vec3(0.5, 0.5, 0.5);
-        m_faces[1] = glm::vec3(-0.5, 0.5, 0.5);
-        m_faces[2] = glm::vec3(-0.5, 0.5, -0.5);
-        m_faces[3] = glm::vec3(0.5, 0.5, -0.5);
+        m_faces[0] = glm::vec3(0.5, 0.5, -0.5);
+        m_faces[1] = glm::vec3(-0.5, 0.5, -0.5);
+        m_faces[2] = glm::vec3(-0.5, 0.5, 0.5);
+        m_faces[3] = glm::vec3(0.5, 0.5, 0.5);
         m_size += 4;
 	}
 	if (facesNeeded[1]) // Down
 	{
-        m_faces[0 + m_size] = glm::vec3(0.5, -0.5, -0.5);
-        m_faces[1 + m_size] = glm::vec3(-0.5, -0.5, -0.5);
-        m_faces[2 + m_size] = glm::vec3(-0.5, -0.5, 0.5);
-        m_faces[3 + m_size] = glm::vec3(0.5, -0.5, 0.5);
+        m_faces[0 + m_size] = glm::vec3(0.5, -0.5, 0.5);
+        m_faces[1 + m_size] = glm::vec3(-0.5, -0.5, 0.5);
+        m_faces[2 + m_size] = glm::vec3(-0.5, -0.5, -0.5);
+        m_faces[3 + m_size] = glm::vec3(0.5, -0.5, -0.5);
         m_size += 4;
 	}
 	if (facesNeeded[2]) // Left

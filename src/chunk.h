@@ -24,7 +24,7 @@ private:
 	glm::vec2 m_position;
 	std::vector<Block> m_blocks;
     GLuint m_vbo;
-    int m_size;
+    GLsizei m_size;
 
     bool* GetFacesRequired(glm::vec3 position);
     void RebufferChunk();
