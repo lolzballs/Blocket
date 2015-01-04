@@ -12,6 +12,8 @@ Window::Window(int width, int height, const std::string& title)
 
     SDL_Init(SDL_INIT_EVERYTHING);
 
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+
     m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     if (m_window == NULL) {
 		std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
@@ -46,10 +48,6 @@ void Window::Update()
 		if (event.type == SDL_QUIT)
 		{
 			m_isCloseRequested = true;
-		}
-		else if (event.type == SDL_MOUSEMOTION)
-		{
-			m_input.HandleMouseMotion(event.motion);
 		}
 		else if (event.type == SDL_MOUSEWHEEL)
 		{

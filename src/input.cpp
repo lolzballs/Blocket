@@ -1,10 +1,5 @@
 #include "input.h"
 
-void InputHandler::HandleMouseMotion(SDL_MouseMotionEvent event)
-{
-	m_mousePosition = glm::vec2(event.x, event.y);
-}
-
 void InputHandler::HandleMouseButton(SDL_MouseButtonEvent event)
 {
 	m_buttons[event.button] = event.type == SDL_MOUSEBUTTONDOWN;
@@ -33,3 +28,11 @@ bool InputHandler::IsMouseButtonDown(int button)
 {
 	return m_buttons[button];
 }
+
+glm::vec2 InputHandler::GetMousePosition()
+{
+	int x, y;
+	SDL_GetRelativeMouseState(&x, &y);
+	return glm::vec2(x, y);
+}
+

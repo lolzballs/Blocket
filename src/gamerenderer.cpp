@@ -12,19 +12,37 @@ GameRenderer::~GameRenderer()
 
 void GameRenderer::Input(InputHandler input)
 {
-    if (input.IsKeyDown(SDLK_s)) {
-        m_position -= glm::vec3(0, 0, 0.05);
+    glm::vec2 mouseDelta = input.GetMousePosition();
+
+    if (mouseDelta.y > 90)
+    {
+        mouseDelta.y = 90;
     }
-    if (input.IsKeyDown(SDLK_w)) {
+    else if (mouseDelta.y < -90)
+    {
+        mouseDelta.y = -90;
+    }
+
+    m_rotation += glm::vec2(mouseDelta.y, -mouseDelta.x);
+
+    if (input.IsKeyDown(SDLK_s))
+    {
         m_position += glm::vec3(0, 0, 0.05);
     }
-    if (input.IsKeyDown(SDLK_a)) {
-        m_position += glm::vec3(0.05, 0, 0);
+    if (input.IsKeyDown(SDLK_w))
+    {
+        m_position -= glm::vec3(0, 0, 0.05);
     }
-    if (input.IsKeyDown(SDLK_d)) {
+    if (input.IsKeyDown(SDLK_a))
+    {
         m_position -= glm::vec3(0.05, 0, 0);
     }
-    if (input.IsKeyDown(SDLK_SPACE)) {
+    if (input.IsKeyDown(SDLK_d))
+    {
+        m_position += glm::vec3(0.05, 0, 0);
+    }
+    if (input.IsKeyDown(SDLK_SPACE))
+    {
         m_position += glm::vec3(0, 0.05, 0);
     }
 
@@ -34,7 +52,8 @@ void GameRenderer::Input(InputHandler input)
 void GameRenderer::Update(float delta)
 {
 	m_world.Update(delta);
-    m_transformation = glm::translate(glm::mat4(), m_position);
+    glm::vec2 rotation = glm::radians(m_rotation);
+    m_transformation = glm::translate(glm::eulerAngleXY(rotation.x, rotation.y), -m_position);
 }
 
 void GameRenderer::Render()

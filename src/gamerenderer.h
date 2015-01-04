@@ -2,6 +2,7 @@
 #include "basicshader.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
 
 class GameRenderer
 {
@@ -18,7 +19,7 @@ private:
 	BasicShader m_shader;
 	World m_world;
     glm::vec3 m_position;
-    glm::vec3 m_rotation;
+    glm::vec2 m_rotation;
     glm::mat4 m_perspective;
     glm::mat4 m_transformation;
 };
