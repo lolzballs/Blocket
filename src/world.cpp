@@ -13,7 +13,13 @@ World::~World()
 
 void World::Input(InputHandler input)
 {
-
+	if (input.IsKeyDown(SDLK_p))
+	{
+		for (int i = 0; i < 16; i++)
+		{
+			m_chunk.AddBlock(1, glm::vec3(i, i, i), true);
+		}
+	}
 }
 
 void World::Update(float delta)

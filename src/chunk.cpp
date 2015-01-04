@@ -3,15 +3,22 @@
 Chunk::Chunk(int x, int y)
     : m_position(x, y), m_size(0)
 {
+    m_blocks = new Block**[CHUNK_SIZE];
+    for (int i = 0; i < CHUNK_SIZE; i++)
+    {
+        m_blocks[i] = new Block*[CHUNK_HEIGHT];
+        for (int j = 0; j < CHUNK_HEIGHT; j++)
+        {
+            m_blocks[i][j] = new Block[CHUNK_SIZE];
+            for (int k = 0; k < CHUNK_SIZE; k++)
+            {
+                m_blocks[i][j][k] = Block(0, glm::vec3(i, j, k));
+            }
+        }
+    }
+
     InitGL();
-	AddBlock(1, glm::vec3(0, 0, 0));
-//    AddBlock(1, glm::vec3(0, 1, 1));
-//    AddBlock(1, glm::vec3(1, 1, 0));
-//    AddBlock(1, glm::vec3(1, 1, 1));
-//    AddBlock(1, glm::vec3(0, 1, -1));
-//    AddBlock(1, glm::vec3(-1, 1, 0));
-//    AddBlock(1, glm::vec3(-1, 1, -1));
-    RebufferChunk();
+	AddBlock(1, glm::vec3(0, 0, 0), true);
 }
 
 Chunk::~Chunk()
@@ -50,42 +57,48 @@ void Chunk::Update(float delta)
 
 }
 
-void Chunk::AddBlock(int blockID, glm::vec3 position)
+void Chunk::AddBlock(int blockID, glm::vec3 position, bool rebuffer)
 {
-    m_blocks.push_back(Block(blockID, position));
+    m_blocks[(int) position.x][(int) position.y][(int) position.z] = Block(blockID, position);
+    if (rebuffer)
+    {
+        RebufferChunk();
+    }
 }
 
 Block Chunk::GetBlockAtPosition(glm::vec3 position)
 {
-	for (unsigned long i = 0; i < m_blocks.size(); i++) 
-	{
-		if (m_blocks[i].GetPosition() == position)
-		{
-			return m_blocks[i];
-		}
-	}
-
-	return Block(0, position);
+    return m_blocks[(int) position.x][(int) position.y][(int) position.z];
 }
 
 void Chunk::RebufferChunk()
 {
     std::vector<Vertex> vertices;
-	for (unsigned long i = 0; i < m_blocks.size(); i++)
+	for (unsigned int i = 0; i < CHUNK_SIZE; i++)
 	{
-		Block block = m_blocks[i];
-
-        RenderBlock renderBlock = RenderBlock(block.GetBlockID(), block.GetPosition(), GetFacesRequired(block.GetPosition()));
-
-        Vertex* blockFaces = renderBlock.GetVertices();
-        for (unsigned int j = 0; j < renderBlock.GetSize(); j++)
+        for (unsigned int j = 0; j < CHUNK_HEIGHT; j++)
         {
-            vertices.push_back(blockFaces[j]);
+            for (unsigned int k = 0; k < CHUNK_SIZE; k++)
+            {
+                Block block = m_blocks[i][j][k];
+
+                if (block.GetBlockID())
+                {
+                    RenderBlock renderBlock = RenderBlock(block.GetBlockID(), block.GetPosition(), GetFacesRequired(block.GetPosition()));
+
+                    Vertex* blockFaces = renderBlock.GetVertices();
+                    for (unsigned int l = 0; l < renderBlock.GetSize(); l++)
+                    {
+                        vertices.push_back(blockFaces[l]);
+                    }
+                }
+            }
         }
-        m_size += renderBlock.GetSize();
     }
 
-    float* floatVertices = Vertex::GetFloatArray(&vertices[0], vertices.size());
+    m_size = vertices.size();
+
+    float* floatVertices = Vertex::GetFloatArray(&vertices[0], m_size);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, m_size * VERTEX_SIZE * sizeof(float), floatVertices, GL_DYNAMIC_DRAW);
