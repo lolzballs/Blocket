@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "vertex.h"
 #include "util.h"
 
 class RenderBlock
@@ -14,11 +15,11 @@ public:
 	virtual ~RenderBlock();
 
     int GetSize();
-    inline glm::vec3* GetFaces() { return m_faces; }
+    inline Vertex* GetVertices() { return &m_vertices[0]; }
 private:
 	int m_textureID;
     int m_size;
-    glm::vec3* m_faces;
+    std::vector<Vertex> m_vertices;
 
     void SetUpFaces(glm::vec3 position, bool facesNeeded[]);
 };

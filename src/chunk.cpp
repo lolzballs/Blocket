@@ -26,25 +26,23 @@ void Chunk::InitGL()
 void Chunk::Render()
 {
     //glDisable(GL_CULL_FACE);
-    std::cout << m_size << std::endl;
-
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
     glEnableVertexAttribArray(0);
-//    glEnableVertexAttribArray(1);
-//    glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-//    glVertexAttribPointer(1, 2, GL_FLOAT, false, VERTEX_SIZE * sizeof(float), (GLvoid*) 12);
-//    glVertexAttribPointer(2, 3, GL_FLOAT, false, VERTEX_SIZE * sizeof(float), (GLvoid*) 20);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*) 0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*) 12);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*) 20);
 
     glDrawArrays(GL_QUADS, 0, (GLsizei) m_size);
 //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 //    glDrawElements(GL_TRIANGLES, m_size, GL_UNSIGNED_INT, 0);
 
     glDisableVertexAttribArray(0);
-//    glDisableVertexAttribArray(1);
-//    glDisableVertexAttribArray(2);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
 }
 
 void Chunk::Update(float delta)
@@ -72,23 +70,25 @@ Block Chunk::GetBlockAtPosition(glm::vec3 position)
 
 void Chunk::RebufferChunk()
 {
-    std::vector<glm::vec3> faces;
+    std::vector<Vertex> vertices;
 	for (unsigned long i = 0; i < m_blocks.size(); i++)
 	{
 		Block block = m_blocks[i];
 
         RenderBlock renderBlock = RenderBlock(block.GetBlockID(), block.GetPosition(), GetFacesRequired(block.GetPosition()));
 
-        glm::vec3* blockFaces = renderBlock.GetFaces();
+        Vertex* blockFaces = renderBlock.GetVertices();
         for (unsigned int j = 0; j < renderBlock.GetSize(); j++)
         {
-            faces.push_back(blockFaces[j]);
+            vertices.push_back(blockFaces[j]);
         }
         m_size += renderBlock.GetSize();
     }
 
+    float* floatVertices = Vertex::GetFloatArray(&vertices[0], vertices.size());
+
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, m_size * 3 * sizeof(float), &faces[0], GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, m_size * VERTEX_SIZE * sizeof(float), floatVertices, GL_DYNAMIC_DRAW);
 }
 
 
