@@ -1,5 +1,4 @@
 #include "game.h"
-#include <thread>
 
 Game::Game()
 	: m_updateTime(1000.0f / 20.0f), m_width(800), m_height(640), m_title("Blocket"),
