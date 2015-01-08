@@ -16,7 +16,7 @@ public:
 	virtual ~Chunk();
 
 	void Render();
-	void Update(float delta);
+	void Update();
 	void AddBlock(int blockID, glm::vec3 position, bool rebuffer);
 	Block GetBlockAtPosition(glm::vec3 position);
 

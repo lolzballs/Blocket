@@ -41,6 +41,8 @@ void Window::SetMousePosition(int x, int y)
 
 void Window::Update()
 {
+	SDL_GL_SetSwapInterval(0);
+
 	SDL_Event event;
 
 	while (SDL_PollEvent(&event) != 0)

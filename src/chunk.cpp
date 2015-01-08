@@ -12,13 +12,20 @@ Chunk::Chunk(int x, int y)
             m_blocks[i][j] = new Block[CHUNK_SIZE];
             for (int k = 0; k < CHUNK_SIZE; k++)
             {
-                m_blocks[i][j][k] = Block(0, glm::vec3(i, j, k));
+                if (j == 0)
+                {
+                    m_blocks[i][j][k] = Block(1, glm::vec3(i, j, k));
+                }
+                else
+                {
+                    m_blocks[i][j][k] = Block(0, glm::vec3(i, j, k));
+                }
             }
         }
     }
 
     InitGL();
-	AddBlock(1, glm::vec3(0, 0, 0), true);
+    RebufferChunk();
 }
 
 Chunk::~Chunk()
@@ -52,7 +59,7 @@ void Chunk::Render()
     glDisableVertexAttribArray(2);
 }
 
-void Chunk::Update(float delta)
+void Chunk::Update()
 {
 
 }

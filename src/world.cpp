@@ -22,9 +22,9 @@ void World::Input(InputHandler input)
 	}
 }
 
-void World::Update(float delta)
+void World::Update()
 {
-    m_chunk.Update(delta);
+    m_chunk.Update();
 }
 
 void World::Render()

@@ -16,7 +16,7 @@ void HUD::Input(InputHandler input)
 
 }
 
-void HUD::Update(float delta)
+void HUD::Update()
 {
 
 }

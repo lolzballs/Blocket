@@ -1,4 +1,5 @@
 #include "game.h"
+#include <thread>
 
 Game::Game()
 	: m_updateTime(1000.0f / 20.0f), m_width(800), m_height(640), m_title("Blocket"),
@@ -48,11 +49,12 @@ void Game::Run()
 		Input(m_window.GetInput());
 
 		// Update if needed
-		while (delta >= 1)
+		while (delta >= 1.0f)
 		{
 			updates++;
-			Update(delta);
-			delta -= 1;
+			Update();
+			Input(m_window.GetInput());
+			delta -= 1.0f;
 		}
 
 		// Render cycle
@@ -98,10 +100,10 @@ void Game::Input(InputHandler input)
 }
 
 // Game logic (movement, etc.)
-void Game::Update(float delta)
+void Game::Update()
 {
-    m_gameRenderer.Update(delta);
-	m_hud.Update(delta);
+    m_gameRenderer.Update();
+	m_hud.Update();
 }
 
 // Render!

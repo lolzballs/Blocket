@@ -11,7 +11,7 @@ public:
 	virtual ~World();
 
 	void Input(InputHandler input);
-	void Update(float delta);
+	void Update();
 	void Render();
 private:
 	Chunk m_chunk; // TODO: Find way of handling chunks
