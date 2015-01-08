@@ -1,5 +1,4 @@
 #include "gamerenderer.h"
-#include <thread>
 
 GameRenderer::GameRenderer(float fov, float aspect, float zNear, float zFar)
     : m_perspective(glm::perspective(glm::radians(fov), aspect, zNear, zFar))
