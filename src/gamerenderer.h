@@ -24,6 +24,7 @@ private:
     BasicShader m_shader;
     World m_world;
     glm::vec3 m_position;
+    glm::vec3 m_movement;
     glm::vec3 m_velocity;
     glm::vec2 m_rotation;
     glm::mat4 m_perspective;

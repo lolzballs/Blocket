@@ -7,7 +7,6 @@ RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool facesNeeded[])
     texturepath << "./res/textures/blocks/" << blockID << ".png";
 
     m_textureID = loadTexture(texturepath.str());
-    // std::cout << m_textureID << std::endl;
 }
 
 RenderBlock::~RenderBlock() {

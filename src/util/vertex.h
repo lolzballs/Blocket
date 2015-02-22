@@ -3,7 +3,7 @@
 
 #define VERTEX_SIZE 9
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <glm/glm.hpp>
 
 class Vertex {
