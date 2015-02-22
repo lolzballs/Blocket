@@ -60,8 +60,6 @@ private:
     void InitGL();
 
     void SwapBuffers();
-
-    void HandleKey(SDL_KeyboardEvent event);
 };
 
 #endif
