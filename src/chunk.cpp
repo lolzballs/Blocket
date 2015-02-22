@@ -1,23 +1,17 @@
 #include "chunk.h"
 
 Chunk::Chunk(int x, int y)
-    : m_position(x, y), m_size(0)
-{
-    m_blocks = new Block**[CHUNK_SIZE];
-    for (int i = 0; i < CHUNK_SIZE; i++)
-    {
-        m_blocks[i] = new Block*[CHUNK_HEIGHT];
-        for (int j = 0; j < CHUNK_HEIGHT; j++)
-        {
+        : m_position(x, y), m_size(0) {
+    m_blocks = new Block **[CHUNK_SIZE];
+    for (int i = 0; i < CHUNK_SIZE; i++) {
+        m_blocks[i] = new Block *[CHUNK_HEIGHT];
+        for (int j = 0; j < CHUNK_HEIGHT; j++) {
             m_blocks[i][j] = new Block[CHUNK_SIZE];
-            for (int k = 0; k < CHUNK_SIZE; k++)
-            {
-                if (j == 0)
-                {
+            for (int k = 0; k < CHUNK_SIZE; k++) {
+                if (j == 0) {
                     m_blocks[i][j][k] = Block(1, glm::vec3(i, j, k));
                 }
-                else
-                {
+                else {
                     m_blocks[i][j][k] = Block(0, glm::vec3(i, j, k));
                 }
             }
@@ -28,17 +22,14 @@ Chunk::Chunk(int x, int y)
     RebufferChunk();
 }
 
-Chunk::~Chunk()
-{
+Chunk::~Chunk() {
 }
 
-void Chunk::InitGL()
-{
+void Chunk::InitGL() {
     glGenBuffers(1, &m_vbo);
 }
 
-void Chunk::Render()
-{
+void Chunk::Render() {
     //glDisable(GL_CULL_FACE);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
@@ -46,9 +37,9 @@ void Chunk::Render()
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*) 0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*) 12);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*) 20);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid *) 0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid *) 12);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid *) 20);
 
     glDrawArrays(GL_QUADS, 0, (GLsizei) m_size);
 //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
@@ -59,43 +50,33 @@ void Chunk::Render()
     glDisableVertexAttribArray(2);
 }
 
-void Chunk::Update()
-{
+void Chunk::Update() {
 
 }
 
-void Chunk::AddBlock(int blockID, glm::vec3 position, bool rebuffer)
-{
+void Chunk::AddBlock(int blockID, glm::vec3 position, bool rebuffer) {
     m_blocks[(int) position.x][(int) position.y][(int) position.z] = Block(blockID, position);
-    if (rebuffer)
-    {
+    if (rebuffer) {
         RebufferChunk();
     }
 }
 
-Block Chunk::GetBlockAtPosition(glm::vec3 position)
-{
+Block Chunk::GetBlockAtPosition(glm::vec3 position) {
     return m_blocks[(int) position.x][(int) position.y][(int) position.z];
 }
 
-void Chunk::RebufferChunk()
-{
+void Chunk::RebufferChunk() {
     std::vector<Vertex> vertices;
-	for (unsigned int i = 0; i < CHUNK_SIZE; i++)
-	{
-        for (unsigned int j = 0; j < CHUNK_HEIGHT; j++)
-        {
-            for (unsigned int k = 0; k < CHUNK_SIZE; k++)
-            {
+    for (unsigned int i = 0; i < CHUNK_SIZE; i++) {
+        for (unsigned int j = 0; j < CHUNK_HEIGHT; j++) {
+            for (unsigned int k = 0; k < CHUNK_SIZE; k++) {
                 Block block = m_blocks[i][j][k];
 
-                if (block.GetBlockID())
-                {
+                if (block.GetBlockID()) {
                     RenderBlock renderBlock = RenderBlock(block.GetBlockID(), block.GetPosition(), GetFacesRequired(block.GetPosition()));
 
-                    Vertex* blockFaces = renderBlock.GetVertices();
-                    for (unsigned int l = 0; l < renderBlock.GetSize(); l++)
-                    {
+                    Vertex *blockFaces = renderBlock.GetVertices();
+                    for (unsigned int l = 0; l < renderBlock.GetSize(); l++) {
                         vertices.push_back(blockFaces[l]);
                     }
                 }
@@ -105,7 +86,7 @@ void Chunk::RebufferChunk()
 
     m_size = vertices.size();
 
-    float* floatVertices = Vertex::GetFloatArray(&vertices[0], m_size);
+    float *floatVertices = Vertex::GetFloatArray(&vertices[0], m_size);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, m_size * VERTEX_SIZE * sizeof(float), floatVertices, GL_DYNAMIC_DRAW);
@@ -113,9 +94,8 @@ void Chunk::RebufferChunk()
 
 
 // TODO: Actually get the required faces
-bool* Chunk::GetFacesRequired(glm::vec3 position)
-{
-	bool* faces = new bool[6];
+bool *Chunk::GetFacesRequired(glm::vec3 position) {
+    bool *faces = new bool[6];
     faces[0] = true;
     faces[1] = true;
     faces[2] = true;

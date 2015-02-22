@@ -2,9 +2,8 @@
 
 #undef main
 
-int main()
-{
-	Game().Start();
-	return 0;
+int main() {
+    Game().Start();
+    return 0;
 }
 

@@ -1,54 +1,47 @@
 #include "hud.h"
-#include <iostream>
 
-HUD::HUD()
-{
+HUD::HUD() {
 
 }
 
-HUD::~HUD()
-{
+HUD::~HUD() {
 
 }
 
-void HUD::Input(InputHandler input)
-{
+void HUD::Input(InputHandler input) {
 
 }
 
-void HUD::Update()
-{
+void HUD::Update() {
 
 }
 
-void HUD::Render()
-{
-	glUseProgram(0); // Disables shaders
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
+void HUD::Render() {
+    glUseProgram(0); // Disables shaders
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
-	glBegin(GL_TRIANGLES);
-	{
-		glColor3f(1, 1, 1);
-		glVertex2f(0, 0);
-		glColor3f(1, 0, 1);
-		glVertex2f(100, 0);
-		glColor3f(1, 0, 0);
-		glVertex2f(100, 100);
-	}
-	glEnd();
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
 
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
+    glBegin(GL_TRIANGLES);
+    {
+        glColor3f(1, 1, 1);
+        glVertex2f(0, 0);
+        glColor3f(1, 0, 1);
+        glVertex2f(100, 0);
+        glColor3f(1, 0, 0);
+        glVertex2f(100, 100);
+    }
+    glEnd();
+
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 }
 
-void HUD::InitOrtho(int width, int height, float zNear, float zFar)
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+void HUD::InitOrtho(int width, int height, float zNear, float zFar) {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
 
-	glOrtho(0, width, height, 0, zNear, zFar);
+    glOrtho(0, width, height, 0, zNear, zFar);
 }

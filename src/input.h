@@ -5,21 +5,28 @@
 #include <glm/glm.hpp>
 #include <map>
 
-class InputHandler
-{
+class InputHandler {
 public:
-	void HandleMouseButton(SDL_MouseButtonEvent event);
-	void HandleMouseWheel(SDL_MouseWheelEvent event);
-	void HandleKey(SDL_KeyboardEvent event);
-	bool IsKeyDown(int key);
-	bool IsMouseButtonDown(int button);
-	glm::vec2 GetMousePosition();
+    void HandleMouseButton(SDL_MouseButtonEvent event);
 
-	inline glm::vec2 GetMouseScroll() { return -m_mouseScroll; }
+    void HandleMouseWheel(SDL_MouseWheelEvent event);
+
+    void HandleKey(SDL_KeyboardEvent event);
+
+    bool IsKeyDown(int key);
+
+    bool IsMouseButtonDown(int button);
+
+    glm::vec2 GetMousePosition();
+
+    inline glm::vec2 GetMouseScroll() {
+        return -m_mouseScroll;
+    }
+
 private:
-	std::map<int, bool> m_keys;
-	std::map<int, bool> m_buttons;
-	glm::vec2 m_mouseScroll;
+    std::map<int, bool> m_keys;
+    std::map<int, bool> m_buttons;
+    glm::vec2 m_mouseScroll;
 };
 
 #endif
