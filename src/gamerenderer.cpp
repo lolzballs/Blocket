@@ -20,17 +20,17 @@ void GameRenderer::Input(InputHandler input) {
         m_rotation.x = -90;
     }
 
-    if (input.IsKeyDown(SDLK_s)) {
-        m_movement += glm::vec3(0, 0, 1);
-    }
     if (input.IsKeyDown(SDLK_w)) {
-        m_movement -= glm::vec3(0, 0, 1);
+        m_movement += glm::vec3(cos(glm::radians(m_rotation.y - 90)), 0, sin(glm::radians(m_rotation.y - 90)));
+    }
+    if (input.IsKeyDown(SDLK_s)) {
+        m_movement -= glm::vec3(cos(glm::radians(m_rotation.y - 90)), 0, sin(glm::radians(m_rotation.y - 90)));
     }
     if (input.IsKeyDown(SDLK_a)) {
-        m_movement -= glm::vec3(1, 0, 0);
+        m_movement -= glm::vec3(cos(glm::radians(m_rotation.y)), 0, sin(glm::radians(m_rotation.y)));
     }
     if (input.IsKeyDown(SDLK_d)) {
-        m_movement += glm::vec3(1, 0, 0);
+        m_movement += glm::vec3(cos(glm::radians(m_rotation.y)), 0, sin(glm::radians(m_rotation.y)));
     }
     if (input.IsKeyDown(SDLK_SPACE)) {
         m_movement += glm::vec3(0, 1, 0);
