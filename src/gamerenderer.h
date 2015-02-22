@@ -1,4 +1,4 @@
-#include "world.h"
+#include "world/world.h"
 #include "basicshader.h"
 
 #include <glm/gtc/matrix_transform.hpp>

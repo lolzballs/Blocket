@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
 #include <glm/glm.hpp>
-#include "block.h"
+#include "../block/block.h"
 
 #define CHUNK_SIZE 16
 #define CHUNK_HEIGHT 256

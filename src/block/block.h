@@ -5,8 +5,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "vertex.h"
-#include "util.h"
+#include "../util/vertex.h"
+#include "../util/util.h"
 
 class RenderBlock {
 public:

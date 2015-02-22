@@ -1,7 +1,7 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "input.h"
+#include "../input.h"
 #include "chunk.h"
 
 class World {
