@@ -84,7 +84,7 @@ void Chunk::RebufferChunk() {
         }
     }
 
-    m_size = vertices.size();
+    m_size = (GLsizei) vertices.size();
 
     float *floatVertices = Vertex::GetFloatArray(&vertices[0], m_size);
 

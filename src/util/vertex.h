@@ -3,6 +3,7 @@
 
 #define VERTEX_SIZE 9
 
+#include <GL/gl.h>
 #include <glm/glm.hpp>
 
 class Vertex {
@@ -17,7 +18,7 @@ public:
 
     ~Vertex();
 
-    static float *GetFloatArray(Vertex *vertices, unsigned int size);
+    static float *GetFloatArray(Vertex *vertices, GLsizei size);
 
     inline glm::vec3 GetPosition() {
         return m_position;

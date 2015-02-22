@@ -1,7 +1,6 @@
-#include <iostream>
 #include "vertex.h"
 
-float *Vertex::GetFloatArray(Vertex *vertices, unsigned int size) {
+float *Vertex::GetFloatArray(Vertex *vertices, GLsizei size) {
     float *array = new float[size * VERTEX_SIZE];
     for (unsigned int i = 0; i < size; i++) {
         array[i * VERTEX_SIZE + 0] = vertices[i].m_position.x;
