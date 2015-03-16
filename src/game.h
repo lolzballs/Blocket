@@ -35,7 +35,7 @@ private:
 
     void Update();
 
-    void Render();
+    void Render(float delta);
 };
 
 #endif

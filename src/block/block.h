@@ -25,7 +25,7 @@ private:
     int m_size;
     std::vector<Vertex> m_vertices;
 
-    void SetUpFaces(glm::vec3 position, bool facesNeeded[]);
+    void SetUpFaces(glm::vec3 position, bool* facesNeeded);
 };
 
 class Block {

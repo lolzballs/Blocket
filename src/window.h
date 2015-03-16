@@ -27,7 +27,6 @@ public:
     inline int GetWidth() const {
         return m_width;
     }
-
     inline int GetHeight() const {
         return m_height;
     }
@@ -58,9 +57,7 @@ private:
     InputHandler m_input;
 
     void InitGL();
-
     void SwapBuffers();
 };
 
 #endif
-

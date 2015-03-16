@@ -23,6 +23,7 @@ Chunk::Chunk(int x, int y)
 }
 
 Chunk::~Chunk() {
+    glDeleteBuffers(1, &m_vbo);
 }
 
 void Chunk::InitGL() {
@@ -62,7 +63,11 @@ void Chunk::AddBlock(int blockID, glm::vec3 position, bool rebuffer) {
 }
 
 Block Chunk::GetBlockAtPosition(glm::vec3 position) {
-    return m_blocks[(int) position.x][(int) position.y][(int) position.z];
+    if (position.x < 0 || position.x > CHUNK_SIZE - 1 || position.y < 0 || position.y > CHUNK_HEIGHT - 1 || position.z < 0 || position.z > CHUNK_SIZE - 1) {
+        return Block(0, position);
+    } else {
+        return m_blocks[(int) position.x][(int) position.y][(int) position.z];
+    }
 }
 
 void Chunk::RebufferChunk() {
@@ -72,7 +77,7 @@ void Chunk::RebufferChunk() {
             for (unsigned int k = 0; k < CHUNK_SIZE; k++) {
                 Block block = m_blocks[i][j][k];
 
-                if (block.GetBlockID()) {
+                if (block.GetBlockID() != 0) {
                     RenderBlock renderBlock = RenderBlock(block.GetBlockID(), block.GetPosition(), GetFacesRequired(block.GetPosition()));
 
                     Vertex *blockFaces = renderBlock.GetVertices();
@@ -92,15 +97,26 @@ void Chunk::RebufferChunk() {
     glBufferData(GL_ARRAY_BUFFER, m_size * VERTEX_SIZE * sizeof(float), floatVertices, GL_DYNAMIC_DRAW);
 }
 
-
-// TODO: Actually get the required faces
 bool *Chunk::GetFacesRequired(glm::vec3 position) {
-    bool *faces = new bool[6];
-    faces[0] = true;
-    faces[1] = true;
-    faces[2] = true;
-    faces[3] = true;
-    faces[4] = true;
-    faces[5] = true;
+    bool *faces = new bool[6]();
+
+    if (!GetBlockAtPosition(position + glm::vec3(0, 1, 0)).GetBlockID()) {
+        faces[0] = true;
+    }
+    if (!GetBlockAtPosition(position + glm::vec3(0, -1, 0)).GetBlockID()) {
+        faces[1] = true;
+    }
+    if (!GetBlockAtPosition(position + glm::vec3(-1, 0, 0)).GetBlockID()) {
+        faces[2] = true;
+    }
+    if (!GetBlockAtPosition(position + glm::vec3(1, 0, 0)).GetBlockID()) {
+        faces[3] = true;
+    }
+    if (!GetBlockAtPosition(position + glm::vec3(0, 0, 1)).GetBlockID()) {
+        faces[4] = true;
+    }
+    if (!GetBlockAtPosition(position + glm::vec3(0, 0, -1)).GetBlockID()) {
+        faces[5] = true;
+    }
     return faces;
 }

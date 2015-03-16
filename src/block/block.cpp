@@ -1,6 +1,6 @@
 #include "block.h"
 
-RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool facesNeeded[])
+RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool* facesNeeded)
         : m_size(0) {
     SetUpFaces(position, facesNeeded);
     std::stringstream texturepath;
@@ -12,7 +12,7 @@ RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool facesNeeded[])
 RenderBlock::~RenderBlock() {
 }
 
-void RenderBlock::SetUpFaces(glm::vec3 position, bool facesNeeded[]) {
+void RenderBlock::SetUpFaces(glm::vec3 position, bool* facesNeeded) {
     std::vector<Vertex> vertices;
     if (facesNeeded[0]) // Top
     {
@@ -82,5 +82,3 @@ Block::Block(int blockID, glm::vec3 position)
 Block::~Block() {
 
 }
-
-

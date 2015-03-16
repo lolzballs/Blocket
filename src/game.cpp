@@ -33,9 +33,12 @@ void Game::Run() {
 
     Uint32 lastTimer = SDL_GetTicks();
     float delta = 0;
+    float lastTick = 0;
+    float renderDelta = 0;
 
     while (m_running) {
         Uint32 now = SDL_GetTicks();
+        renderDelta = (now - lastTick) / m_updateTime;
         delta += (now - lastTime) / m_updateTime;
         lastTime = now;
 
@@ -44,6 +47,7 @@ void Game::Run() {
         // Update if needed
         while (delta >= 1.0f) {
             updates++;
+            lastTick = SDL_GetTicks();
             Update();
             Input(m_window.GetInput());
             delta -= 1.0f;
@@ -52,7 +56,7 @@ void Game::Run() {
         // Render cycle
         frames++;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        Render();
+        Render(renderDelta);
         m_window.Update();
 
         if (SDL_GetTicks() - lastTimer >= 1000) {
@@ -94,10 +98,10 @@ void Game::Update() {
 }
 
 // Render!
-void Game::Render() {
+void Game::Render(float delta) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    m_gameRenderer.Render();
+    m_gameRenderer.Render(delta);
 
     // Render afterwards to overlay
     m_hud.InitOrtho(m_width, m_height, -0.1f, 1000.0f);
