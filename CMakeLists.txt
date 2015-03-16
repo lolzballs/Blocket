@@ -2,6 +2,8 @@ project(Blocket)
 cmake_minimum_required(VERSION 2.8)
 aux_source_directory(. SRC_LIST)
 
+add_definitions(-DGLM_FORCE_RADIANS)
+
 # Lets LOAD app our headers!
 file(GLOB_RECURSE HDRS ${Blocket_SOURCE_DIR}/src/*.h)
 
