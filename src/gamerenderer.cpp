@@ -9,9 +9,6 @@ GameRenderer::~GameRenderer() {
 
 }
 
-bool first = true;
-time_t start;
-
 void GameRenderer::Input(InputHandler input) {
     glm::vec2 mouseDelta = input.GetMousePosition();
 
@@ -34,10 +31,6 @@ void GameRenderer::Input(InputHandler input) {
     }
     if (input.IsKeyDown(SDLK_a)) {
 //        m_movement -= glm::vec3(cos(glm::radians(m_rotation.y)), 0, sin(glm::radians(m_rotation.y)));
-        if (first) {
-            first = false;
-            start = SDL_GetTicks();
-        }
         m_movement -= glm::vec3(0, 0, 1);
     }
     if (input.IsKeyDown(SDLK_d)) {
@@ -64,10 +57,6 @@ void GameRenderer::Update() {
 }
 
 void GameRenderer::Render(float delta) {
-    if (m_position.z >= 10.0f) {
-        std::cout << SDL_GetTicks() - start << std::endl;
-    }
-
     glm::vec2 rotation = glm::radians(m_rotation);
     m_transformation = glm::translate(glm::eulerAngleXY(rotation.x, rotation.y), -(m_position + m_velocity * 0.1f * delta));
     m_shader.UpdateUniforms(m_perspective * m_transformation);
