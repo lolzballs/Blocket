@@ -18,14 +18,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 add_executable(Blocket ${HDRS} ${SRCS})
 
-# OpenGL
-find_package(OpenGL REQUIRED)
-
-# GLEW
-find_package(GLEW REQUIRED)
-
-INCLUDE(FindPkgConfig)
-
 # GLM
 
 # default search dirs
@@ -61,20 +53,30 @@ IF(GLM_FOUND)
     MESSAGE(STATUS "GLM_INCLUDE_DIR = ${GLM_INCLUDE_DIR}")
 ENDIF(GLM_FOUND)
 
-# SDL2
-PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+if (NOT DEFINED EMSCRIPTEN)
+    # OpenGL
+    find_package(OpenGL REQUIRED)
 
-# Define the include DIRs
-include_directories(
+    # GLEW
+    find_package(GLEW REQUIRED)
+
+    INCLUDE(FindPkgConfig)
+
+    # SDL2
+    PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+
+    # Define the include DIRs
+    include_directories(
         ${OPENGL_INCLUDE_DIRS}
         ${GLEW_INCLUDE_DIRS}
         ${SDL2_INCLUDE_DIRS}
         ${GLM_INCLUDE_DIRS}
-)
+    )
 
-# Define the link libraries
-target_link_libraries(Blocket
+    # Define the link libraries
+    target_link_libraries(Blocket
         ${OPENGL_LIBRARIES}
         ${GLEW_LIBRARIES}
         ${SDL2_LIBRARIES}
-)
+    )
+endif(NOT DEFINED EMSCRIPTEN)
