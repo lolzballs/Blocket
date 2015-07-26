@@ -5,7 +5,8 @@
 #include <glm/glm.hpp>
 #include <map>
 
-class InputHandler {
+class InputHandler
+{
 public:
     void HandleMouseButton(SDL_MouseButtonEvent event);
 
@@ -19,7 +20,8 @@ public:
 
     glm::vec2 GetMousePosition();
 
-    inline glm::vec2 GetMouseScroll() {
+    inline glm::vec2 GetMouseScroll()
+    {
         return -m_mouseScroll;
     }
 
@@ -30,4 +32,3 @@ private:
 };
 
 #endif
-

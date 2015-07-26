@@ -1,7 +1,7 @@
 #include "block.h"
 
-RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool* facesNeeded)
-        : m_size(0) {
+RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool *facesNeeded) : m_size(0)
+{
     SetUpFaces(position, facesNeeded);
     std::stringstream texturepath;
     texturepath << "./res/textures/blocks/" << blockID << ".png";
@@ -9,12 +9,14 @@ RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool* facesNeeded)
     m_textureID = loadTexture(texturepath.str());
 }
 
-RenderBlock::~RenderBlock() {
+RenderBlock::~RenderBlock()
+{
 }
 
-void RenderBlock::SetUpFaces(glm::vec3 position, bool* facesNeeded) {
+void RenderBlock::SetUpFaces(glm::vec3 position, bool *facesNeeded)
+{
     std::vector<Vertex> vertices;
-    if (facesNeeded[0]) // Top
+    if (facesNeeded[0])  // Top
     {
         vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, glm::vec4(1, 0, 1, 1)));
         vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, glm::vec4(1, 0, 1, 1)));
@@ -22,7 +24,7 @@ void RenderBlock::SetUpFaces(glm::vec3 position, bool* facesNeeded) {
         vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, glm::vec4(1, 0, 1, 1)));
         m_size += 4;
     }
-    if (facesNeeded[1]) // Down
+    if (facesNeeded[1])  // Down
     {
         vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, glm::vec4(0, 1, 0, 1)));
         vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, glm::vec4(0, 1, 0, 1)));
@@ -30,7 +32,7 @@ void RenderBlock::SetUpFaces(glm::vec3 position, bool* facesNeeded) {
         vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, glm::vec4(0, 1, 0, 1)));
         m_size += 4;
     }
-    if (facesNeeded[2]) // Left
+    if (facesNeeded[2])  // Left
     {
         vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, glm::vec4(1, 1, 0, 1)));
         vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, glm::vec4(1, 1, 0, 1)));
@@ -38,7 +40,7 @@ void RenderBlock::SetUpFaces(glm::vec3 position, bool* facesNeeded) {
         vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, glm::vec4(1, 1, 0, 1)));
         m_size += 4;
     }
-    if (facesNeeded[3]) // Right
+    if (facesNeeded[3])  // Right
     {
         vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, glm::vec4(0, 0, 1, 1)));
         vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, glm::vec4(0, 0, 1, 1)));
@@ -46,7 +48,7 @@ void RenderBlock::SetUpFaces(glm::vec3 position, bool* facesNeeded) {
         vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, glm::vec4(0, 0, 1, 1)));
         m_size += 4;
     }
-    if (facesNeeded[4]) // Front
+    if (facesNeeded[4])  // Front
     {
         vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, glm::vec4(0, 1, 1, 1)));
         vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, glm::vec4(0, 1, 1, 1)));
@@ -54,7 +56,7 @@ void RenderBlock::SetUpFaces(glm::vec3 position, bool* facesNeeded) {
         vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, glm::vec4(0, 1, 1, 1)));
         m_size += 4;
     }
-    if (facesNeeded[5]) // Back
+    if (facesNeeded[5])  // Back
     {
         vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, glm::vec4(1, 0, 0, 1)));
         vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, glm::vec4(1, 0, 0, 1)));
@@ -65,20 +67,19 @@ void RenderBlock::SetUpFaces(glm::vec3 position, bool* facesNeeded) {
     m_vertices = vertices;
 }
 
-int RenderBlock::GetSize() {
+int RenderBlock::GetSize()
+{
     return m_size;
 }
 
-Block::Block()
-        : m_blockID(0) {
-
+Block::Block() : m_blockID(0)
+{
 }
 
-Block::Block(int blockID, glm::vec3 position)
-        : m_blockID(blockID), m_position(position) {
-
+Block::Block(int blockID, glm::vec3 position) : m_blockID(blockID), m_position(position)
+{
 }
 
-Block::~Block() {
-
+Block::~Block()
+{
 }

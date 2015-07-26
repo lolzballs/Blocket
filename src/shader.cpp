@@ -1,16 +1,21 @@
 #include "shader.h"
 
 Shader::Shader(std::string location)
-        : m_vertSource(LoadShaderFromFile(location + ".vs")), m_fragSource(LoadShaderFromFile(location + ".fs")),
-          m_vertShader(glCreateShader(GL_VERTEX_SHADER_ARB)), m_fragShader(glCreateShader(GL_FRAGMENT_SHADER_ARB)),
-          m_program(glCreateProgram()) {
+    : m_vertSource(LoadShaderFromFile(location + ".vs")),
+      m_fragSource(LoadShaderFromFile(location + ".fs")),
+      m_vertShader(glCreateShader(GL_VERTEX_SHADER_ARB)),
+      m_fragShader(glCreateShader(GL_FRAGMENT_SHADER_ARB)),
+      m_program(glCreateProgram())
+{
     glGetError();
 
-    if (!CompileShader(m_vertShader, m_vertSource)) {
+    if (!CompileShader(m_vertShader, m_vertSource))
+    {
         return;
     }
 
-    if (!CompileShader(m_fragShader, m_fragSource)) {
+    if (!CompileShader(m_fragShader, m_fragSource))
+    {
         return;
     }
 
@@ -22,7 +27,8 @@ Shader::Shader(std::string location)
     glGetProgramiv(m_program, GL_LINK_STATUS, &status);
     std::cout << "Finished loading shader: " << location << " with status: " << status << std::endl;
 
-    if (status == 0) {
+    if (status == 0)
+    {
         GLint length;
         char *info;
         glGetObjectParameterivARB(m_program, GL_OBJECT_INFO_LOG_LENGTH_ARB, &length);
@@ -37,29 +43,34 @@ Shader::Shader(std::string location)
     std::cout << "Shader " << location << "compiled with validation: " << status << std::endl;
 }
 
-
-Shader::~Shader() {
+Shader::~Shader()
+{
 }
 
-std::string Shader::LoadShaderFromFile(std::string file) {
+std::string Shader::LoadShaderFromFile(std::string file)
+{
     std::string stuff;
     std::ifstream sourceFile(file.c_str());
 
     std::string line;
-    if (sourceFile.is_open()) {
-        while (!sourceFile.eof()) {
+    if (sourceFile.is_open())
+    {
+        while (!sourceFile.eof())
+        {
             getline(sourceFile, line);
             stuff = stuff + line + "\n";
         }
     }
-    else {
+    else
+    {
         std::cout << "Could not open file " << file << std::endl;
     }
 
     return stuff;
 }
 
-bool Shader::CompileShader(GLhandleARB shader, std::string source) {
+bool Shader::CompileShader(GLhandleARB shader, std::string source)
+{
     GLint status;
 
     const char *sourceChars = source.c_str();
@@ -68,7 +79,8 @@ bool Shader::CompileShader(GLhandleARB shader, std::string source) {
     glCompileShader(shader);
     glGetObjectParameterivARB(shader, GL_OBJECT_COMPILE_STATUS_ARB, &status);
 
-    if (status == 0) {
+    if (status == 0)
+    {
         GLint length;
         char *info;
 

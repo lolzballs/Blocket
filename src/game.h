@@ -6,7 +6,8 @@
 #include "hud.h"
 #include "gamerenderer.h"
 
-class Game {
+class Game
+{
 public:
     Game();
 

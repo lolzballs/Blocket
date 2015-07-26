@@ -4,7 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/euler_angles.hpp>
 
-class GameRenderer {
+class GameRenderer
+{
 public:
     GameRenderer(float fov, float aspect, float zNear, float zFar);
 
@@ -16,7 +17,8 @@ public:
 
     void Render(float delta);
 
-    inline const World GetWorld() {
+    inline const World GetWorld()
+    {
         return m_world;
     }
 

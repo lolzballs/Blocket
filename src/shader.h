@@ -8,7 +8,8 @@
 #include <fstream>
 #include <string>
 
-class Shader {
+class Shader
+{
 public:
     Shader(std::string location);
 
@@ -16,7 +17,8 @@ public:
 
     virtual void UpdateUniforms(glm::mat4 projectionMatrix) = 0;
 
-    inline void Enable() {
+    inline void Enable()
+    {
         glUseProgram(m_program);
     }
 
@@ -27,11 +29,13 @@ protected:
     GLhandleARB m_fragShader;
     GLhandleARB m_program;
 
-    inline GLint GetUniform(std::string name) {
+    inline GLint GetUniform(std::string name)
+    {
         return glGetUniformLocation(m_program, name.c_str());
     }
 
-    inline void BindAttrib(GLuint id, std::string name) {
+    inline void BindAttrib(GLuint id, std::string name)
+    {
         glBindAttribLocation(m_program, id, name.c_str());
     }
 

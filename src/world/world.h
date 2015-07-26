@@ -4,9 +4,10 @@
 #include "../input.h"
 #include "chunk.h"
 
-class World {
+class World
+{
 public:
-    World(); // TODO: World flags
+    World();  // TODO: World flags
     virtual ~World();
 
     void Input(InputHandler input);
@@ -16,8 +17,7 @@ public:
     void Render();
 
 private:
-    Chunk m_chunk; // TODO: Find way of handling chunks
+    Chunk m_chunk;  // TODO: Find way of handling chunks
 };
 
 #endif
-

@@ -1,27 +1,30 @@
 #include "world.h"
 
-World::World()
-        : m_chunk(0, 0) {
-
+World::World() : m_chunk(0, 0)
+{
 }
 
-World::~World() {
-
+World::~World()
+{
 }
 
-void World::Input(InputHandler input) {
-    if (input.IsKeyDown(SDLK_p)) {
-        for (int i = 0; i < 16; i++) {
+void World::Input(InputHandler input)
+{
+    if (input.IsKeyDown(SDLK_p))
+    {
+        for (int i = 0; i < 16; i++)
+        {
             m_chunk.AddBlock(1, glm::vec3(i, i, i), true);
         }
     }
 }
 
-void World::Update() {
+void World::Update()
+{
     m_chunk.Update();
 }
 
-void World::Render() {
+void World::Render()
+{
     m_chunk.Render();
 }
-

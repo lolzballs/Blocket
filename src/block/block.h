@@ -8,7 +8,8 @@
 #include "../util/vertex.h"
 #include "../util/util.h"
 
-class RenderBlock {
+class RenderBlock
+{
 public:
     RenderBlock(int blockID, glm::vec3 position, bool *facesNeeded);
 
@@ -16,7 +17,8 @@ public:
 
     int GetSize();
 
-    inline Vertex *GetVertices() {
+    inline Vertex *GetVertices()
+    {
         return &m_vertices[0];
     }
 
@@ -25,10 +27,11 @@ private:
     int m_size;
     std::vector<Vertex> m_vertices;
 
-    void SetUpFaces(glm::vec3 position, bool* facesNeeded);
+    void SetUpFaces(glm::vec3 position, bool *facesNeeded);
 };
 
-class Block {
+class Block
+{
 public:
     Block();
 
@@ -36,11 +39,13 @@ public:
 
     virtual ~Block();
 
-    inline int GetBlockID() {
+    inline int GetBlockID()
+    {
         return m_blockID;
     }
 
-    inline const glm::vec3 GetPosition() {
+    inline const glm::vec3 GetPosition()
+    {
         return m_position;
     }
 

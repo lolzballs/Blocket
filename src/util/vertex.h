@@ -6,7 +6,8 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
-class Vertex {
+class Vertex
+{
 public:
     Vertex(glm::vec3 position);
 
@@ -20,15 +21,18 @@ public:
 
     static float *GetFloatArray(Vertex *vertices, GLsizei size);
 
-    inline glm::vec3 GetPosition() {
+    inline glm::vec3 GetPosition()
+    {
         return m_position;
     }
 
-    inline glm::vec4 GetColor() {
+    inline glm::vec4 GetColor()
+    {
         return m_color;
     }
 
-    inline glm::vec2 GetTexCoord() {
+    inline glm::vec2 GetTexCoord()
+    {
         return m_texCoord;
     }
 
@@ -38,4 +42,4 @@ private:
     glm::vec2 m_texCoord;
 };
 
-#endif // VERTEX_H
+#endif  // VERTEX_H

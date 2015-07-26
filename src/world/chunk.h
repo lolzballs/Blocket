@@ -9,7 +9,8 @@
 #define CHUNK_SIZE 16
 #define CHUNK_HEIGHT 256
 
-class Chunk {
+class Chunk
+{
 public:
     Chunk(int x, int y);
 
@@ -23,7 +24,8 @@ public:
 
     Block GetBlockAtPosition(glm::vec3 position);
 
-    inline const glm::vec2 GetPosition() {
+    inline const glm::vec2 GetPosition()
+    {
         return m_position;
     }
 

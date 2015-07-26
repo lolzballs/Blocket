@@ -1,23 +1,24 @@
 #include "hud.h"
 
-HUD::HUD() {
-
+HUD::HUD()
+{
 }
 
-HUD::~HUD() {
-
+HUD::~HUD()
+{
 }
 
-void HUD::Input(InputHandler input) {
-
+void HUD::Input(InputHandler input)
+{
 }
 
-void HUD::Update() {
-
+void HUD::Update()
+{
 }
 
-void HUD::Render() {
-    glUseProgram(0); // Disables shaders
+void HUD::Render()
+{
+    glUseProgram(0);  // Disables shaders
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
@@ -39,7 +40,8 @@ void HUD::Render() {
     glEnable(GL_DEPTH_TEST);
 }
 
-void HUD::InitOrtho(int width, int height, float zNear, float zFar) {
+void HUD::InitOrtho(int width, int height, float zNear, float zFar)
+{
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 

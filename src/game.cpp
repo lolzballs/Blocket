@@ -1,17 +1,23 @@
 #include "game.h"
 
 Game::Game()
-        : m_updateTime(1000.0f / 20.0f), m_width(800), m_height(640), m_title("Blocket"),
-          m_window(m_width, m_height, m_title), m_running(false),
-          m_gameRenderer(70.0f, (float) m_width / (float) m_height, 0.01f, 1000.0f) {
+    : m_updateTime(1000.0f / 20.0f),
+      m_width(800),
+      m_height(640),
+      m_title("Blocket"),
+      m_window(m_width, m_height, m_title),
+      m_running(false),
+      m_gameRenderer(70.0f, (float)m_width / (float)m_height, 0.01f, 1000.0f)
+{
     std::cout << "Game initalized." << std::endl;
 }
 
-Game::~Game() {
-
+Game::~Game()
+{
 }
 
-void Game::Start() {
+void Game::Start()
+{
     std::cout << "Starting game..." << std::endl;
 
     m_running = true;
@@ -20,12 +26,14 @@ void Game::Start() {
     Run();
 }
 
-void Game::Stop() {
+void Game::Stop()
+{
     std::cout << "Stopping game..." << std::endl;
     m_running = false;
 }
 
-void Game::Run() {
+void Game::Run()
+{
     Uint32 lastTime = SDL_GetTicks();
 
     int frames = 0;
@@ -36,7 +44,8 @@ void Game::Run() {
     float lastTick = 0;
     float renderDelta = 0;
 
-    while (m_running) {
+    while (m_running)
+    {
         Uint32 now = SDL_GetTicks();
         renderDelta = (now - lastTick) / m_updateTime;
         delta += (now - lastTime) / m_updateTime;
@@ -45,7 +54,8 @@ void Game::Run() {
         Input(m_window.GetInput());
 
         // Update if needed
-        while (delta >= 1.0f) {
+        while (delta >= 1.0f)
+        {
             updates++;
             lastTick = SDL_GetTicks();
             Update();
@@ -59,7 +69,8 @@ void Game::Run() {
         Render(renderDelta);
         m_window.Update();
 
-        if (SDL_GetTicks() - lastTimer >= 1000) {
+        if (SDL_GetTicks() - lastTimer >= 1000)
+        {
             lastTimer += 1000;
             std::cout << updates << " TPS, " << frames << " FPS" << std::endl;
             frames = 0;
@@ -68,9 +79,9 @@ void Game::Run() {
     }
 }
 
-
 // Function to separate OpenGL initialization things
-void Game::InitGL() {
+void Game::InitGL()
+{
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -82,8 +93,10 @@ void Game::InitGL() {
 }
 
 // Handle inputs, called every frame
-void Game::Input(InputHandler input) {
-    if (input.IsKeyDown(SDLK_ESCAPE) || m_window.IsCloseRequested()) {
+void Game::Input(InputHandler input)
+{
+    if (input.IsKeyDown(SDLK_ESCAPE) || m_window.IsCloseRequested())
+    {
         Stop();
     }
 
@@ -92,13 +105,15 @@ void Game::Input(InputHandler input) {
 }
 
 // Game logic (movement, etc.)
-void Game::Update() {
+void Game::Update()
+{
     m_gameRenderer.Update();
     m_hud.Update();
 }
 
 // Render!
-void Game::Render(float delta) {
+void Game::Render(float delta)
+{
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     m_gameRenderer.Render(delta);

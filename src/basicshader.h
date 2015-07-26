@@ -3,8 +3,8 @@
 
 #include "shader.h"
 
-class BasicShader
-        : Shader {
+class BasicShader : Shader
+{
 public:
     BasicShader();
 
