@@ -47,7 +47,6 @@ void Game::Run()
     while (m_running)
     {
         Uint32 now = SDL_GetTicks();
-        renderDelta = (now - lastTick) / m_updateTime;
         delta += (now - lastTime) / m_updateTime;
         lastTime = now;
 
@@ -62,6 +61,8 @@ void Game::Run()
             Input(m_window.GetInput());
             delta -= 1.0f;
         }
+
+        renderDelta = (now - lastTick) / m_updateTime;
 
         // Render cycle
         frames++;
