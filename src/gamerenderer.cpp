@@ -13,7 +13,7 @@ void GameRenderer::Input(InputHandler input)
 {
     glm::vec2 mouseDelta = input.GetMousePosition();
 
-    m_rotation += glm::vec2(mouseDelta.y, -mouseDelta.x);
+    m_rotation += glm::vec2(mouseDelta.y, mouseDelta.x);
 
     if (m_rotation.x > 90)
     {
@@ -26,23 +26,23 @@ void GameRenderer::Input(InputHandler input)
 
     if (input.IsKeyDown(SDLK_w))
     {
-        m_movement += glm::vec3(sin(glm::radians(m_rotation.y + 180)), 0,
-                                cos(glm::radians(m_rotation.y + 180)));
+        m_movement += glm::vec3(cos(glm::radians(m_rotation.y - 90)), 0,
+                                sin(glm::radians(m_rotation.y - 90)));
     }
     if (input.IsKeyDown(SDLK_s))
     {
-        m_movement +=
-            glm::vec3(sin(glm::radians(m_rotation.y)), 0, cos(glm::radians(m_rotation.y)));
+        m_movement += glm::vec3(cos(glm::radians(m_rotation.y + 90)), 0,
+                                sin(glm::radians(m_rotation.y + 90)));
     }
     if (input.IsKeyDown(SDLK_a))
     {
-        m_movement += glm::vec3(sin(glm::radians(m_rotation.y - 90)), 0,
-                                cos(glm::radians(m_rotation.y - 90)));
+        m_movement += glm::vec3(cos(glm::radians(m_rotation.y + 180)), 0,
+                                sin(glm::radians(m_rotation.y + 180)));
     }
     if (input.IsKeyDown(SDLK_d))
     {
-        m_movement += glm::vec3(sin(glm::radians(m_rotation.y + 90)), 0,
-                                cos(glm::radians(m_rotation.y + 90)));
+        m_movement +=
+            glm::vec3(cos(glm::radians(m_rotation.y)), 0, sin(glm::radians(m_rotation.y)));
     }
     if (input.IsKeyDown(SDLK_SPACE))
     {
@@ -73,8 +73,7 @@ void GameRenderer::Update()
 void GameRenderer::Render(float delta)
 {
     glm::vec2 rotation = glm::radians(m_rotation);
-    m_transformation = glm::translate(glm::eulerAngleXY(rotation.x, rotation.y),
-                                      -(m_position + m_velocity * 0.8f * delta));
+    m_transformation = glm::translate(glm::eulerAngleXY(rotation.x, rotation.y), -m_position);
     m_shader.UpdateUniforms(m_perspective * m_transformation);
 
     m_world.Render();
