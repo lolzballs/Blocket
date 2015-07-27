@@ -25,13 +25,15 @@ Shader::Shader(std::string location)
     GLint status;
     glLinkProgram(m_program);
     glGetProgramiv(m_program, GL_LINK_STATUS, &status);
-    std::cout << "Finished loading shader: " << location << " with status: " << status << std::endl;
+    std::cout << "Finished loading shader: " << location
+              << " with status: " << status << std::endl;
 
     if (status == 0)
     {
         GLint length;
         char *info;
-        glGetObjectParameterivARB(m_program, GL_OBJECT_INFO_LOG_LENGTH_ARB, &length);
+        glGetObjectParameterivARB(m_program, GL_OBJECT_INFO_LOG_LENGTH_ARB,
+                                  &length);
         info = SDL_stack_alloc(char, length++);
         glGetInfoLogARB(m_program, length, NULL, info);
 
@@ -40,7 +42,8 @@ Shader::Shader(std::string location)
 
     glValidateProgram(m_program);
     glGetProgramiv(m_program, GL_VALIDATE_STATUS, &status);
-    std::cout << "Shader " << location << "compiled with validation: " << status << std::endl;
+    std::cout << "Shader " << location << "compiled with validation: " << status
+              << std::endl;
 }
 
 Shader::~Shader()
@@ -84,7 +87,8 @@ bool Shader::CompileShader(GLhandleARB shader, std::string source)
         GLint length;
         char *info;
 
-        glGetObjectParameterivARB(shader, GL_OBJECT_INFO_LOG_LENGTH_ARB, &length);
+        glGetObjectParameterivARB(shader, GL_OBJECT_INFO_LOG_LENGTH_ARB,
+                                  &length);
         info = SDL_stack_alloc(char, length++);
         glGetInfoLogARB(shader, length, NULL, info);
         std::cerr << "Failed to compile shader: " << info << std::endl;

@@ -1,6 +1,7 @@
 #include "aabb.h"
 
-AABB::AABB(glm::vec3 position, glm::vec3 min, glm::vec3 max) : m_position(position)
+AABB::AABB(glm::vec3 position, glm::vec3 min, glm::vec3 max)
+    : m_position(position)
 {
     m_min = position + min;
     m_max = position + max;
@@ -29,9 +30,9 @@ bool AABB::Contains(glm::vec2 point, glm::vec2 points[4])
     {
         if ((((points[i].y <= point.y) && (point.y < points[j].y)) ||
              ((points[j].y <= point.y) && (point.y < points[i].y))) &&
-            (point.x <
-             (points[j].x - points[i].x) * (point.y - points[i].y) / (points[j].y - points[i].y) +
-                 points[i].x))
+            (point.x < (points[j].x - points[i].x) * (point.y - points[i].y) /
+                               (points[j].y - points[i].y) +
+                           points[i].x))
         {
             oddNodes = !oddNodes;
         }
@@ -71,9 +72,11 @@ bool AABB::Intersects(Quad2 quad, Line2 line)
 
 bool AABB::IntersectX(Quad3 quad, Quad3 qSta, glm::vec3 velocity)
 {
-    Quad2 q1 = {Point3FlattenY(quad.a), Point3FlattenY(quad.b), Point3FlattenY(quad.b + velocity),
+    Quad2 q1 = {Point3FlattenY(quad.a), Point3FlattenY(quad.b),
+                Point3FlattenY(quad.b + velocity),
                 Point3FlattenY(quad.a + velocity)};
-    Quad2 q2 = {Point3FlattenZ(quad.b), Point3FlattenZ(quad.c), Point3FlattenZ(quad.c + velocity),
+    Quad2 q2 = {Point3FlattenZ(quad.b), Point3FlattenZ(quad.c),
+                Point3FlattenZ(quad.c + velocity),
                 Point3FlattenZ(quad.b + velocity)};
     Line2 l1 = {Point3FlattenY(qSta.a), Point3FlattenY(qSta.b)};
     Line2 l2 = {Point3FlattenZ(qSta.b), Point3FlattenZ(qSta.c)};
@@ -92,9 +95,11 @@ bool AABB::IntersectX(Quad3 quad, Line3 line)
 
 bool AABB::IntersectY(Quad3 quad, Quad3 qSta, glm::vec3 velocity)
 {
-    Quad2 q1 = {Point3FlattenX(quad.a), Point3FlattenX(quad.b), Point3FlattenX(quad.b + velocity),
+    Quad2 q1 = {Point3FlattenX(quad.a), Point3FlattenX(quad.b),
+                Point3FlattenX(quad.b + velocity),
                 Point3FlattenX(quad.a + velocity)};
-    Quad2 q2 = {Point3FlattenZ(quad.b), Point3FlattenZ(quad.c), Point3FlattenZ(quad.c + velocity),
+    Quad2 q2 = {Point3FlattenZ(quad.b), Point3FlattenZ(quad.c),
+                Point3FlattenZ(quad.c + velocity),
                 Point3FlattenZ(quad.b + velocity)};
     Line2 l1 = {Point3FlattenX(qSta.a), Point3FlattenX(qSta.b)};
     Line2 l2 = {Point3FlattenZ(qSta.b), Point3FlattenZ(qSta.c)};
@@ -113,9 +118,11 @@ bool AABB::IntersectY(Quad3 quad, Line3 line)
 
 bool AABB::IntersectZ(Quad3 quad, Quad3 qSta, glm::vec3 velocity)
 {
-    Quad2 q1 = {Point3FlattenX(quad.a), Point3FlattenX(quad.b), Point3FlattenX(quad.b + velocity),
+    Quad2 q1 = {Point3FlattenX(quad.a), Point3FlattenX(quad.b),
+                Point3FlattenX(quad.b + velocity),
                 Point3FlattenX(quad.a + velocity)};
-    Quad2 q2 = {Point3FlattenY(quad.b), Point3FlattenY(quad.c), Point3FlattenY(quad.c + velocity),
+    Quad2 q2 = {Point3FlattenY(quad.b), Point3FlattenY(quad.c),
+                Point3FlattenY(quad.c + velocity),
                 Point3FlattenY(quad.b + velocity)};
     Line2 l1 = {Point3FlattenX(qSta.a), Point3FlattenX(qSta.b)};
     Line2 l2 = {Point3FlattenY(qSta.b), Point3FlattenY(qSta.c)};

@@ -41,8 +41,8 @@ void GameRenderer::Input(InputHandler input)
     }
     if (input.IsKeyDown(SDLK_d))
     {
-        m_movement +=
-            glm::vec3(cos(glm::radians(m_rotation.y)), 0, sin(glm::radians(m_rotation.y)));
+        m_movement += glm::vec3(cos(glm::radians(m_rotation.y)), 0,
+                                sin(glm::radians(m_rotation.y)));
     }
     if (input.IsKeyDown(SDLK_SPACE))
     {
@@ -82,8 +82,8 @@ void GameRenderer::Render(float delta)
     glm::vec3 predicted = Lerp(m_oldposition, m_position, delta);
 
     glm::vec2 rotation = glm::radians(m_rotation);
-    m_transformation =
-        glm::translate(glm::eulerAngleXY(rotation.x, rotation.y), -(m_position + predicted));
+    m_transformation = glm::translate(glm::eulerAngleXY(rotation.x, rotation.y),
+                                      -(m_position + predicted));
     m_shader.UpdateUniforms(m_perspective * m_transformation);
 
     m_world.Render();

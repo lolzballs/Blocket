@@ -19,7 +19,9 @@ float *Vertex::GetFloatArray(Vertex *vertices, GLsizei size)
 }
 
 Vertex::Vertex(glm::vec3 position)
-    : m_position(position), m_color(glm::vec4(0, 0, 0, 1)), m_texCoord(glm::vec3())
+    : m_position(position),
+      m_color(glm::vec4(0, 0, 0, 1)),
+      m_texCoord(glm::vec3())
 {
 }
 

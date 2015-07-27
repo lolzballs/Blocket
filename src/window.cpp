@@ -13,8 +13,9 @@ Window::Window(int width, int height, const std::string &title)
 
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
-    m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+    m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
+                                SDL_WINDOWPOS_CENTERED, width, height,
+                                SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     if (m_window == NULL)
     {
         std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
@@ -24,7 +25,8 @@ Window::Window(int width, int height, const std::string &title)
     m_glContext = SDL_GL_CreateContext(m_window);
     if (m_glContext == NULL)
     {
-        std::cerr << "Failed to create OpenGL context: " << SDL_GetError() << std::endl;
+        std::cerr << "Failed to create OpenGL context: " << SDL_GetError()
+                  << std::endl;
         return;
     }
 
@@ -57,7 +59,8 @@ void Window::Update()
         {
             m_input.HandleMouseWheel(event.wheel);
         }
-        else if (event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP)
+        else if (event.type == SDL_MOUSEBUTTONDOWN ||
+                 event.type == SDL_MOUSEBUTTONUP)
         {
             m_input.HandleMouseButton(event.button);
         }
