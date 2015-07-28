@@ -5,6 +5,12 @@
 
 namespace Geom
 {
+glm::vec2 Point3FlattenX(glm::vec3 point);
+
+glm::vec2 Point3FlattenY(glm::vec3 point);
+
+glm::vec2 Point3FlattenZ(glm::vec3 point);
+
 struct Line2
 {
     glm::vec2 start;
@@ -44,21 +50,6 @@ struct Quad3
         return (a + b + c + d) / 4.0f;
     };
 };
-
-glm::vec2 Point3FlattenX(glm::vec3 point)
-{
-    return glm::vec2(point.y, point.z);
-}
-
-glm::vec2 Point3FlattenY(glm::vec3 point)
-{
-    return glm::vec2(point.x, point.z);
-}
-
-glm::vec2 Point3FlattenZ(glm::vec3 point)
-{
-    return glm::vec2(point.x, point.y);
-}
 }
 
 #endif
