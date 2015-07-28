@@ -6,8 +6,8 @@ Game::Game()
       m_height(640),
       m_title("Blocket"),
       m_window(m_width, m_height, m_title),
-      m_running(false),
-      m_gameRenderer(70.0f, (float)m_width / (float)m_height, 0.01f, 1000.0f)
+      m_gameRenderer(70.0f, (float)m_width / (float)m_height, 0.01f, 1000.0f),
+      m_running(false)
 {
     std::cout << "Game initalized." << std::endl;
 }
@@ -62,7 +62,7 @@ void Game::Run()
             delta -= 1.0f;
         }
 
-        renderDelta = (now - lastTick) / m_updateTime;
+        renderDelta = (SDL_GetTicks() - lastTick) / m_updateTime;
 
         // Render cycle
         frames++;
