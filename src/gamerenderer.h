@@ -1,3 +1,6 @@
+#ifndef GAMERENDERER_H
+#define GAMERENDERER_H
+
 #include "world/world.h"
 #include "basicshader.h"
 
@@ -33,3 +36,5 @@ private:
     glm::mat4 m_perspective;
     glm::mat4 m_transformation;
 };
+
+#endif

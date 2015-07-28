@@ -42,4 +42,4 @@ private:
     glm::vec2 m_texCoord;
 };
 
-#endif  // VERTEX_H
+#endif
