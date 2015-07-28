@@ -40,13 +40,13 @@ public:
     bool Intersects(AABB other);
 
     static bool Contains(glm::vec2 point, glm::vec2 points[4]);
-    static bool Intersects(Quad2 quad, Line2 line);
-    static bool IntersectX(Quad3 quad, Quad3 qSta, glm::vec3 velocity);
-    static bool IntersectX(Quad3 quad, Line3 line);
-    static bool IntersectY(Quad3 quad, Quad3 qSta, glm::vec3 velocity);
-    static bool IntersectY(Quad3 quad, Line3 line);
-    static bool IntersectZ(Quad3 quad, Quad3 qSta, glm::vec3 velocity);
-    static bool IntersectZ(Quad3 quad, Line3 line);
+    static bool Intersects(Geom::Quad2 quad, Geom::Line2 line);
+    static bool IntersectX(Geom::Quad3 quad, Geom::Quad3 qSta, glm::vec3 velocity);
+    static bool IntersectX(Geom::Quad3 quad, Geom::Line3 line);
+    static bool IntersectY(Geom::Quad3 quad, Geom::Quad3 qSta, glm::vec3 velocity);
+    static bool IntersectY(Geom::Quad3 quad, Geom::Line3 line);
+    static bool IntersectZ(Geom::Quad3 quad, Geom::Quad3 qSta, glm::vec3 velocity);
+    static bool IntersectZ(Geom::Quad3 quad, Geom::Line3 line);
 
 private:
     glm::vec3 m_position;
