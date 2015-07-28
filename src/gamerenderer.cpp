@@ -79,7 +79,7 @@ glm::vec3 Lerp(glm::vec3 a, glm::vec3 b, float n)
 
 void GameRenderer::Render(float delta)
 {
-    glm::vec3 predicted = Lerp(m_oldposition, m_position, delta);
+    glm::vec3 predicted = Lerp(m_oldposition, m_position, delta); 
 
     glm::vec2 rotation = glm::radians(m_rotation);
     m_transformation = glm::translate(glm::eulerAngleXY(rotation.x, rotation.y),

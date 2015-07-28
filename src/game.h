@@ -14,7 +14,6 @@ public:
     virtual ~Game();
 
     void Start();
-
     void Stop();
 
 private:
@@ -29,13 +28,9 @@ private:
     bool m_running;
 
     void Run();
-
     void InitGL();
-
     void Input(InputHandler input);
-
     void Update();
-
     void Render(float delta);
 };
 
