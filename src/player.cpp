@@ -2,8 +2,11 @@
 
 #include "util/util.h"
 
-Player::Player(glm::vec3 position)
-    : m_position(position), m_oldposition(position)
+Player::Player(glm::vec2 rotation, glm::vec3 position)
+    : m_rotation(rotation),
+      m_oldrotation(rotation),
+      m_position(position),
+      m_oldposition(position)
 {
 }
 
@@ -14,9 +17,9 @@ Player::~Player()
 void Player::Update(InputHandler input)
 {
     m_oldposition = m_position;
+    m_oldrotation = m_rotation;
 
     glm::vec2 mouseDelta = input.GetMousePosition();
-
     m_rotation += glm::vec2(mouseDelta.y, mouseDelta.x);
 
     if (m_rotation.x > 90)
@@ -31,22 +34,23 @@ void Player::Update(InputHandler input)
     glm::vec3 movement;
     if (input.IsKeyDown(SDLK_w))
     {
-        movement += glm::vec3(cos(glm::radians(m_rotation.y - 90)), 0,                        sin(glm::radians(m_rotation.y - 90)));
+        movement += glm::vec3(cos(glm::radians(m_rotation.y - 90)), 0,
+                              sin(glm::radians(m_rotation.y - 90)));
     }
     if (input.IsKeyDown(SDLK_s))
     {
         movement += glm::vec3(cos(glm::radians(m_rotation.y + 90)), 0,
-                                sin(glm::radians(m_rotation.y + 90)));
+                              sin(glm::radians(m_rotation.y + 90)));
     }
     if (input.IsKeyDown(SDLK_a))
     {
         movement += glm::vec3(cos(glm::radians(m_rotation.y + 180)), 0,
-                                sin(glm::radians(m_rotation.y + 180)));
+                              sin(glm::radians(m_rotation.y + 180)));
     }
     if (input.IsKeyDown(SDLK_d))
     {
         movement += glm::vec3(cos(glm::radians(m_rotation.y)), 0,
-                                sin(glm::radians(m_rotation.y)));
+                              sin(glm::radians(m_rotation.y)));
     }
     if (input.IsKeyDown(SDLK_SPACE))
     {
@@ -77,7 +81,7 @@ glm::vec3 Player::GetRenderPosition(float delta)
     return Util::Vector::Lerp(m_oldposition, m_position, delta);
 }
 
-glm::vec2 Player::GetRenderRotation()
+glm::vec2 Player::GetRenderRotation(float delta)
 {
-    return glm::radians(m_rotation);
+    return glm::radians(Util::Vector::Lerp(m_oldrotation, m_rotation, delta));
 }
