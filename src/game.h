@@ -28,8 +28,7 @@ private:
 
     void Run();
     void InitGL();
-    void Input(InputHandler input);
-    void Update();
+    void Update(InputHandler input);
     void Render(float delta);
 };
 

@@ -8,11 +8,7 @@ HUD::~HUD()
 {
 }
 
-void HUD::Input(InputHandler input)
-{
-}
-
-void HUD::Update()
+void HUD::Update(InputHandler input)
 {
 }
 

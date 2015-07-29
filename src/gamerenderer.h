@@ -11,8 +11,7 @@ public:
     GameRenderer(float fov, float aspect, float zNear, float zFar);
     ~GameRenderer();
 
-    void Input(InputHandler input);
-    void Update();
+    void Update(InputHandler input);
     void Render(float delta);
 
     inline const World GetWorld()

@@ -13,16 +13,10 @@ GameRenderer::~GameRenderer()
 {
 }
 
-void GameRenderer::Input(InputHandler input)
+void GameRenderer::Update(InputHandler input)
 {
-    m_player.Input(input);
-    m_world.Input(input);
-}
-
-void GameRenderer::Update()
-{
-    m_player.Update();
-    m_world.Update();
+    m_player.Update(input);
+    m_world.Update(input);
 }
 
 void GameRenderer::Render(float delta)

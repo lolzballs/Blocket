@@ -8,7 +8,7 @@ World::~World()
 {
 }
 
-void World::Input(InputHandler input)
+void World::Update(InputHandler input)
 {
     if (input.IsKeyDown(SDLK_p))
     {
@@ -17,10 +17,7 @@ void World::Input(InputHandler input)
             m_chunk.AddBlock(1, glm::vec3(i, i, i), true);
         }
     }
-}
 
-void World::Update()
-{
     m_chunk.Update();
 }
 

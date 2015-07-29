@@ -50,15 +50,12 @@ void Game::Run()
         delta += (now - lastTime) / m_updateTime;
         lastTime = now;
 
-        Input(m_window.GetInput());
-
         // Update if needed
         while (delta >= 1.0f)
         {
             updates++;
             lastTick = SDL_GetTicks();
-            Update();
-            Input(m_window.GetInput());
+            Update(m_window.GetInput());
             delta -= 1.0f;
         }
 
@@ -92,23 +89,16 @@ void Game::InitGL()
     glClearColor(0, 0, 0, 1);
 }
 
-// Handle inputs, called every frame
-void Game::Input(InputHandler input)
+// Game logic (movement, etc.)
+void Game::Update(InputHandler input)
 {
     if (input.IsKeyDown(SDLK_ESCAPE) || m_window.IsCloseRequested())
     {
         Stop();
     }
 
-    m_gameRenderer.Input(input);
-    m_hud.Input(input);
-}
-
-// Game logic (movement, etc.)
-void Game::Update()
-{
-    m_gameRenderer.Update();
-    m_hud.Update();
+    m_gameRenderer.Update(input);
+    m_hud.Update(input);
 }
 
 // Render!

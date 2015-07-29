@@ -8,12 +8,9 @@ class World
 {
 public:
     World();  // TODO: World flags
-    virtual ~World();
+    ~World();
 
-    void Input(InputHandler input);
-
-    void Update();
-
+    void Update(InputHandler input);
     void Render();
 
 private:

@@ -11,8 +11,7 @@ public:
     Player(glm::vec3 position);
     ~Player();
 
-    void Input(InputHandler input);
-    void Update();
+    void Update(InputHandler input);
     void Render(float delta);
 
     glm::vec3 GetRenderPosition(float delta);
