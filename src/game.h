@@ -10,8 +10,7 @@ class Game
 {
 public:
     Game();
-
-    virtual ~Game();
+    ~Game();
 
     void Start();
     void Stop();

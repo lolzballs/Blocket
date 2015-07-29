@@ -9,13 +9,9 @@ class InputHandler
 {
 public:
     void HandleMouseButton(SDL_MouseButtonEvent event);
-
     void HandleMouseWheel(SDL_MouseWheelEvent event);
-
     void HandleKey(SDL_KeyboardEvent event);
-
     bool IsKeyDown(int key);
-
     bool IsMouseButtonDown(int button);
 
     glm::vec2 GetMousePosition();

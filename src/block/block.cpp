@@ -1,5 +1,11 @@
 #include "block.h"
 
+#include "../util/util.h"
+
+#include <iostream>
+#include <sstream>
+#include <string>
+
 RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool *facesNeeded)
     : m_size(0)
 {
@@ -7,7 +13,7 @@ RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool *facesNeeded)
     std::stringstream texturepath;
     texturepath << "./res/textures/blocks/" << blockID << ".png";
 
-    m_textureID = loadTexture(texturepath.str());
+    m_textureID = Util::Texture::LoadTexture(texturepath.str());
 }
 
 RenderBlock::~RenderBlock()

@@ -3,21 +3,16 @@
 
 #include "world/world.h"
 #include "basicshader.h"
-
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/euler_angles.hpp>
+#include "player.h"
 
 class GameRenderer
 {
 public:
     GameRenderer(float fov, float aspect, float zNear, float zFar);
-
-    virtual ~GameRenderer();
+    ~GameRenderer();
 
     void Input(InputHandler input);
-
     void Update();
-
     void Render(float delta);
 
     inline const World GetWorld()
@@ -28,11 +23,7 @@ public:
 private:
     BasicShader m_shader;
     World m_world;
-    glm::vec3 m_position;
-    glm::vec3 m_oldposition;
-    glm::vec3 m_movement;
-    glm::vec3 m_velocity;
-    glm::vec2 m_rotation;
+    Player m_player;
     glm::mat4 m_perspective;
     glm::mat4 m_transformation;
 };

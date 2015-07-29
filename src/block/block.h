@@ -1,12 +1,9 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
 #include "../util/vertex.h"
-#include "../util/util.h"
+
+#include <vector>
 
 class RenderBlock
 {
