@@ -8,7 +8,7 @@
 class Player
 {
 public:
-    Player(glm::vec2 rotation, glm::vec3 position);
+    Player(glm::vec2 rotation, glm::vec3 position, float speed);
     ~Player();
 
     void Update(InputHandler input);
@@ -22,6 +22,7 @@ private:
     glm::vec3 m_position;
     glm::vec3 m_oldposition;
     glm::vec3 m_velocity;
+    float m_speed;
 };
 
 #endif

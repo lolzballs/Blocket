@@ -1,12 +1,14 @@
 #include "player.h"
 
 #include "util/util.h"
+#include "util/geom.h"
 
-Player::Player(glm::vec2 rotation, glm::vec3 position)
+Player::Player(glm::vec2 rotation, glm::vec3 position, float speed)
     : m_rotation(rotation),
       m_oldrotation(rotation),
       m_position(position),
-      m_oldposition(position)
+      m_oldposition(position),
+      m_speed(speed)
 {
 }
 
@@ -63,17 +65,12 @@ void Player::Update(InputHandler input)
 
     if (movement != glm::vec3())
     {
-        m_velocity += glm::normalize(movement) * 0.5f;
+        m_velocity += glm::normalize(movement) * m_speed;
         movement = glm::vec3();
     }
 
     m_velocity *= 0.8f;
     m_position += m_velocity;
-}
-
-void Player::Render(float delta)
-{
-    // TODO: Render player
 }
 
 glm::vec3 Player::GetRenderPosition(float delta)

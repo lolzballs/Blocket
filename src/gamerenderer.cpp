@@ -4,7 +4,7 @@
 #include <glm/gtx/euler_angles.hpp>
 
 GameRenderer::GameRenderer(float fov, float aspect, float zNear, float zFar)
-    : m_player(Player(glm::vec2(), glm::vec3())),
+    : m_player(Player(glm::vec2(), glm::vec3(), 0.05f)),
       m_perspective(glm::perspective(glm::radians(fov), aspect, zNear, zFar))
 {
 }
