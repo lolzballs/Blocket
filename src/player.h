@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "input.h"
+#include "util/aabb.h"
 
 #include <glm/glm.hpp>
 
@@ -17,6 +18,7 @@ public:
     glm::vec3 GetRenderPosition(float delta);
     glm::vec2 GetRenderRotation(float delta);
 private:
+    AABB m_aabb;
     glm::vec2 m_rotation;
     glm::vec2 m_oldrotation;
     glm::vec3 m_position;

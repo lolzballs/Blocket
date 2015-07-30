@@ -1,10 +1,13 @@
 #include "player.h"
 
 #include "util/util.h"
-#include "util/geom.h"
+
+#include <iostream>
+#include <glm/ext.hpp>
 
 Player::Player(glm::vec2 rotation, glm::vec3 position, float speed)
-    : m_rotation(rotation),
+    : m_aabb(AABB(position, glm::vec3(-0.4, 0, -0.4), glm::vec3(0.4, 1.8, 0.4))),
+      m_rotation(rotation),
       m_oldrotation(rotation),
       m_position(position),
       m_oldposition(position),
@@ -71,6 +74,9 @@ void Player::Update(InputHandler input)
 
     m_velocity *= 0.8f;
     m_position += m_velocity;
+
+    m_aabb.SetPosition(m_position);
+    std::cout << glm::to_string(m_position) << std::endl;
 }
 
 glm::vec3 Player::GetRenderPosition(float delta)

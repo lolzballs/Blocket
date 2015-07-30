@@ -12,14 +12,29 @@ public:
     AABB(glm::vec3 position, glm::vec3 min, glm::vec3 max);
     ~AABB();
 
+    inline void SetPosition(glm::vec3 position)
+    {
+        m_position = position;
+    }
+
     inline glm::vec3 GetPosition()
     {
         return m_position;
     }
 
+    inline void SetMin(glm::vec3 min)
+    {
+        m_min = min;
+    }
+
     inline glm::vec3 GetMin()
     {
         return m_min;
+    }
+
+    inline void SetMax(glm::vec3 max)
+    {
+        m_max = max;
     }
 
     inline glm::vec3 GetMax()
