@@ -9,7 +9,7 @@
 #include <SDL2/SDL_opengl.h>
 
 #define CHUNK_SIZE 16
-#define CHUNK_HEIGHT 256
+#define CHUNK_HEIGHT 16
 
 class Chunk
 {
