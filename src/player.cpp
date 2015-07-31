@@ -76,7 +76,6 @@ void Player::Update(InputHandler input)
     m_position += m_velocity;
 
     m_aabb.SetPosition(m_position);
-    std::cout << glm::to_string(m_position) << std::endl;
 }
 
 glm::vec3 Player::GetRenderPosition(float delta)
