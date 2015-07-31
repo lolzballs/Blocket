@@ -67,6 +67,12 @@ void Chunk::Update()
 
 void Chunk::AddBlock(int blockID, glm::vec3 position, bool rebuffer)
 {
+    if (position.x < 0 || position.x > CHUNK_SIZE - 1 || position.y < 0 ||
+        position.y > CHUNK_HEIGHT - 1 || position.z < 0 ||
+        position.z > CHUNK_SIZE - 1)
+    {
+        return;
+    }
     m_blocks[GetArrayPosition(position)] = blockID;
     if (rebuffer)
     {

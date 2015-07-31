@@ -2,14 +2,15 @@
 #define PLAYER_H
 
 #include "input.h"
-#include "util/aabb.h"
+#include "util/cside.h"
+#include "world/world.h"
 
-#include <glm/glm.hpp>
+#include <queue>
 
 class Player
 {
 public:
-    Player(glm::vec2 rotation, glm::vec3 position, float speed);
+    Player(glm::vec2 rotation, glm::vec3 position, float speed, World* world);
     ~Player();
 
     void Update(InputHandler input);
@@ -25,6 +26,7 @@ private:
     glm::vec3 m_oldposition;
     glm::vec3 m_velocity;
     float m_speed;
+    World* m_world;
 };
 
 #endif

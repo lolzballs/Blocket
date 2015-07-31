@@ -1,17 +1,20 @@
 #include "player.h"
-
 #include "util/util.h"
 
-#include <iostream>
 #include <glm/ext.hpp>
 
-Player::Player(glm::vec2 rotation, glm::vec3 position, float speed)
-    : m_aabb(AABB(position, glm::vec3(-0.4, 0, -0.4), glm::vec3(0.4, 1.8, 0.4))),
+#include <iostream>
+
+Player::Player(glm::vec2 rotation, glm::vec3 position, float speed,
+               World* world)
+    : m_aabb(
+          AABB(position, glm::vec3(-0.4, 0, -0.4), glm::vec3(0.4, 1.8, 0.4))),
       m_rotation(rotation),
       m_oldrotation(rotation),
       m_position(position),
       m_oldposition(position),
-      m_speed(speed)
+      m_speed(speed),
+      m_world(world)
 {
 }
 
@@ -25,7 +28,7 @@ void Player::Update(InputHandler input)
     m_oldrotation = m_rotation;
 
     glm::vec2 mouseDelta = input.GetMousePosition();
-    m_rotation += glm::vec2(mouseDelta.y, mouseDelta.x);
+    m_rotation += glm::vec2(mouseDelta.y, mouseDelta.x) * 0.25;
 
     if (m_rotation.x > 90)
     {
@@ -73,6 +76,24 @@ void Player::Update(InputHandler input)
     }
 
     m_velocity *= 0.8f;
+
+    // COLLISION CODE
+
+    glm::vec3 pos = m_aabb.GetMin();
+    std::cout << pos[0] << ", " << pos[1] << ", " << pos[2] << std::endl;
+
+    AABB expanded = m_aabb.Expand(m_velocity);
+    std::priority_queue<CollisionSide, std::vector<CollisionSide>, CSideCompare>
+        queue;
+    glm::vec3 center = m_aabb.GetCenter();
+    std::vector<AABB> intersecting = m_world->GetIntersectingAABBs(expanded);
+
+    for (std::vector<AABB>::size_type i = 0; i < intersecting.size(); ++i)
+    {
+    }
+
+    // COLLISION CODE END
+
     m_position += m_velocity;
 
     m_aabb.SetPosition(m_position);
