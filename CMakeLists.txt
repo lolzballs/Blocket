@@ -1,6 +1,7 @@
 project(Blocket)
 cmake_minimum_required(VERSION 2.8)
 aux_source_directory(. SRC_LIST)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${Blocket_SOURCE_DIR}/cmake")
 
 add_definitions(-DGLM_FORCE_RADIANS)
 
@@ -60,10 +61,8 @@ if (NOT DEFINED EMSCRIPTEN)
     # GLEW
     find_package(GLEW REQUIRED)
 
-    INCLUDE(FindPkgConfig)
-
     # SDL2
-    PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+    find_package(SDL2 REQUIRED)
 
     # Define the include DIRs
     include_directories(
