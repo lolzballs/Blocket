@@ -1,5 +1,7 @@
 #include "chunk.h"
 
+#include <iostream>
+
 Chunk::Chunk(int x, int y) : m_position(x, y), m_size(0)
 {
     for (int i = 0; i < CHUNK_SIZE; i++)
@@ -10,11 +12,11 @@ Chunk::Chunk(int x, int y) : m_position(x, y), m_size(0)
             {
                 if (j == 0)
                 {
-                    m_blocks[i][j][k] = Block(1, glm::vec3(i, j, k));
+                    m_blocks[GetArrayPosition(i, j, k)] = 1;
                 }
                 else
                 {
-                    m_blocks[i][j][k] = Block(0, glm::vec3(i, j, k));
+                    m_blocks[GetArrayPosition(i, j, k)] = 0;
                 }
             }
         }
@@ -65,25 +67,24 @@ void Chunk::Update()
 
 void Chunk::AddBlock(int blockID, glm::vec3 position, bool rebuffer)
 {
-    m_blocks[(int)position.x][(int)position.y][(int)position.z] =
-        Block(blockID, position);
+    m_blocks[GetArrayPosition(position)] = blockID;
     if (rebuffer)
     {
         RebufferChunk();
     }
 }
 
-Block Chunk::GetBlockAtPosition(glm::vec3 position)
+int Chunk::GetBlockAtPosition(glm::vec3 position)
 {
     if (position.x < 0 || position.x > CHUNK_SIZE - 1 || position.y < 0 ||
         position.y > CHUNK_HEIGHT - 1 || position.z < 0 ||
         position.z > CHUNK_SIZE - 1)
     {
-        return Block(0, position);
+        return 0;
     }
     else
     {
-        return m_blocks[(int)position.x][(int)position.y][(int)position.z];
+        return m_blocks[GetArrayPosition(position)];
     }
 }
 
@@ -96,13 +97,13 @@ void Chunk::RebufferChunk()
         {
             for (unsigned int k = 0; k < CHUNK_SIZE; k++)
             {
-                Block block = m_blocks[i][j][k];
+                glm::vec3 position = glm::vec3(i, j, k);
+                int blockID = m_blocks[GetArrayPosition(i, j, k)];
 
-                if (block.GetBlockID() != 0)
+                if (blockID != 0)
                 {
-                    RenderBlock renderBlock =
-                        RenderBlock(block.GetBlockID(), block.GetPosition(),
-                                    GetFacesRequired(block.GetPosition()));
+                    RenderBlock renderBlock = RenderBlock(
+                        blockID, position, GetFacesRequired(position));
 
                     Vertex* blockFaces = renderBlock.GetVertices();
                     for (unsigned int l = 0; l < renderBlock.GetSize(); l++)
@@ -127,29 +128,39 @@ bool* Chunk::GetFacesRequired(glm::vec3 position)
 {
     bool* faces = new bool[6]();
 
-    if (!GetBlockAtPosition(position + glm::vec3(0, 1, 0)).GetBlockID())
+    if (!GetBlockAtPosition(position + glm::vec3(0, 1, 0)))
     {
         faces[0] = true;
     }
-    if (!GetBlockAtPosition(position + glm::vec3(0, -1, 0)).GetBlockID())
+    if (!GetBlockAtPosition(position + glm::vec3(0, -1, 0)))
     {
         faces[1] = true;
     }
-    if (!GetBlockAtPosition(position + glm::vec3(-1, 0, 0)).GetBlockID())
+    if (!GetBlockAtPosition(position + glm::vec3(-1, 0, 0)))
     {
         faces[2] = true;
     }
-    if (!GetBlockAtPosition(position + glm::vec3(1, 0, 0)).GetBlockID())
+    if (!GetBlockAtPosition(position + glm::vec3(1, 0, 0)))
     {
         faces[3] = true;
     }
-    if (!GetBlockAtPosition(position + glm::vec3(0, 0, 1)).GetBlockID())
+    if (!GetBlockAtPosition(position + glm::vec3(0, 0, 1)))
     {
         faces[4] = true;
     }
-    if (!GetBlockAtPosition(position + glm::vec3(0, 0, -1)).GetBlockID())
+    if (!GetBlockAtPosition(position + glm::vec3(0, 0, -1)))
     {
         faces[5] = true;
     }
     return faces;
+}
+
+int Chunk::GetArrayPosition(int x, int y, int z)
+{
+    return x + CHUNK_SIZE * (y + CHUNK_HEIGHT * z);
+}
+
+int Chunk::GetArrayPosition(glm::vec3 position)
+{
+    return GetArrayPosition((int)position.x, (int)position.y, (int)position.z);
 }

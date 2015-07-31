@@ -6,7 +6,7 @@
 #include <sstream>
 #include <string>
 
-RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool *facesNeeded)
+RenderBlock::RenderBlock(int blockID, glm::vec3 position, bool* facesNeeded)
     : m_size(0)
 {
     SetUpFaces(position, facesNeeded);
@@ -20,7 +20,7 @@ RenderBlock::~RenderBlock()
 {
 }
 
-void RenderBlock::SetUpFaces(glm::vec3 position, bool *facesNeeded)
+void RenderBlock::SetUpFaces(glm::vec3 position, bool* facesNeeded)
 {
     std::vector<Vertex> vertices;
     if (facesNeeded[0])  // Top
@@ -96,22 +96,4 @@ void RenderBlock::SetUpFaces(glm::vec3 position, bool *facesNeeded)
         m_size += 4;
     }
     m_vertices = vertices;
-}
-
-int RenderBlock::GetSize()
-{
-    return m_size;
-}
-
-Block::Block() : m_blockID(0)
-{
-}
-
-Block::Block(int blockID, glm::vec3 position)
-    : m_blockID(blockID), m_position(position)
-{
-}
-
-Block::~Block()
-{
 }

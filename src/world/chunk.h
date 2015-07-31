@@ -3,6 +3,8 @@
 
 #include "../block/block.h"
 
+#include <array>
+
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
 
@@ -13,16 +15,12 @@ class Chunk
 {
 public:
     Chunk(int x, int y);
-
-    virtual ~Chunk();
+    ~Chunk();
 
     void Render();
-
     void Update();
-
     void AddBlock(int blockID, glm::vec3 position, bool rebuffer);
-
-    Block GetBlockAtPosition(glm::vec3 position);
+    int GetBlockAtPosition(glm::vec3 position);
 
     inline const glm::vec2 GetPosition()
     {
@@ -31,13 +29,16 @@ public:
 
 private:
     glm::vec2 m_position;
-    Block m_blocks[CHUNK_SIZE][CHUNK_HEIGHT][CHUNK_SIZE];
+    std::array<int, CHUNK_SIZE * CHUNK_HEIGHT * CHUNK_SIZE> m_blocks;
     GLuint m_vbo;
     GLsizei m_size;
 
-    bool* GetFacesRequired(glm::vec3 position);
-    void RebufferChunk();
     void InitGL();
+    void RebufferChunk();
+    bool* GetFacesRequired(glm::vec3 position);
+
+    int GetArrayPosition(int x, int y, int z);
+    int GetArrayPosition(glm::vec3 position);
 };
 
 #endif
