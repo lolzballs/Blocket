@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 aux_source_directory(. SRC_LIST)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${Blocket_SOURCE_DIR}/cmake")
 
-add_definitions(-DGLM_FORCE_RADIANS)
+add_definitions(-DGLM_FORCE_RADIANS -DGLM_FORCE_PURE)
 
 # Lets LOAD app our headers!
 file(GLOB_RECURSE HDRS ${Blocket_SOURCE_DIR}/src/*.h)
@@ -19,41 +19,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 add_executable(Blocket ${HDRS} ${SRCS})
 
-# GLM
-
-# default search dirs
-SET(_glm_HEADER_SEARCH_DIRS
-    "/usr/include"
-    "/usr/local/include")
-
-# check environment variable
-SET(_glm_ENV_ROOT_DIR "$ENV{GLM_ROOT_DIR}")
-
-IF(NOT GLM_ROOT_DIR AND _glm_ENV_ROOT_DIR)
-    SET(GLM_ROOT_DIR "${_glm_ENV_ROOT_DIR}")
-ENDIF(NOT GLM_ROOT_DIR AND _glm_ENV_ROOT_DIR)
-
-# put user specified location at beginning of search
-IF(GLM_ROOT_DIR)
-    SET(_glm_HEADER_SEARCH_DIRS "${GLM_ROOT_DIR}"
-                                "${GLM_ROOT_DIR}/include"
-                                 ${_glm_HEADER_SEARCH_DIRS})
-ENDIF(GLM_ROOT_DIR)
-
-# locate header
-FIND_PATH(GLM_INCLUDE_DIR "glm/glm.hpp"
-    PATHS ${_glm_HEADER_SEARCH_DIRS})
-
-INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(GLM DEFAULT_MSG
-    GLM_INCLUDE_DIR)
-
-IF(GLM_FOUND)
-    SET(GLM_INCLUDE_DIRS "${GLM_INCLUDE_DIR}")
-
-    MESSAGE(STATUS "GLM_INCLUDE_DIR = ${GLM_INCLUDE_DIR}")
-ENDIF(GLM_FOUND)
-
 if (NOT DEFINED EMSCRIPTEN)
     # OpenGL
     find_package(OpenGL REQUIRED)
@@ -63,6 +28,9 @@ if (NOT DEFINED EMSCRIPTEN)
 
     # SDL2
     find_package(SDL2 REQUIRED)
+	
+	# GLM
+	find_package(GLM REQUIRED)
 
     # Define the include DIRs
     include_directories(
