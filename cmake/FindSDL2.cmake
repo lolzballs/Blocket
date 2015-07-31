@@ -6,19 +6,11 @@
 #  SDL2_LIBRARIES - The libraries to link against to use SDL2.
 #  SDL2_FOUND - If false, do not try to use SDL2.
 #  SDL2_VERSION_STRING - Human-readable string containing the version of SDL2.
-#
-# This module responds to the the flag:
-#  SDL2_BUILDING_LIBRARY
-#    If this is defined, then no SDL2_main will be linked in because
-#    only applications need main().
-#    Otherwise, it is assumed you are building an application and this
-#    module will attempt to locate and set the the proper link flags
-#    as part of the returned SDL2_LIBRARIES variable.
+
 #
 # Also defined, but not for general use are:
 #   SDL2_INCLUDE_DIR - The directory that contains SDL.h.
 #   SDL2_LIBRARY - The location of the SDL2 library.
-#   SDL2MAIN_LIBRARY - The location of the SDL2main library.
 #
 
 find_package(PkgConfig QUIET)
@@ -40,16 +32,6 @@ find_library(SDL2_LIBRARY
   PATH_SUFFIXES x64 x86
 )
 
-if(NOT SDL2_BUILDING_LIBRARY)
-  find_library(SDL2MAIN_LIBRARY
-    NAMES SDL2main
-    HINTS
-      ${PC_SDL2_LIBDIR}
-      ${PC_SDL2_LIBRARY_DIRS}
-    PATH_SUFFIXES x64 x86
-  )
-endif()
-
 if(SDL2_INCLUDE_DIR AND EXISTS "${SDL2_INCLUDE_DIR}/SDL_version.h")
   file(STRINGS "${SDL2_INCLUDE_DIR}/SDL_version.h" SDL2_VERSION_MAJOR_LINE REGEX "^#define[ \t]+SDL_MAJOR_VERSION[ \t]+[0-9]+$")
   file(STRINGS "${SDL2_INCLUDE_DIR}/SDL_version.h" SDL2_VERSION_MINOR_LINE REGEX "^#define[ \t]+SDL_MINOR_VERSION[ \t]+[0-9]+$")
@@ -67,7 +49,7 @@ if(SDL2_INCLUDE_DIR AND EXISTS "${SDL2_INCLUDE_DIR}/SDL_version.h")
 endif()
 
 set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIR})
-set(SDL2_LIBRARIES ${SDL2MAIN_LIBRARY} ${SDL2_LIBRARY})
+set(SDL2_LIBRARIES ${SDL2_LIBRARY})
 
 include(FindPackageHandleStandardArgs)
 
