@@ -54,19 +54,7 @@ public:
         return (m_min + m_max) / 2.0f;
     }
 
-    inline AABB Expand(glm::vec3 amount)
-    {
-        float minX = m_min[0] + (amount[0] > 0 ? 0 : amount[0]);
-        float minY = m_min[1] + (amount[1] > 0 ? 0 : amount[1]);
-        float minZ = m_min[2] + (amount[2] > 0 ? 0 : amount[2]);
-
-        float maxX = m_max[0] + (amount[0] < 0 ? 0 : amount[0]);
-        float maxY = m_max[1] + (amount[1] < 0 ? 0 : amount[1]);
-        float maxZ = m_max[2] + (amount[2] < 0 ? 0 : amount[2]);
-
-        return AABB(m_position, glm::vec3(minX, minY, minZ), glm::vec3(maxX, maxY, maxZ));
-    }
-
+    AABB Expand(glm::vec3 amount);
     bool Intersects(AABB other);
 
     static bool Contains(glm::vec2 point, glm::vec2 points[4]);

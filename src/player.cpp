@@ -80,7 +80,7 @@ void Player::Update(InputHandler input)
     // COLLISION CODE
 
     glm::vec3 pos = m_aabb.GetMin();
-    std::cout << pos[0] << ", " << pos[1] << ", " << pos[2] << std::endl;
+    std::cout << glm::to_string(pos) << std::endl;
 
     AABB expanded = m_aabb.Expand(m_velocity);
     std::priority_queue<CollisionSide, std::vector<CollisionSide>, CSideCompare>

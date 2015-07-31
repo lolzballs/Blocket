@@ -40,6 +40,13 @@ bool AABB::Contains(glm::vec2 point, glm::vec2 points[4])
     return oddNodes;
 }
 
+AABB AABB::Expand(glm::vec3 amount)
+{
+    glm::vec3 min = m_min + glm::min(amount, glm::vec3());
+    glm::vec3 max = m_max + glm::max(amount, glm::vec3());
+    return AABB(m_position, min, max);
+}
+
 bool AABB::Intersects(Geom::Quad2 quad, Geom::Line2 line)
 {
     if (Geom::Line2::Intersects(quad.a, quad.b, line.start, line.end))
