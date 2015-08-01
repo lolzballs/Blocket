@@ -32,7 +32,7 @@ private:
     GLuint m_vbo;
 
     void InitGL();
-    void BufferBoundingBox();
+    void BufferBoundingBox(float delta);
 };
 
 #endif
