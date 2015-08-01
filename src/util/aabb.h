@@ -34,6 +34,11 @@ public:
         return m_min;
     }
 
+    inline glm::vec3 GetAbsMin()
+    {
+        return m_min + m_position;
+    }
+
     inline void SetMax(glm::vec3 max)
     {
         m_max = max;
@@ -42,6 +47,11 @@ public:
     inline glm::vec3 GetMax()
     {
         return m_max;
+    }
+
+    inline glm::vec3 GetAbsMax()
+    {
+        return m_max + m_position;
     }
 
     inline glm::vec3 GetSize()

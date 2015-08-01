@@ -27,4 +27,5 @@ void GameRenderer::Render(float delta)
     m_shader.UpdateUniforms(m_perspective * m_transformation);
 
     m_world.Render();
+    m_player.Render(delta);
 }

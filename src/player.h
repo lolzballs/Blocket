@@ -5,6 +5,8 @@
 #include "util/cside.h"
 #include "world/world.h"
 
+#include <iostream>  //TODO TODO TODO DEBUG CODE PLEASE REMOVE IMMEDIETLY
+
 #include <queue>
 
 class Player
@@ -27,6 +29,10 @@ private:
     glm::vec3 m_velocity;
     float m_speed;
     World* m_world;
+    GLuint m_vbo;
+
+    void InitGL();
+    void BufferBoundingBox();
 };
 
 #endif

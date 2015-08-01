@@ -14,12 +14,71 @@ Player::Player(glm::vec2 rotation, glm::vec3 position, float speed,
       m_position(position),
       m_oldposition(position),
       m_speed(speed),
-      m_world(world)
+      m_world(world),
+      m_vbo(0)
 {
+    InitGL();
 }
 
 Player::~Player()
 {
+    glDeleteBuffers(1, &m_vbo);
+}
+
+void Player::InitGL()
+{
+    glGenBuffers(1, &m_vbo);
+}
+
+void Player::BufferBoundingBox()
+{
+    glm::vec3 min = m_aabb.Expand(m_velocity).GetAbsMin();
+    glm::vec3 size = m_aabb.Expand(m_velocity).GetSize();
+    glm::vec4 color = glm::vec4(1, 1, 1, 1);
+    std::array<Vertex, 32> vertices{
+        {// back
+         Vertex(min, color), Vertex(min + glm::vec3(0, size.y, 0), color),
+         Vertex(min + glm::vec3(size.x, size.y, 0), color),
+         Vertex(min + glm::vec3(size.x, 0, 0), color),
+         // front
+         Vertex(min + glm::vec3(0, size.y, size.z), color),
+         Vertex(min + glm::vec3(0, 0, size.z), color),
+         Vertex(min + glm::vec3(size.x, 0, size.z), color),
+         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
+         // down
+         Vertex(min + glm::vec3(size.x, 0, 0), color),
+         Vertex(min + glm::vec3(size.x, 0, size.z), color),
+         Vertex(min + glm::vec3(size.x, 0, size.z), color),
+         Vertex(min + glm::vec3(0, 0, size.z), color),
+         Vertex(min + glm::vec3(0, 0, size.z), color), Vertex(min, color),
+         Vertex(min + glm::vec3(size.x, 0, 0), color),
+         Vertex(min + glm::vec3(0, 0, 0), color),
+         // up
+         Vertex(min + glm::vec3(0, size.y, 0), color),
+         Vertex(min + glm::vec3(0, size.y, size.z), color),
+         Vertex(min + glm::vec3(0, size.y, size.z), color),
+         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
+         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
+         Vertex(min + glm::vec3(size.x, size.y, 0), color),
+         Vertex(min + glm::vec3(0, size.y, 0), color),
+         Vertex(min + glm::vec3(size.x, size.y, 0), color),
+         // left
+         Vertex(min + glm::vec3(0, size.y, size.z), color),
+         Vertex(min + glm::vec3(0, size.y, 0), color),
+         Vertex(min + glm::vec3(0, 0, 0), color),
+         Vertex(min + glm::vec3(0, 0, size.z), color),
+         // right
+         Vertex(min + glm::vec3(size.x, 0, 0), color),
+         Vertex(min + glm::vec3(size.x, size.y, 0), color),
+         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
+         Vertex(min + glm::vec3(size.x, 0, size.z), color)}};
+
+    float* floatVertices =
+        Vertex::GetFloatArray(vertices.data(), vertices.size());
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * VERTEX_SIZE * sizeof(float),
+                 floatVertices, GL_DYNAMIC_DRAW);
 }
 
 void Player::Update(InputHandler input)
@@ -79,17 +138,73 @@ void Player::Update(InputHandler input)
 
     // COLLISION CODE
 
-    glm::vec3 pos = m_aabb.GetMin();
-    std::cout << glm::to_string(pos) << std::endl;
-
     AABB expanded = m_aabb.Expand(m_velocity);
     std::priority_queue<CollisionSide, std::vector<CollisionSide>, CSideCompare>
-        queue;
+        sides;
     glm::vec3 center = m_aabb.GetCenter();
     std::vector<AABB> intersecting = m_world->GetIntersectingAABBs(expanded);
 
-    for (std::vector<AABB>::size_type i = 0; i < intersecting.size(); ++i)
+    for (auto aabb : intersecting)
     {
+        glm::vec3 min = aabb.GetAbsMin();
+        glm::vec3 max = aabb.GetAbsMax();
+
+        float minX = min.x;
+        float minY = min.y;
+        float minZ = min.z;
+
+        float maxX = max.x;
+        float maxY = max.y;
+        float maxZ = max.z;
+
+        if (m_velocity.y > 0)
+        {
+            sides.push(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, minZ),
+                                                 glm::vec3(minX, minY, maxZ),
+                                                 glm::vec3(maxX, minY, maxZ),
+                                                 glm::vec3(maxX, minY, minZ)},
+                                     aabb, center, CSIDE_YP));
+        }
+        if (m_velocity.y < 0)
+        {
+            sides.push(CollisionSide(Geom::Quad3{glm::vec3(minX, maxY, minZ),
+                                                 glm::vec3(minX, maxY, maxZ),
+                                                 glm::vec3(maxX, maxY, maxZ),
+                                                 glm::vec3(maxX, maxY, minZ)},
+                                     aabb, center, CSIDE_YN));
+        }
+        if (m_velocity.x > 0)
+        {
+            sides.push(CollisionSide(Geom::Quad3{glm::vec3(minX, maxY, maxZ),
+                                                 glm::vec3(minX, maxY, minZ),
+                                                 glm::vec3(minX, minY, minZ),
+                                                 glm::vec3(minX, minY, maxZ)},
+                                     aabb, center, CSIDE_XP));
+        }
+        if (m_velocity.x < 0)
+        {
+            sides.push(CollisionSide(Geom::Quad3{glm::vec3(maxX, maxY, maxZ),
+                                                 glm::vec3(maxX, maxY, minZ),
+                                                 glm::vec3(maxX, minY, minZ),
+                                                 glm::vec3(maxX, minY, maxZ)},
+                                     aabb, center, CSIDE_XN));
+        }
+        if (m_velocity.z > 0)
+        {
+            sides.push(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, minZ),
+                                                 glm::vec3(minX, maxY, minZ),
+                                                 glm::vec3(maxX, maxY, minZ),
+                                                 glm::vec3(maxX, minY, minZ)},
+                                     aabb, center, CSIDE_ZP));
+        }
+        if (m_velocity.z < 0)
+        {
+            sides.push(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, maxZ),
+                                                 glm::vec3(minX, maxY, maxZ),
+                                                 glm::vec3(maxX, maxY, maxZ),
+                                                 glm::vec3(maxX, minY, maxZ)},
+                                     aabb, center, CSIDE_ZN));
+        }
     }
 
     // COLLISION CODE END
@@ -97,11 +212,44 @@ void Player::Update(InputHandler input)
     m_position += m_velocity;
 
     m_aabb.SetPosition(m_position);
+
+    BufferBoundingBox();
+}
+
+void Player::Render(float delta)
+{
+    // glDisable(GL_CULL_FACE);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
+                          (GLvoid*)0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
+                          (GLvoid*)12);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
+                          (GLvoid*)20);
+
+    glDrawArrays(GL_LINES, 0, (GLsizei)24);
+    //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+    //    glDrawElements(GL_TRIANGLES, m_size, GL_UNSIGNED_INT, 0);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+
+    /*for (int i = 0; i < 25000000; i++)
+    {
+
+    }*/
 }
 
 glm::vec3 Player::GetRenderPosition(float delta)
 {
-    return Util::Vector::Lerp(m_oldposition, m_position, delta);
+    return Util::Vector::Lerp(m_oldposition, m_position, delta) +
+           glm::vec3(0, 1.5, 0);
 }
 
 glm::vec2 Player::GetRenderRotation(float delta)

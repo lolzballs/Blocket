@@ -1,10 +1,8 @@
 #include "aabb.h"
 
 AABB::AABB(glm::vec3 position, glm::vec3 min, glm::vec3 max)
-    : m_position(position)
+    : m_position(position), m_min(min), m_max(max)
 {
-    m_min = position + min;
-    m_max = position + max;
 }
 
 AABB::~AABB()
@@ -13,12 +11,17 @@ AABB::~AABB()
 
 bool AABB::Intersects(AABB other)
 {
-    double minX = std::max(m_min.x, other.m_min.x);
-    double minY = std::max(m_min.y, other.m_min.y);
-    double minZ = std::max(m_min.z, other.m_min.z);
-    double maxX = std::min(m_max.x, other.m_max.x);
-    double maxY = std::min(m_max.y, other.m_max.y);
-    double maxZ = std::min(m_max.z, other.m_max.z);
+    glm::vec3 minThis = GetAbsMin();
+    glm::vec3 maxThis = GetAbsMax();
+    glm::vec3 minThat = other.GetAbsMin();
+    glm::vec3 maxThat = other.GetAbsMax();
+
+    double minX = std::max(minThis.x, minThat.x);
+    double minY = std::max(minThis.y, minThat.y);
+    double minZ = std::max(minThis.z, minThat.z);
+    double maxX = std::min(maxThis.x, maxThat.x);
+    double maxY = std::min(maxThis.y, maxThat.y);
+    double maxZ = std::min(maxThis.z, maxThat.z);
     return !(minX > maxX || minY > maxY || minZ > maxZ);
 }
 
@@ -135,23 +138,28 @@ bool AABB::IntersectY(Geom::Quad3 quad, Geom::Line3 line)
 
 bool AABB::IntersectZ(Geom::Quad3 quad, Geom::Quad3 qSta, glm::vec3 velocity)
 {
-    Geom::Quad2 q1 = {Geom::Point3FlattenX(quad.a), Geom::Point3FlattenX(quad.b),
-                Geom::Point3FlattenX(quad.b + velocity),
-                Geom::Point3FlattenX(quad.a + velocity)};
-    Geom::Quad2 q2 = {Geom::Point3FlattenY(quad.b), Geom::Point3FlattenY(quad.c),
-                Geom::Point3FlattenY(quad.c + velocity),
-                Geom::Point3FlattenY(quad.b + velocity)};
-    Geom::Line2 l1 = {Geom::Point3FlattenX(qSta.a), Geom::Point3FlattenX(qSta.b)};
-    Geom::Line2 l2 = {Geom::Point3FlattenY(qSta.b), Geom::Point3FlattenY(qSta.c)};
+    Geom::Quad2 q1 = {Geom::Point3FlattenX(quad.a),
+                      Geom::Point3FlattenX(quad.b),
+                      Geom::Point3FlattenX(quad.b + velocity),
+                      Geom::Point3FlattenX(quad.a + velocity)};
+    Geom::Quad2 q2 = {Geom::Point3FlattenY(quad.b),
+                      Geom::Point3FlattenY(quad.c),
+                      Geom::Point3FlattenY(quad.c + velocity),
+                      Geom::Point3FlattenY(quad.b + velocity)};
+    Geom::Line2 l1 = {Geom::Point3FlattenX(qSta.a),
+                      Geom::Point3FlattenX(qSta.b)};
+    Geom::Line2 l2 = {Geom::Point3FlattenY(qSta.b),
+                      Geom::Point3FlattenY(qSta.c)};
     return Intersects(q1, l1) && Intersects(q2, l2);
 }
 
 bool AABB::IntersectZ(Geom::Quad3 quad, Geom::Line3 line)
 {
-    Geom::Line2 q1 = {Geom::Point3FlattenX(quad.a), Geom::Point3FlattenX(quad.b)};
-    Geom::Line2 q2 = {Geom::Point3FlattenY(quad.b), Geom::Point3FlattenY(quad.c)};
+    Geom::Line2 q1 = {Geom::Point3FlattenX(quad.a),
+                      Geom::Point3FlattenX(quad.b)};
+    Geom::Line2 q2 = {Geom::Point3FlattenY(quad.b),
+                      Geom::Point3FlattenY(quad.c)};
     Geom::Line2 l1 = line.FlattenX();
     Geom::Line2 l2 = line.FlattenY();
-    return Geom::Line2::Intersects(q1, l1) &&
-           Geom::Line2::Intersects(q2, l2);
+    return Geom::Line2::Intersects(q1, l1) && Geom::Line2::Intersects(q2, l2);
 }
