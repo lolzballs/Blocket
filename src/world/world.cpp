@@ -14,7 +14,10 @@ void World::Update(InputHandler input)
     {
         for (int i = 0; i < 16; i++)
         {
-            m_chunk.AddBlock(1, glm::vec3(i, i, i), true);
+            for (int j = 0; j < 16; j++)
+            {
+                m_chunk.AddBlock(1, glm::vec3(i, 0, j));
+            }
         }
     }
 
@@ -54,9 +57,9 @@ std::vector<AABB> World::GetIntersectingAABBs(AABB aabb)
                 {
                     if (test.Intersects(aabb))
                     {
-                        m_chunk.AddBlock(
-                            0, glm::vec3(i, j, k),
-                            true);  // TODO: DEBUG CODE PLEASE REMOVE
+                        // TODO: DEBUG CODE PLEASE REMOVE
+                        m_chunk.AddBlock(0, glm::vec3(i, j, k));
+
                         intersecting.push_back(test);
                     }
                 }

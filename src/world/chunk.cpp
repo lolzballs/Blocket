@@ -63,9 +63,14 @@ void Chunk::Render()
 
 void Chunk::Update()
 {
+    if (m_changed)
+    {
+        RebufferChunk();
+        m_changed = false;
+    }
 }
 
-void Chunk::AddBlock(int blockID, glm::vec3 position, bool rebuffer)
+void Chunk::AddBlock(int blockID, glm::vec3 position)
 {
     if (position.x < 0 || position.x > CHUNK_SIZE - 1 || position.y < 0 ||
         position.y > CHUNK_HEIGHT - 1 || position.z < 0 ||
@@ -74,10 +79,7 @@ void Chunk::AddBlock(int blockID, glm::vec3 position, bool rebuffer)
         return;
     }
     m_blocks[GetArrayPosition(position)] = blockID;
-    if (rebuffer)
-    {
-        RebufferChunk();
-    }
+    m_changed = true;
 }
 
 int Chunk::GetBlockAtPosition(glm::vec3 position)

@@ -19,7 +19,7 @@ public:
 
     void Render();
     void Update();
-    void AddBlock(int blockID, glm::vec3 position, bool rebuffer);
+    void AddBlock(int blockID, glm::vec3 position);
     int GetBlockAtPosition(glm::vec3 position);
 
     inline const glm::vec2 GetPosition()
@@ -32,6 +32,7 @@ private:
     std::array<int, CHUNK_SIZE * CHUNK_HEIGHT * CHUNK_SIZE> m_blocks;
     GLuint m_vbo;
     GLsizei m_size;
+    bool m_changed;
 
     void InitGL();
     void RebufferChunk();

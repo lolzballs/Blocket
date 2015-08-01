@@ -35,8 +35,9 @@ void Player::BufferBoundingBox(float delta)
     AABB last = AABB(m_oldposition, glm::vec3(-0.4, 0, -0.4),
                      glm::vec3(0.4, 1.8, 0.4)).Expand(m_velocity);
     AABB now = m_aabb.Expand(m_velocity);
-    glm::vec3 min = Util::Vector::Lerp(last.GetAbsMin(), now.GetAbsMin(), delta);
-    glm::vec3 size = Util::Vector::Lerp(last.GetSize(), now.GetSize(), delta); 
+    glm::vec3 min =
+        Util::Vector::Lerp(last.GetAbsMin(), now.GetAbsMin(), delta);
+    glm::vec3 size = Util::Vector::Lerp(last.GetSize(), now.GetSize(), delta);
     glm::vec4 color = glm::vec4(1, 1, 1, 1);
     std::array<Vertex, 32> vertices{
         {// back
@@ -220,7 +221,7 @@ void Player::Update(InputHandler input)
 void Player::Render(float delta)
 {
     BufferBoundingBox(delta);
-    
+
     // glDisable(GL_CULL_FACE);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
