@@ -211,6 +211,139 @@ void Player::Update(InputHandler input)
         }
     }
 
+    bool xCollide = false;
+    bool yCollide = false;
+    bool zCollide = false;
+
+    float block = 0.0001;
+
+    while (!sides.empty())
+    {
+        CollisionSide side = sides.top();
+        sides.pop();
+        if (side.GetType() == CSIDE_XP && !xCollide)
+        {
+            if (AABB::IntersectX(
+                    Geom::Quad3{
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMax().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMin().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMin().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMax().z)},
+                    side.GetQStat(), m_velocity))
+            {
+                xCollide = true;
+                m_position.x =
+                    side.GetAABB().GetAbsMin().x - m_aabb.GetMax().x - block;
+                m_velocity.x = 0;
+            }
+        }
+        else if (side.GetType() == CSIDE_XN && !xCollide)
+        {
+            if (AABB::IntersectX(
+                    Geom::Quad3{
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMax().z),
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMin().z),
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMin().z),
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMax().z)},
+                    side.GetQStat(), m_velocity))
+            {
+                xCollide = true;
+                m_position.x =
+                    side.GetAABB().GetAbsMax().x - m_aabb.GetMin().x + block;
+                m_velocity.x = 0;
+            }
+        }
+        else if (side.GetType() == CSIDE_YP && !yCollide)
+        {
+            if (AABB::IntersectY(
+                    Geom::Quad3{
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMin().z),
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMax().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMax().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMin().z)},
+                    side.GetQStat(), m_velocity))
+            {
+                yCollide = true;
+                m_position.y =
+                    side.GetAABB().GetAbsMin().y - m_aabb.GetMax().y - block;
+                m_velocity.y = 0;
+            }
+        }
+        else if (side.GetType() == CSIDE_YN && !yCollide)
+        {
+            if (AABB::IntersectY(
+                    Geom::Quad3{
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMin().z),
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMax().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMax().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMin().z)},
+                    side.GetQStat(), m_velocity))
+            {
+                yCollide = true;
+                m_position.y =
+                    side.GetAABB().GetAbsMax().y - m_aabb.GetMin().y + block;
+                m_velocity.y = 0;
+            }
+        }
+        else if (side.GetType() == CSIDE_ZP && !zCollide)
+        {
+            if (AABB::IntersectZ(
+                    Geom::Quad3{
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMax().z),
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMax().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMax().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMax().z)},
+                    side.GetQStat(), m_velocity))
+            {
+                zCollide = true;
+                m_position.z =
+                    side.GetAABB().GetAbsMin().z - m_aabb.GetMax().z - block;
+                m_velocity.z = 0;
+            }
+        }
+        else if (side.GetType() == CSIDE_ZN && !zCollide)
+        {
+            if (AABB::IntersectZ(
+                    Geom::Quad3{
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMin().z),
+                        glm::vec3(m_aabb.GetAbsMin().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMin().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMax().y,
+                                  m_aabb.GetAbsMin().z),
+                        glm::vec3(m_aabb.GetAbsMax().x, m_aabb.GetAbsMin().y,
+                                  m_aabb.GetAbsMin().z)},
+                    side.GetQStat(), m_velocity))
+            {
+                zCollide = true;
+                m_position.z =
+                    side.GetAABB().GetAbsMax().z - m_aabb.GetMin().z + block;
+                m_velocity.z = 0;
+            }
+        }
+        m_aabb.SetPosition(m_position);
+    }
+
     // COLLISION CODE END
 
     m_position += m_velocity;

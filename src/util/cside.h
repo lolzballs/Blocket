@@ -3,6 +3,8 @@
 
 #include "aabb.h"
 
+#include <iostream>  //TODO TODO TODO DEBUG REMOVE PLEASE
+
 #include <algorithm>
 
 #define CSIDE_XN 1
@@ -28,6 +30,21 @@ public:
         return m_qCenter;
     }
 
+    inline Geom::Quad3 GetQStat()
+    {
+        return m_qStat;
+    }
+
+    inline char GetType()
+    {
+        return m_type;
+    }
+
+    inline AABB GetAABB()
+    {
+        return m_aabb;
+    }
+
 private:
     Geom::Quad3 m_qStat;
     char m_type;
@@ -45,6 +62,7 @@ public:
         glm::vec3 d2 = s1.GetQCenter() - s2.GetQCenter();
         float dist1 = dot(d1, d1);
         float dist2 = dot(d2, d2);
+        // std::cout << dist1 << ", " << dist2 << std::endl;
         return dist1 < dist2;
     }
 };

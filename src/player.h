@@ -5,8 +5,6 @@
 #include "util/cside.h"
 #include "world/world.h"
 
-#include <iostream>
-
 #include <queue>
 
 class Player

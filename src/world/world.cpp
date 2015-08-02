@@ -46,20 +46,17 @@ std::vector<AABB> World::GetIntersectingAABBs(AABB aabb)
     glm::vec3 min = glm::floor(aabb.GetAbsMin() - glm::vec3(5, 5, 5));
     glm::vec3 max = glm::ceil(aabb.GetAbsMax() + glm::vec3(5, 5, 5));
 
-    for (int i = min.x; i <= max.x; ++i)
+    for (int i = min.x; i <= max.x; i++)
     {
-        for (int j = min.y; j <= max.y; ++j)
+        for (int j = min.y; j <= max.y; j++)
         {
-            for (int k = min.z; k <= max.z; ++k)
+            for (int k = min.z; k <= max.z; k++)
             {
                 std::vector<AABB> toTest = GetBlockAABB(glm::vec3(i, j, k));
                 for (auto& test : toTest)
                 {
                     if (test.Intersects(aabb))
                     {
-                        // TODO: DEBUG CODE PLEASE REMOVE
-                        m_chunk.AddBlock(0, glm::vec3(i, j, k));
-
                         intersecting.push_back(test);
                     }
                 }
