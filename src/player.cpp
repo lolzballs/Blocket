@@ -132,11 +132,17 @@ void Player::Update(InputHandler input)
         movement += glm::vec3(0, -1, 0);
     }
 
-    if (movement != glm::vec3())
+    float length = glm::length(movement);
+    if (length > 1)
     {
-        m_velocity += glm::normalize(movement) * m_speed;
-        movement = glm::vec3();
+        movement = glm::normalize(movement);
     }
+    else if (length < -1)
+    {
+        movement = -glm::normalize(movement);
+    }
+
+    m_velocity += movement * m_speed;
 
     m_velocity *= 0.8f;
 
@@ -162,51 +168,51 @@ void Player::Update(InputHandler input)
 
         if (m_velocity.y > 0)
         {
-            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, minZ),
-                                                 glm::vec3(minX, minY, maxZ),
-                                                 glm::vec3(maxX, minY, maxZ),
-                                                 glm::vec3(maxX, minY, minZ)},
-                                     aabb, center, CSIDE_YP));
+            sides.push_back(CollisionSide(
+                Geom::Quad3{
+                    glm::vec3(minX, minY, minZ), glm::vec3(minX, minY, maxZ),
+                    glm::vec3(maxX, minY, maxZ), glm::vec3(maxX, minY, minZ)},
+                aabb, center, CSIDE_YP));
         }
         if (m_velocity.y < 0)
         {
-            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(minX, maxY, minZ),
-                                                 glm::vec3(minX, maxY, maxZ),
-                                                 glm::vec3(maxX, maxY, maxZ),
-                                                 glm::vec3(maxX, maxY, minZ)},
-                                     aabb, center, CSIDE_YN));
+            sides.push_back(CollisionSide(
+                Geom::Quad3{
+                    glm::vec3(minX, maxY, minZ), glm::vec3(minX, maxY, maxZ),
+                    glm::vec3(maxX, maxY, maxZ), glm::vec3(maxX, maxY, minZ)},
+                aabb, center, CSIDE_YN));
         }
         if (m_velocity.x > 0)
         {
-            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(minX, maxY, maxZ),
-                                                 glm::vec3(minX, maxY, minZ),
-                                                 glm::vec3(minX, minY, minZ),
-                                                 glm::vec3(minX, minY, maxZ)},
-                                     aabb, center, CSIDE_XP));
+            sides.push_back(CollisionSide(
+                Geom::Quad3{
+                    glm::vec3(minX, maxY, maxZ), glm::vec3(minX, maxY, minZ),
+                    glm::vec3(minX, minY, minZ), glm::vec3(minX, minY, maxZ)},
+                aabb, center, CSIDE_XP));
         }
         if (m_velocity.x < 0)
         {
-            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(maxX, maxY, maxZ),
-                                                 glm::vec3(maxX, maxY, minZ),
-                                                 glm::vec3(maxX, minY, minZ),
-                                                 glm::vec3(maxX, minY, maxZ)},
-                                     aabb, center, CSIDE_XN));
+            sides.push_back(CollisionSide(
+                Geom::Quad3{
+                    glm::vec3(maxX, maxY, maxZ), glm::vec3(maxX, maxY, minZ),
+                    glm::vec3(maxX, minY, minZ), glm::vec3(maxX, minY, maxZ)},
+                aabb, center, CSIDE_XN));
         }
         if (m_velocity.z > 0)
         {
-            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, minZ),
-                                                 glm::vec3(minX, maxY, minZ),
-                                                 glm::vec3(maxX, maxY, minZ),
-                                                 glm::vec3(maxX, minY, minZ)},
-                                     aabb, center, CSIDE_ZP));
+            sides.push_back(CollisionSide(
+                Geom::Quad3{
+                    glm::vec3(minX, minY, minZ), glm::vec3(minX, maxY, minZ),
+                    glm::vec3(maxX, maxY, minZ), glm::vec3(maxX, minY, minZ)},
+                aabb, center, CSIDE_ZP));
         }
         if (m_velocity.z < 0)
         {
-            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, maxZ),
-                                                 glm::vec3(minX, maxY, maxZ),
-                                                 glm::vec3(maxX, maxY, maxZ),
-                                                 glm::vec3(maxX, minY, maxZ)},
-                                     aabb, center, CSIDE_ZN));
+            sides.push_back(CollisionSide(
+                Geom::Quad3{
+                    glm::vec3(minX, minY, maxZ), glm::vec3(minX, maxY, maxZ),
+                    glm::vec3(maxX, maxY, maxZ), glm::vec3(maxX, minY, maxZ)},
+                aabb, center, CSIDE_ZN));
         }
     }
 
