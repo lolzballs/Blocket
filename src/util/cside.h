@@ -3,21 +3,22 @@
 
 #include "aabb.h"
 
-#include <iostream>  //TODO TODO TODO DEBUG REMOVE PLEASE
-
 #include <algorithm>
 
-#define CSIDE_XN 1
-#define CSIDE_YN 2
-#define CSIDE_ZN 3
-#define CSIDE_XP 4
-#define CSIDE_YP 5
-#define CSIDE_ZP 6
+enum class CSide
+{
+    XN,
+    YN,
+    ZN,
+    XP,
+    YP,
+    ZP
+};
 
 class CollisionSide
 {
 public:
-    CollisionSide(Geom::Quad3 qStat, AABB aabb, glm::vec3 center, char type);
+    CollisionSide(Geom::Quad3 qStat, AABB aabb, glm::vec3 center, CSide type);
     ~CollisionSide();
 
     inline glm::vec3 GetCenter()
@@ -35,7 +36,7 @@ public:
         return m_qStat;
     }
 
-    inline char GetType()
+    inline CSide GetType()
     {
         return m_type;
     }
@@ -47,7 +48,7 @@ public:
 
 private:
     Geom::Quad3 m_qStat;
-    char m_type;
+    CSide m_type;
     AABB m_aabb;
     glm::vec3 m_center;
     glm::vec3 m_qCenter;

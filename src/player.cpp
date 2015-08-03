@@ -165,7 +165,7 @@ void Player::Move(glm::vec3 movement)
                 Geom::Quad3{
                     glm::vec3(minX, minY, minZ), glm::vec3(minX, minY, maxZ),
                     glm::vec3(maxX, minY, maxZ), glm::vec3(maxX, minY, minZ)},
-                aabb, center, CSIDE_YP));
+                aabb, center, CSide::YP));
         }
         if (m_velocity.y < 0)
         {
@@ -173,7 +173,7 @@ void Player::Move(glm::vec3 movement)
                 Geom::Quad3{
                     glm::vec3(minX, maxY, minZ), glm::vec3(minX, maxY, maxZ),
                     glm::vec3(maxX, maxY, maxZ), glm::vec3(maxX, maxY, minZ)},
-                aabb, center, CSIDE_YN));
+                aabb, center, CSide::YN));
         }
         if (m_velocity.x > 0)
         {
@@ -181,7 +181,7 @@ void Player::Move(glm::vec3 movement)
                 Geom::Quad3{
                     glm::vec3(minX, maxY, maxZ), glm::vec3(minX, maxY, minZ),
                     glm::vec3(minX, minY, minZ), glm::vec3(minX, minY, maxZ)},
-                aabb, center, CSIDE_XP));
+                aabb, center, CSide::XP));
         }
         if (m_velocity.x < 0)
         {
@@ -189,7 +189,7 @@ void Player::Move(glm::vec3 movement)
                 Geom::Quad3{
                     glm::vec3(maxX, maxY, maxZ), glm::vec3(maxX, maxY, minZ),
                     glm::vec3(maxX, minY, minZ), glm::vec3(maxX, minY, maxZ)},
-                aabb, center, CSIDE_XN));
+                aabb, center, CSide::XN));
         }
         if (m_velocity.z > 0)
         {
@@ -197,7 +197,7 @@ void Player::Move(glm::vec3 movement)
                 Geom::Quad3{
                     glm::vec3(minX, minY, minZ), glm::vec3(minX, maxY, minZ),
                     glm::vec3(maxX, maxY, minZ), glm::vec3(maxX, minY, minZ)},
-                aabb, center, CSIDE_ZP));
+                aabb, center, CSide::ZP));
         }
         if (m_velocity.z < 0)
         {
@@ -205,7 +205,7 @@ void Player::Move(glm::vec3 movement)
                 Geom::Quad3{
                     glm::vec3(minX, minY, maxZ), glm::vec3(minX, maxY, maxZ),
                     glm::vec3(maxX, maxY, maxZ), glm::vec3(maxX, minY, maxZ)},
-                aabb, center, CSIDE_ZN));
+                aabb, center, CSide::ZN));
         }
     }
 
@@ -222,7 +222,7 @@ void Player::Move(glm::vec3 movement)
         CollisionSide side = sides.front();
         sides.erase(sides.begin());
 
-        if (side.GetType() == CSIDE_XP && !xCollide)
+        if (side.GetType() == CSide::XP && !xCollide)
         {
             if (AABB::IntersectX(
                     Geom::Quad3{
@@ -242,7 +242,7 @@ void Player::Move(glm::vec3 movement)
                 m_velocity.x = 0;
             }
         }
-        else if (side.GetType() == CSIDE_XN && !xCollide)
+        else if (side.GetType() == CSide::XN && !xCollide)
         {
             if (AABB::IntersectX(
                     Geom::Quad3{
@@ -262,7 +262,7 @@ void Player::Move(glm::vec3 movement)
                 m_velocity.x = 0;
             }
         }
-        else if (side.GetType() == CSIDE_YP && !yCollide)
+        else if (side.GetType() == CSide::YP && !yCollide)
         {
             if (AABB::IntersectY(
                     Geom::Quad3{
@@ -282,7 +282,7 @@ void Player::Move(glm::vec3 movement)
                 m_velocity.y = 0;
             }
         }
-        else if (side.GetType() == CSIDE_YN && !yCollide)
+        else if (side.GetType() == CSide::YN && !yCollide)
         {
             if (AABB::IntersectY(
                     Geom::Quad3{
@@ -302,7 +302,7 @@ void Player::Move(glm::vec3 movement)
                 m_velocity.y = 0;
             }
         }
-        else if (side.GetType() == CSIDE_ZP && !zCollide)
+        else if (side.GetType() == CSide::ZP && !zCollide)
         {
             if (AABB::IntersectZ(
                     Geom::Quad3{
@@ -322,7 +322,7 @@ void Player::Move(glm::vec3 movement)
                 m_velocity.z = 0;
             }
         }
-        else if (side.GetType() == CSIDE_ZN && !zCollide)
+        else if (side.GetType() == CSide::ZN && !zCollide)
         {
             if (AABB::IntersectZ(
                     Geom::Quad3{
