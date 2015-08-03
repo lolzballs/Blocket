@@ -1,11 +1,8 @@
 #ifndef AABB_H
 #define AABB_H
 
-#include <glm/glm.hpp>
-#include <algorithm>
-
 #include "geom.h"
-#include <iostream>
+#include "vertex.h"
 
 class AABB
 {
@@ -25,7 +22,6 @@ public:
 
     inline void SetMin(glm::vec3 min)
     {
-        std::cout << "YOU ARE NOT SUPPOSED TO MODIFY THIS!!!! FREAKING CRAP" << std::endl;
         m_min = min;
     }
 

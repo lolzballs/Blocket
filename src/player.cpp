@@ -83,6 +83,8 @@ void Player::BufferBoundingBox(float delta)
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * VERTEX_SIZE * sizeof(float),
                  floatVertices, GL_DYNAMIC_DRAW);
+
+    delete[] floatVertices;
 }
 
 void Player::Update(InputHandler input)

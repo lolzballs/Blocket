@@ -1,5 +1,7 @@
 #include "aabb.h"
 
+#include <algorithm>
+
 AABB::AABB(glm::vec3 position, glm::vec3 min, glm::vec3 max)
     : m_position(position), m_min(min), m_max(max)
 {

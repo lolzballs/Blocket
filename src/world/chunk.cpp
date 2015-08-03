@@ -130,6 +130,8 @@ void Chunk::RebufferChunk()
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, m_size * VERTEX_SIZE * sizeof(float),
                  floatVertices, GL_DYNAMIC_DRAW);
+
+    delete floatVertices;
 }
 
 bool* Chunk::GetFacesRequired(glm::vec3 position)
