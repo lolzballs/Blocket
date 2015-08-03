@@ -13,7 +13,7 @@ public:
 
     void Update(InputHandler input);
     void Render();
-    std::vector<AABB> GetBlockAABB(glm::vec3 location);
+    std::vector<AABB> GetBlockAABBs(glm::vec3 location);
     std::vector<AABB> GetIntersectingAABBs(AABB aabb);
 
 private:
