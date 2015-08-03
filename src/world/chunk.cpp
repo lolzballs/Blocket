@@ -110,8 +110,10 @@ void Chunk::RebufferChunk()
 
                 if (blockID != 0)
                 {
+                    bool* facesNeeded = GetFacesRequired(position);
                     RenderBlock renderBlock = RenderBlock(
-                        blockID, position, GetFacesRequired(position));
+                        blockID, position, facesNeeded);
+                    delete[] facesNeeded;
 
                     Vertex* blockFaces = renderBlock.GetVertices();
                     for (unsigned int l = 0; l < renderBlock.GetSize(); l++)
@@ -131,7 +133,7 @@ void Chunk::RebufferChunk()
     glBufferData(GL_ARRAY_BUFFER, m_size * VERTEX_SIZE * sizeof(float),
                  floatVertices, GL_DYNAMIC_DRAW);
 
-    delete floatVertices;
+    delete[] floatVertices;
 }
 
 bool* Chunk::GetFacesRequired(glm::vec3 position)
