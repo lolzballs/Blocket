@@ -4,6 +4,8 @@
 #include "geom.h"
 #include "vertex.h"
 
+#include <array>
+
 class AABB
 {
 public:
@@ -62,6 +64,7 @@ public:
 
     AABB Expand(glm::vec3 amount);
     bool Intersects(AABB other);
+    std::array<Vertex, 32> GetBoundingBoxVertices();
 
     static bool Contains(glm::vec2 point, glm::vec2 points[4]);
     static bool Intersects(Geom::Quad2 quad, Geom::Line2 line);

@@ -32,50 +32,11 @@ void Player::InitGL()
 
 void Player::BufferBoundingBox(float delta)
 {
-    AABB last = AABB(m_oldposition, glm::vec3(-0.4, 0, -0.4),
-                     glm::vec3(0.4, 1.8, 0.4)).Expand(m_velocity);
-    AABB now = m_aabb.Expand(m_velocity);
-    glm::vec3 min =
-        Util::Vector::Lerp(last.GetAbsMin(), now.GetAbsMin(), delta);
-    glm::vec3 size = Util::Vector::Lerp(last.GetSize(), now.GetSize(), delta);
-    glm::vec4 color = glm::vec4(1, 1, 1, 1);
-    std::array<Vertex, 32> vertices{
-        {// back
-         Vertex(min, color), Vertex(min + glm::vec3(0, size.y, 0), color),
-         Vertex(min + glm::vec3(size.x, size.y, 0), color),
-         Vertex(min + glm::vec3(size.x, 0, 0), color),
-         // front
-         Vertex(min + glm::vec3(0, size.y, size.z), color),
-         Vertex(min + glm::vec3(0, 0, size.z), color),
-         Vertex(min + glm::vec3(size.x, 0, size.z), color),
-         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
-         // down
-         Vertex(min + glm::vec3(size.x, 0, 0), color),
-         Vertex(min + glm::vec3(size.x, 0, size.z), color),
-         Vertex(min + glm::vec3(size.x, 0, size.z), color),
-         Vertex(min + glm::vec3(0, 0, size.z), color),
-         Vertex(min + glm::vec3(0, 0, size.z), color), Vertex(min, color),
-         Vertex(min + glm::vec3(size.x, 0, 0), color),
-         Vertex(min + glm::vec3(0, 0, 0), color),
-         // up
-         Vertex(min + glm::vec3(0, size.y, 0), color),
-         Vertex(min + glm::vec3(0, size.y, size.z), color),
-         Vertex(min + glm::vec3(0, size.y, size.z), color),
-         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
-         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
-         Vertex(min + glm::vec3(size.x, size.y, 0), color),
-         Vertex(min + glm::vec3(0, size.y, 0), color),
-         Vertex(min + glm::vec3(size.x, size.y, 0), color),
-         // left
-         Vertex(min + glm::vec3(0, size.y, size.z), color),
-         Vertex(min + glm::vec3(0, size.y, 0), color),
-         Vertex(min + glm::vec3(0, 0, 0), color),
-         Vertex(min + glm::vec3(0, 0, size.z), color),
-         // right
-         Vertex(min + glm::vec3(size.x, 0, 0), color),
-         Vertex(min + glm::vec3(size.x, size.y, 0), color),
-         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
-         Vertex(min + glm::vec3(size.x, 0, size.z), color)}};
+    glm::vec3 position = Util::Vector::Lerp(m_oldposition, m_position, delta);
+    AABB lerped = AABB(position, glm::vec3(-0.4, 0, -0.4),
+                       glm::vec3(0.4, 1.8, 0.4)).Expand(m_velocity);
+
+    std::array<Vertex, 32> vertices = lerped.GetBoundingBoxVertices();
 
     float* floatVertices =
         Vertex::GetFloatArray(vertices.data(), vertices.size());

@@ -82,6 +82,52 @@ bool AABB::Intersects(Geom::Quad2 quad, Geom::Line2 line)
     return false;
 }
 
+std::array<Vertex, 32> AABB::GetBoundingBoxVertices()
+{
+    glm::vec3 min = GetAbsMin();
+    glm::vec3 size = GetSize();
+    glm::vec4 color = glm::vec4(1, 1, 1, 1);
+    std::array<Vertex, 32> vertices{
+        {// back
+         Vertex(min, color), Vertex(min + glm::vec3(0, size.y, 0), color),
+         Vertex(min + glm::vec3(size.x, size.y, 0), color),
+         Vertex(min + glm::vec3(size.x, 0, 0), color),
+         // front
+         Vertex(min + glm::vec3(0, size.y, size.z), color),
+         Vertex(min + glm::vec3(0, 0, size.z), color),
+         Vertex(min + glm::vec3(size.x, 0, size.z), color),
+         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
+         // down
+         Vertex(min + glm::vec3(size.x, 0, 0), color),
+         Vertex(min + glm::vec3(size.x, 0, size.z), color),
+         Vertex(min + glm::vec3(size.x, 0, size.z), color),
+         Vertex(min + glm::vec3(0, 0, size.z), color),
+         Vertex(min + glm::vec3(0, 0, size.z), color), Vertex(min, color),
+         Vertex(min + glm::vec3(size.x, 0, 0), color),
+         Vertex(min + glm::vec3(0, 0, 0), color),
+         // up
+         Vertex(min + glm::vec3(0, size.y, 0), color),
+         Vertex(min + glm::vec3(0, size.y, size.z), color),
+         Vertex(min + glm::vec3(0, size.y, size.z), color),
+         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
+         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
+         Vertex(min + glm::vec3(size.x, size.y, 0), color),
+         Vertex(min + glm::vec3(0, size.y, 0), color),
+         Vertex(min + glm::vec3(size.x, size.y, 0), color),
+         // left
+         Vertex(min + glm::vec3(0, size.y, size.z), color),
+         Vertex(min + glm::vec3(0, size.y, 0), color),
+         Vertex(min + glm::vec3(0, 0, 0), color),
+         Vertex(min + glm::vec3(0, 0, size.z), color),
+         // right
+         Vertex(min + glm::vec3(size.x, 0, 0), color),
+         Vertex(min + glm::vec3(size.x, size.y, 0), color),
+         Vertex(min + glm::vec3(size.x, size.y, size.z), color),
+         Vertex(min + glm::vec3(size.x, 0, size.z), color)}};
+
+    return vertices;
+}
+
 bool AABB::IntersectX(Geom::Quad3 quad, Geom::Quad3 qSta, glm::vec3 velocity)
 {
     Geom::Quad2 q1 = {Geom::Point3FlattenY(quad.a),
