@@ -14,6 +14,8 @@ public:
     void Update(InputHandler input);
     void Render(float delta);
 
+    void Move(glm::vec3 movement);
+
     glm::vec3 GetRenderPosition(float delta);
     glm::vec2 GetRenderRotation(float delta);
 private:

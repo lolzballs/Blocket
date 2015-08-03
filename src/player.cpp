@@ -95,6 +95,7 @@ void Player::Update(InputHandler input)
         movement += glm::vec3(0, -1, 0);
     }
 
+    // Clamp movement magnitude to 1
     float length = glm::length(movement);
     if (length > 1)
     {
@@ -105,11 +106,13 @@ void Player::Update(InputHandler input)
         movement = -glm::normalize(movement);
     }
 
+    Move(movement);
+}
+
+void Player::Move(glm::vec3 movement)
+{
     m_velocity += movement * m_speed;
-
     m_velocity *= 0.8f;
-
-    // COLLISION CODE
 
     AABB expanded = m_aabb.Expand(m_velocity);
     std::vector<CollisionSide> sides;
@@ -315,10 +318,7 @@ void Player::Update(InputHandler input)
         m_aabb.SetPosition(m_position);
     }
 
-    // COLLISION CODE END
-
     m_position += m_velocity;
-
     m_aabb.SetPosition(m_position);
 }
 
