@@ -1,32 +1,19 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "input.h"
-#include "util/cside.h"
-#include "world/world.h"
+#include "entity.h"
 
-class Player
+class Player : public Entity
 {
 public:
-    Player(glm::vec2 rotation, glm::vec3 position, float speed, World* world);
+    Player(World& world, glm::vec3 position, glm::vec2 rotation, float speed);
     ~Player();
 
-    void Update(InputHandler input);
-    void Render(float delta);
+    void Update(InputHandler input) override;
+    void Render(float delta) override;
 
-    void Move(glm::vec3 movement);
-
-    glm::vec3 GetRenderPosition(float delta);
-    glm::vec2 GetRenderRotation(float delta);
+    glm::vec3 GetPlayerRenderPosition(float delta);
 private:
-    AABB m_aabb;
-    glm::vec2 m_rotation;
-    glm::vec2 m_oldrotation;
-    glm::vec3 m_position;
-    glm::vec3 m_oldposition;
-    glm::vec3 m_velocity;
-    float m_speed;
-    World* m_world;
     GLuint m_vbo;
 
     void InitGL();
