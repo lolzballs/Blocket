@@ -43,8 +43,8 @@ std::vector<AABB> World::GetBlockAABB(glm::vec3 location)
 std::vector<AABB> World::GetIntersectingAABBs(AABB aabb)
 {
     std::vector<AABB> intersecting;
-    glm::vec3 min = glm::floor(aabb.GetAbsMin() - glm::vec3(5, 5, 5));
-    glm::vec3 max = glm::ceil(aabb.GetAbsMax() + glm::vec3(5, 5, 5));
+    glm::vec3 min = glm::floor(aabb.GetAbsMin());
+    glm::vec3 max = glm::ceil(aabb.GetAbsMax());
 
     for (int i = min.x; i <= max.x; i++)
     {

@@ -143,8 +143,7 @@ void Player::Update(InputHandler input)
     // COLLISION CODE
 
     AABB expanded = m_aabb.Expand(m_velocity);
-    std::priority_queue<CollisionSide, std::vector<CollisionSide>, CSideCompare>
-        sides;
+    std::vector<CollisionSide> sides;
     glm::vec3 center = m_aabb.GetCenter();
     std::vector<AABB> intersecting = m_world->GetIntersectingAABBs(expanded);
 
@@ -163,7 +162,7 @@ void Player::Update(InputHandler input)
 
         if (m_velocity.y > 0)
         {
-            sides.push(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, minZ),
+            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, minZ),
                                                  glm::vec3(minX, minY, maxZ),
                                                  glm::vec3(maxX, minY, maxZ),
                                                  glm::vec3(maxX, minY, minZ)},
@@ -171,7 +170,7 @@ void Player::Update(InputHandler input)
         }
         if (m_velocity.y < 0)
         {
-            sides.push(CollisionSide(Geom::Quad3{glm::vec3(minX, maxY, minZ),
+            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(minX, maxY, minZ),
                                                  glm::vec3(minX, maxY, maxZ),
                                                  glm::vec3(maxX, maxY, maxZ),
                                                  glm::vec3(maxX, maxY, minZ)},
@@ -179,7 +178,7 @@ void Player::Update(InputHandler input)
         }
         if (m_velocity.x > 0)
         {
-            sides.push(CollisionSide(Geom::Quad3{glm::vec3(minX, maxY, maxZ),
+            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(minX, maxY, maxZ),
                                                  glm::vec3(minX, maxY, minZ),
                                                  glm::vec3(minX, minY, minZ),
                                                  glm::vec3(minX, minY, maxZ)},
@@ -187,7 +186,7 @@ void Player::Update(InputHandler input)
         }
         if (m_velocity.x < 0)
         {
-            sides.push(CollisionSide(Geom::Quad3{glm::vec3(maxX, maxY, maxZ),
+            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(maxX, maxY, maxZ),
                                                  glm::vec3(maxX, maxY, minZ),
                                                  glm::vec3(maxX, minY, minZ),
                                                  glm::vec3(maxX, minY, maxZ)},
@@ -195,7 +194,7 @@ void Player::Update(InputHandler input)
         }
         if (m_velocity.z > 0)
         {
-            sides.push(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, minZ),
+            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, minZ),
                                                  glm::vec3(minX, maxY, minZ),
                                                  glm::vec3(maxX, maxY, minZ),
                                                  glm::vec3(maxX, minY, minZ)},
@@ -203,13 +202,15 @@ void Player::Update(InputHandler input)
         }
         if (m_velocity.z < 0)
         {
-            sides.push(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, maxZ),
+            sides.push_back(CollisionSide(Geom::Quad3{glm::vec3(minX, minY, maxZ),
                                                  glm::vec3(minX, maxY, maxZ),
                                                  glm::vec3(maxX, maxY, maxZ),
                                                  glm::vec3(maxX, minY, maxZ)},
                                      aabb, center, CSIDE_ZN));
         }
     }
+
+    std::sort(sides.begin(), sides.end(), CSideCompare());
 
     bool xCollide = false;
     bool yCollide = false;
@@ -219,8 +220,9 @@ void Player::Update(InputHandler input)
 
     while (!sides.empty())
     {
-        CollisionSide side = sides.top();
-        sides.pop();
+        CollisionSide side = sides.front();
+        sides.erase(sides.begin());
+
         if (side.GetType() == CSIDE_XP && !xCollide)
         {
             if (AABB::IntersectX(

@@ -61,7 +61,7 @@ public:
 
     inline glm::vec3 GetCenter()
     {
-        return (m_min + m_max) / 2.0f;
+        return (GetAbsMin() + GetAbsMax()) / 2.0f;
     }
 
     AABB Expand(glm::vec3 amount);

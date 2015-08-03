@@ -56,12 +56,12 @@ private:
 class CSideCompare
 {
 public:
-    bool operator()(CollisionSide s1, CollisionSide s2)
+    bool operator()(CollisionSide& s1, CollisionSide& s2)
     {
-        glm::vec3 d1 = s1.GetCenter() - s1.GetCenter();
-        glm::vec3 d2 = s1.GetQCenter() - s2.GetQCenter();
-        float dist1 = dot(d1, d1);
-        float dist2 = dot(d2, d2);
+        glm::vec3 d1 = s1.GetCenter() - s1.GetQCenter();
+        glm::vec3 d2 = s1.GetCenter() - s2.GetQCenter();
+        float dist1 = glm::dot(d1, d1);
+        float dist2 = glm::dot(d2, d2);
         // std::cout << dist1 << ", " << dist2 << std::endl;
         return dist1 < dist2;
     }
