@@ -45,7 +45,7 @@ struct Quad3
     glm::vec3 c;
     glm::vec3 d;
 
-    inline glm::vec3 GetCenterPoint()
+    inline glm::vec3 GetCenter()
     {
         return (a + b + c + d) / 4.0f;
     };
