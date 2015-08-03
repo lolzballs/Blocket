@@ -109,6 +109,33 @@ void Player::Update(InputHandler input)
     Move(movement);
 }
 
+void Player::Render(float delta)
+{
+    BufferBoundingBox(delta);
+
+    // glDisable(GL_CULL_FACE);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
+                          (GLvoid*)0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
+                          (GLvoid*)12);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
+                          (GLvoid*)20);
+
+    glDrawArrays(GL_LINES, 0, (GLsizei)24);
+    //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+    //    glDrawElements(GL_TRIANGLES, m_size, GL_UNSIGNED_INT, 0);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+}
+
 void Player::Move(glm::vec3 movement)
 {
     m_velocity += movement * m_speed;
@@ -320,33 +347,6 @@ void Player::Move(glm::vec3 movement)
 
     m_position += m_velocity;
     m_aabb.SetPosition(m_position);
-}
-
-void Player::Render(float delta)
-{
-    BufferBoundingBox(delta);
-
-    // glDisable(GL_CULL_FACE);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
-                          (GLvoid*)0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
-                          (GLvoid*)12);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
-                          (GLvoid*)20);
-
-    glDrawArrays(GL_LINES, 0, (GLsizei)24);
-    //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-    //    glDrawElements(GL_TRIANGLES, m_size, GL_UNSIGNED_INT, 0);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
 }
 
 glm::vec3 Player::GetRenderPosition(float delta)
