@@ -239,5 +239,5 @@ void Entity::Move(glm::vec3 movement)
    
     std::cout << m_onground << std::endl;
     
-    m_velocity.y -= 0.49f;
+    m_velocity.y -= 0.0245f;
 }
