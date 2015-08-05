@@ -18,8 +18,15 @@ Entity::~Entity()
 
 void Entity::Move(glm::vec3 movement)
 {
+    if (movement.y > 0 && m_onground)
+    {
+        m_velocity.y = 1;
+    }
+
     m_velocity += movement * m_speed;
     m_velocity *= 0.8f;
+
+    m_onground = false;
 
     AABB expanded = m_aabb.Expand(m_velocity);
     std::vector<CollisionSide> sides;
@@ -180,6 +187,8 @@ void Entity::Move(glm::vec3 movement)
                 m_position.y =
                     side.GetAABB().GetAbsMax().y - m_aabb.GetMin().y + block;
                 m_velocity.y = 0;
+
+                m_onground = true;
             }
         }
         else if (side.GetType() == CSide::ZP && !zCollide)
@@ -227,4 +236,8 @@ void Entity::Move(glm::vec3 movement)
 
     m_position += m_velocity;
     m_aabb.SetPosition(m_position);
+   
+    std::cout << m_onground << std::endl;
+    
+    m_velocity.y -= 0.49f;
 }

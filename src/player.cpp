@@ -80,7 +80,7 @@ void Player::Update(InputHandler input)
         movement += glm::vec3(cos(glm::radians(m_rotation.y)), 0,
                               sin(glm::radians(m_rotation.y)));
     }
-    if (input.IsKeyDown(SDLK_SPACE))
+    if (input.IsKeyDown(SDLK_SPACE) && m_onground)
     {
         movement += glm::vec3(0, 1, 0);
     }

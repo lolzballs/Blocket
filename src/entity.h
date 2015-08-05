@@ -26,6 +26,11 @@ public:
         return m_rotation;
     }
 
+    inline bool IsOnGround()
+    {
+        return m_onground;
+    }
+
     inline glm::vec3 GetRenderPosition(float delta)
     {
         return Util::Vector::Lerp(m_oldposition, m_position, delta);
@@ -46,6 +51,7 @@ protected:
     glm::vec2 m_rotation;
     glm::vec3 m_velocity;
     float m_speed;
+    bool m_onground;
 };
 
 #endif
