@@ -20,11 +20,19 @@ void Entity::Move(glm::vec3 movement)
 {
     if (movement.y > 0 && m_onground)
     {
-        m_velocity.y = 1;
+        m_velocity.y = 0.5;
     }
 
-    m_velocity += movement * m_speed;
-    m_velocity *= 0.8f;
+    if (m_onground)
+    {
+        m_velocity += movement * m_speed;
+        m_velocity *= 0.7f;
+    }
+    else
+    {
+        m_velocity += movement * m_speed * 0.25f;
+        m_velocity *= 0.95;;
+    }
 
     m_onground = false;
 
@@ -237,7 +245,5 @@ void Entity::Move(glm::vec3 movement)
     m_position += m_velocity;
     m_aabb.SetPosition(m_position);
    
-    std::cout << m_onground << std::endl;
-    
-    m_velocity.y -= 0.0245f;
+    m_velocity.y -= 0.05f;
 }

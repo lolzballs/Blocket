@@ -28,7 +28,7 @@ void Player::BufferBoundingBox(float delta)
 {
     glm::vec3 position = Util::Vector::Lerp(m_oldposition, m_position, delta);
     AABB lerped = AABB(position, glm::vec3(-0.4, 0, -0.4),
-                       glm::vec3(0.4, 1.8, 0.4)).Expand(m_velocity);
+                       glm::vec3(0.4, 1.8, 0.4));
 
     std::array<Vertex, 32> vertices = lerped.GetBoundingBoxVertices();
 
