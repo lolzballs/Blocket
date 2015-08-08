@@ -20,7 +20,7 @@ void Entity::Move(glm::vec3 movement)
 {
     if (movement.y > 0 && m_onground)
     {
-        m_velocity.y = 0.5;
+        m_velocity.y = 0.6;
     }
 
     if (m_onground)
@@ -31,7 +31,7 @@ void Entity::Move(glm::vec3 movement)
     else
     {
         m_velocity += movement * m_speed * 0.25f;
-        m_velocity *= 0.95;;
+        m_velocity *= 0.95;
     }
 
     m_onground = false;
@@ -245,5 +245,5 @@ void Entity::Move(glm::vec3 movement)
     m_position += m_velocity;
     m_aabb.SetPosition(m_position);
    
-    m_velocity.y -= 0.05f;
+    m_velocity.y -= 0.075f;
 }
