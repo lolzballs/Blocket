@@ -9,7 +9,6 @@
 #include <SDL2/SDL_opengl.h>
 
 #define CHUNK_SIZE 16
-#define CHUNK_HEIGHT 16
 
 class Chunk
 {
@@ -29,7 +28,7 @@ public:
 
 private:
     glm::vec2 m_position;
-    std::array<int, CHUNK_SIZE * CHUNK_HEIGHT * CHUNK_SIZE> m_blocks;
+    std::array<int, CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE> m_blocks;
     GLuint m_vbo;
     GLsizei m_size;
     bool m_changed;

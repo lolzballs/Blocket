@@ -244,6 +244,6 @@ void Entity::Move(glm::vec3 movement)
 
     m_position += m_velocity;
     m_aabb.SetPosition(m_position);
-   
+
     m_velocity.y -= 0.075f;
 }

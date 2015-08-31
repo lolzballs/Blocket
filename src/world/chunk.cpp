@@ -6,7 +6,7 @@ Chunk::Chunk(int x, int y) : m_position(x, y), m_size(0)
 {
     for (int i = 0; i < CHUNK_SIZE; i++)
     {
-        for (int j = 0; j < CHUNK_HEIGHT; j++)
+        for (int j = 0; j < CHUNK_SIZE; j++)
         {
             for (int k = 0; k < CHUNK_SIZE; k++)
             {
@@ -73,7 +73,7 @@ void Chunk::Update()
 void Chunk::AddBlock(int blockID, glm::vec3 position)
 {
     if (position.x < 0 || position.x > CHUNK_SIZE - 1 || position.y < 0 ||
-        position.y > CHUNK_HEIGHT - 1 || position.z < 0 ||
+        position.y > CHUNK_SIZE - 1 || position.z < 0 ||
         position.z > CHUNK_SIZE - 1)
     {
         return;
@@ -85,7 +85,7 @@ void Chunk::AddBlock(int blockID, glm::vec3 position)
 int Chunk::GetBlockAtPosition(glm::vec3 position)
 {
     if (position.x < 0 || position.x > CHUNK_SIZE - 1 || position.y < 0 ||
-        position.y > CHUNK_HEIGHT - 1 || position.z < 0 ||
+        position.y > CHUNK_SIZE - 1 || position.z < 0 ||
         position.z > CHUNK_SIZE - 1)
     {
         return 0;
@@ -101,7 +101,7 @@ void Chunk::RebufferChunk()
     std::vector<Vertex> vertices;
     for (unsigned int i = 0; i < CHUNK_SIZE; i++)
     {
-        for (unsigned int j = 0; j < CHUNK_HEIGHT; j++)
+        for (unsigned int j = 0; j < CHUNK_SIZE; j++)
         {
             for (unsigned int k = 0; k < CHUNK_SIZE; k++)
             {
@@ -169,7 +169,7 @@ bool* Chunk::GetFacesRequired(glm::vec3 position)
 
 int Chunk::GetArrayPosition(int x, int y, int z)
 {
-    return x + CHUNK_SIZE * (y + CHUNK_HEIGHT * z);
+    return x + CHUNK_SIZE * (y + CHUNK_SIZE * z);
 }
 
 int Chunk::GetArrayPosition(glm::vec3 position)
