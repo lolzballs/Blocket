@@ -14,7 +14,7 @@ public:
 	void Update(InputHandler& input);
     void Render(float delta);
 
-    inline const World GetWorld()
+    inline World GetWorld() const
     {
         return m_world;
     }

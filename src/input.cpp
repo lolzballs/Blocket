@@ -4,7 +4,6 @@
 
 void InputHandler::HandleMousePosition(double x, double y)
 {
-	m_oldMousePosition = m_mousePosition;
 	m_mousePosition = { x, y };
 }
 

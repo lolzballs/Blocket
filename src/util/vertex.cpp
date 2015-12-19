@@ -1,6 +1,6 @@
 #include "vertex.h"
 
-float *Vertex::GetFloatArray(Vertex *vertices, GLsizei size)
+float* Vertex::GetFloatArray(Vertex* vertices, GLsizei size)
 {
     float* array = new float[size * VERTEX_SIZE];
     for (unsigned int i = 0; i < size; i++)
@@ -20,7 +20,7 @@ float *Vertex::GetFloatArray(Vertex *vertices, GLsizei size)
 
 Vertex::Vertex(glm::vec3 position)
     : m_position(position),
-      m_color(glm::vec4(0, 0, 0, 1)),
+      m_color(glm::vec4()),
       m_texCoord(glm::vec3())
 {
 }
@@ -31,7 +31,7 @@ Vertex::Vertex(glm::vec3 position, glm::vec4 color)
 }
 
 Vertex::Vertex(glm::vec3 position, glm::vec2 texCoord)
-    : m_position(position), m_color(glm::vec4(0, 0, 0, 1)), m_texCoord(texCoord)
+    : m_position(position), m_color(glm::vec4()), m_texCoord(texCoord)
 {
 }
 

@@ -3,7 +3,10 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <glm/ext.hpp>
+
 #include <map>
+#include <iostream>
 
 class InputHandler
 {
@@ -41,9 +44,11 @@ public:
     bool IsKeyDown(int key);
     bool IsMouseButtonDown(int button);
 
-	inline glm::vec2 GetMouseDelta() const
+	inline glm::vec2 GetMouseDelta()
 	{
-		return m_mousePosition - m_oldMousePosition;
+		glm::vec2 delta = m_mousePosition - m_oldMousePosition;
+		m_oldMousePosition = m_mousePosition;
+		return delta;
 	};
 
     inline glm::vec2 GetMousePosition() const

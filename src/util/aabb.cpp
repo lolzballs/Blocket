@@ -1,4 +1,5 @@
 #include "aabb.h"
+#include "cside.h"
 
 AABB::AABB(glm::vec3 position, glm::vec3 min, glm::vec3 max)
     : m_position(position), m_min(min), m_max(max)
@@ -80,14 +81,14 @@ bool AABB::Intersects(Geom::Quad2 quad, Geom::Line2 line)
     return false;
 }
 
-std::array<Vertex, 32> AABB::GetBoundingBoxVertices()
+std::array<Vertex, 32> AABB::GetBoundingBoxVertices(glm::vec4 color)
 {
     glm::vec3 min = GetAbsMin();
     glm::vec3 size = GetSize();
-    glm::vec4 color = glm::vec4(1, 1, 1, 1);
     std::array<Vertex, 32> vertices{
         {// back
-         Vertex(min, color), Vertex(min + glm::vec3(0, size.y, 0), color),
+         Vertex(min, color),
+		 Vertex(min + glm::vec3(0, size.y, 0), color),
          Vertex(min + glm::vec3(size.x, size.y, 0), color),
          Vertex(min + glm::vec3(size.x, 0, 0), color),
          // front

@@ -1,4 +1,5 @@
 #include "geom.h"
+#include "aabb.h"
 
 namespace Geom
 {
@@ -51,5 +52,10 @@ Line2 Line3::FlattenY()
 Line2 Line3::FlattenZ()
 {
     return {Point3FlattenZ(start), Point3FlattenZ(end)};
+}
+
+AABB Line3::ToAABB()
+{
+	return AABB({ std::min(start.x, end.x), std::min(start.y, end.y), std::min(start.z, end.z) }, { 0, 0, 0 }, { std::abs(start.x - end.x), std::abs(start.y - end.y), std::abs(start.z - end.z) });
 }
 }

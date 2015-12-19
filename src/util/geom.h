@@ -3,6 +3,8 @@
 
 #include <glm/glm.hpp>
 
+class AABB;
+
 namespace Geom
 {
 glm::vec2 Point3FlattenX(glm::vec3 point);
@@ -28,6 +30,7 @@ struct Line3
     Line2 FlattenX();
     Line2 FlattenY();
     Line2 FlattenZ();
+	AABB ToAABB();
 };
 
 struct Quad2

@@ -40,7 +40,8 @@ void Chunk::Render(BasicShader& shader)
 {
 	shader.Enable();
 
-    glDisable(GL_CULL_FACE);
+	glBindTexture(GL_TEXTURE_2D, 1);
+
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
     glEnableVertexAttribArray(0);
@@ -56,6 +57,8 @@ void Chunk::Render(BasicShader& shader)
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Chunk::Update()

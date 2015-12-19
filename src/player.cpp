@@ -4,11 +4,11 @@
 #include <glm/ext.hpp>
 #include <glad/glad.h>
 
-Player::Player(World& world, glm::vec3 position, glm::vec2 rotation,
-               float speed)
+Player::Player(World& world, glm::vec3 position, glm::vec2 rotation, float speed)
     : Entity(world,
              AABB(position, glm::vec3(-0.4, 0, -0.4), glm::vec3(0.4, 1.8, 0.4)),
-             rotation, speed)
+             rotation, speed),
+	  m_blockSelected(glm::vec3(), glm::vec3(), glm::vec3())
 {
     InitGL();
 }
@@ -25,20 +25,22 @@ void Player::InitGL()
 
 void Player::BufferBoundingBox(float delta)
 {
-    glm::vec3 position = Util::Vector::Lerp(m_oldposition, m_position, delta);
-    AABB lerped = AABB(position, glm::vec3(-0.4, 0, -0.4),
-                       glm::vec3(0.4, 1.8, 0.4));
+//  glm::vec3 position = Util::Vector::Lerp(m_oldposition, m_position, delta);
+//  AABB lerped = AABB(position, glm::vec3(-0.4, 0, -0.4), glm::vec3(0.4, 1.8, 0.4));
 
-    std::array<Vertex, 32> vertices = lerped.GetBoundingBoxVertices();
+//  std::array<Vertex, 32> playerVertices = lerped.GetBoundingBoxVertices();
+//	float* playerData = Vertex::GetFloatArray(playerVertices.data(), playerVertices.size());
 
-    float* floatVertices =
-        Vertex::GetFloatArray(vertices.data(), vertices.size());
-
+	glm::vec3 expand(0.0005);
+	std::array<Vertex, 32> selectVertices = m_blockSelected.Expand(expand).Expand(-expand).GetBoundingBoxVertices(glm::vec4(0, 0, 0, 1));
+	float* selectData = Vertex::GetFloatArray(selectVertices.data(), selectVertices.size());
+	
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * VERTEX_SIZE * sizeof(float),
-                 floatVertices, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, selectVertices.size() * VERTEX_SIZE * sizeof(float), selectData, GL_DYNAMIC_DRAW);
 
-    delete[] floatVertices;
+//	delete[] playerData;
+	delete[] selectData;
+//	delete[] combinedData;
 }
 
 void Player::Update(InputHandler& input)
@@ -57,6 +59,8 @@ void Player::Update(InputHandler& input)
     {
         m_rotation.x = -90;
     }
+
+	m_blockSelected = m_world.Raytrace(m_position + glm::vec3(0, 1.5, 0), m_rotation, 5);
 
     glm::vec3 movement;
     if (input.IsKeyDown(GLFW_KEY_W))
@@ -104,25 +108,19 @@ void Player::Update(InputHandler& input)
 
 void Player::Render(float delta)
 {
-    BufferBoundingBox(delta);
+	BufferBoundingBox(delta);
 
-    // glDisable(GL_CULL_FACE);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
-                          (GLvoid*)0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
-                          (GLvoid*)12);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
-                          (GLvoid*)20);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*)0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*)(5 * sizeof(float)));
 
     glDrawArrays(GL_LINES, 0, (GLsizei)24);
-    //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-    //    glDrawElements(GL_TRIANGLES, m_size, GL_UNSIGNED_INT, 0);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
