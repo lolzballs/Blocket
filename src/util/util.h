@@ -1,9 +1,10 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include <string>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
+
+#include <string>
 
 namespace Util
 {

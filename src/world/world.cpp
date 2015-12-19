@@ -8,9 +8,9 @@ World::~World()
 {
 }
 
-void World::Update(InputHandler input)
+void World::Update(InputHandler& input)
 {
-    if (input.IsKeyDown(SDLK_p))
+    if (input.IsKeyDown(GLFW_KEY_P))
     {
         for (int i = 0; i < 16; i++)
         {
@@ -21,9 +21,9 @@ void World::Update(InputHandler input)
     m_chunk.Update();
 }
 
-void World::Render()
+void World::Render(BasicShader& shader)
 {
-    m_chunk.Render();
+    m_chunk.Render(shader);
 }
 
 std::vector<AABB> World::GetBlockAABBs(glm::vec3 location)

@@ -1,49 +1,51 @@
+cmake_minimum_required(VERSION 3.0)
 project(Blocket)
-cmake_minimum_required(VERSION 2.8)
-aux_source_directory(. SRC_LIST)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${Blocket_SOURCE_DIR}/cmake")
 
-add_definitions(-DGLM_FORCE_RADIANS -DGLM_FORCE_PURE)
+option(GLFW_BUILD_DOCS OFF)
+option(GLFW_BUILD_EXAMPLES OFF)
+option(GLFW_BUILD_TESTS OFF)
+add_subdirectory(vendor/glfw)
 
-# Lets LOAD app our headers!
-file(GLOB_RECURSE HDRS ${Blocket_SOURCE_DIR}/src/*.h)
+if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+	set(CMAKE_CXX_STANDARD 11)
+	add_definitions(-DNOMINMAX)
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -std=c++11")
+    if(NOT WIN32)
+        set(GLAD_LIBRARIES dl)
+    endif()
+endif()
 
-# Lets LOAD app our sources!
-file(GLOB_RECURSE SRCS
-        ${Blocket_SOURCE_DIR}/src/*.cpp
-        ${Blocket_SOURCE_DIR}/src/*.c
-)
+include_directories(src
+                    vendor/glad/include/
+                    vendor/glfw/include/
+                    vendor/glm/
+                    vendor/stb/)
 
-# C++ 11
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+file(GLOB VENDORS_SOURCES vendor/glad/src/glad.c)
+file(GLOB PROJECT_SOURCES src/*.cpp src/*.h)
+file(GLOB PROJECT_BLOCK_SOURCES src/block/*.cpp src/block/*.h)
+file(GLOB PROJECT_WORLD_SOURCES src/world/*.cpp src/world/*.h)
+file(GLOB PROJECT_UTIL_SOURCES src/util/*.cpp src/util/*.h)
+file(GLOB PROJECT_SHADERS res/shaders/*.*)
+file(GLOB PROJECT_CONFIGS CMakeLists.txt
+                          README.md
+                         .gitattributes
+                         .gitignore
+                         .gitmodules)
 
-add_executable(Blocket ${HDRS} ${SRCS})
+source_group("src" FILES ${PROJECT_SOURCES})
+source_group("src\\block" FILES ${PROJECT_BLOCK_SOURCES})
+source_group("src\\world" FILES ${PROJECT_WORLD_SOURCES})
+source_group("src\\util" FILES ${PROJECT_UTIL_SOURCES})
+source_group("shaders" FILES ${PROJECT_SHADERS})
+source_group("vendor" FILES ${VENDORS_SOURCES})
 
-if (NOT DEFINED EMSCRIPTEN)
-    # OpenGL
-    find_package(OpenGL REQUIRED)
-
-    # GLEW
-    find_package(GLEW REQUIRED)
-
-    # SDL2
-    find_package(SDL2 REQUIRED)
-	
-	# GLM
-	find_package(GLM REQUIRED)
-
-    # Define the include DIRs
-    include_directories(
-        ${OPENGL_INCLUDE_DIRS}
-        ${GLEW_INCLUDE_DIRS}
-        ${SDL2_INCLUDE_DIRS}
-        ${GLM_INCLUDE_DIRS}
-    )
-
-    # Define the link libraries
-    target_link_libraries(Blocket
-        ${OPENGL_LIBRARIES}
-        ${GLEW_LIBRARIES}
-        ${SDL2_LIBRARIES}
-    )
-endif(NOT DEFINED EMSCRIPTEN)
+add_definitions(-DGLFW_INCLUDE_NONE
+                -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_BLOCK_SOURCES} ${PROJECT_WORLD_SOURCES} ${PROJECT_UTIL_SOURCES}
+			${PROJECT_SHADERS} ${PROJECT_CONFIGS} ${VENDORS_SOURCES})
+target_link_libraries(${PROJECT_NAME} glfw ${GLFW_LIBRARIES} ${GLAD_LIBRARIES})
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})

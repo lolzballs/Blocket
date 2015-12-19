@@ -11,7 +11,7 @@ public:
     Entity(World& world, AABB aabb, glm::vec2 rotation, float speed);
     ~Entity();
 
-    virtual void Update(InputHandler input) = 0;
+    virtual void Update(InputHandler& input) = 0;
     virtual void Render(float delta) = 0;
 
     void Move(glm::vec3 movement);

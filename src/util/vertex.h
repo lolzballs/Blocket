@@ -3,23 +3,19 @@
 
 #define VERTEX_SIZE 9
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 class Vertex
 {
 public:
     Vertex(glm::vec3 position);
-
     Vertex(glm::vec3 position, glm::vec4 color);
-
     Vertex(glm::vec3 position, glm::vec2 texCoord);
-
     Vertex(glm::vec3 position, glm::vec2 texCoord, glm::vec4 color);
-
     ~Vertex();
 
-    static float *GetFloatArray(Vertex *vertices, GLsizei size);
+    static float* GetFloatArray(Vertex *vertices, GLsizei size);
 
     inline glm::vec3 GetPosition()
     {

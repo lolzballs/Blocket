@@ -1,21 +1,19 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
-#include <SDL2/SDL.h>
-#include <iostream>
-#include <fstream>
+
 #include <string>
 
 class Shader
 {
 public:
     Shader(std::string location);
-
     virtual ~Shader();
 
     virtual void UpdateUniforms(glm::mat4 projectionMatrix) = 0;
+	bool LinkShader();
 
     inline void Enable()
     {
@@ -41,7 +39,6 @@ protected:
 
 private:
     std::string LoadShaderFromFile(std::string file);
-
     bool CompileShader(GLhandleARB shader, std::string source);
 };
 

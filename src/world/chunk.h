@@ -2,11 +2,9 @@
 #define CHUNK_H
 
 #include "../block/block.h"
+#include "basicshader.h"
 
 #include <array>
-
-#include <GL/glew.h>
-#include <SDL2/SDL_opengl.h>
 
 #define CHUNK_SIZE 16
 
@@ -16,7 +14,7 @@ public:
     Chunk(int x, int y);
     ~Chunk();
 
-    void Render();
+    void Render(BasicShader& shader);
     void Update();
     void AddBlock(int blockID, glm::vec3 position);
     int GetBlockAtPosition(glm::vec3 position);

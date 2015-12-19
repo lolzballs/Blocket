@@ -1,9 +1,12 @@
-#include "game.h"
+#undef max
+#undef min
 
-#undef main
+#include "game.h"
 
 int main()
 {
+	glfwInit();
     Game().Start();
+	glfwTerminate();
     return 0;
 }

@@ -2,8 +2,7 @@
 #include "util/util.h"
 
 #include <glm/ext.hpp>
-
-#include <iostream>
+#include <glad/glad.h>
 
 Player::Player(World& world, glm::vec3 position, glm::vec2 rotation,
                float speed)
@@ -42,12 +41,12 @@ void Player::BufferBoundingBox(float delta)
     delete[] floatVertices;
 }
 
-void Player::Update(InputHandler input)
+void Player::Update(InputHandler& input)
 {
     m_oldposition = m_position;
     m_oldrotation = m_rotation;
 
-    glm::vec2 mouseDelta = input.GetMousePosition();
+    glm::vec2 mouseDelta = input.GetMouseDelta();
     m_rotation += glm::vec2(mouseDelta.y, mouseDelta.x) * 0.25;
 
     if (m_rotation.x > 90)
@@ -60,31 +59,31 @@ void Player::Update(InputHandler input)
     }
 
     glm::vec3 movement;
-    if (input.IsKeyDown(SDLK_w))
+    if (input.IsKeyDown(GLFW_KEY_W))
     {
         movement += glm::vec3(cos(glm::radians(m_rotation.y - 90)), 0,
                               sin(glm::radians(m_rotation.y - 90)));
     }
-    if (input.IsKeyDown(SDLK_s))
+    if (input.IsKeyDown(GLFW_KEY_S))
     {
         movement += glm::vec3(cos(glm::radians(m_rotation.y + 90)), 0,
                               sin(glm::radians(m_rotation.y + 90)));
     }
-    if (input.IsKeyDown(SDLK_a))
+    if (input.IsKeyDown(GLFW_KEY_A))
     {
         movement += glm::vec3(cos(glm::radians(m_rotation.y + 180)), 0,
                               sin(glm::radians(m_rotation.y + 180)));
     }
-    if (input.IsKeyDown(SDLK_d))
+    if (input.IsKeyDown(GLFW_KEY_D))
     {
         movement += glm::vec3(cos(glm::radians(m_rotation.y)), 0,
                               sin(glm::radians(m_rotation.y)));
     }
-    if (input.IsKeyDown(SDLK_SPACE) && m_onground)
+    if (input.IsKeyDown(GLFW_KEY_SPACE) && m_onground)
     {
         movement += glm::vec3(0, 1, 0);
     }
-    if (input.IsKeyDown(SDLK_LSHIFT))
+    if (input.IsKeyDown(GLFW_KEY_LEFT_SHIFT))
     {
         movement += glm::vec3(0, -1, 0);
     }

@@ -3,7 +3,7 @@
 
 #include "../input.h"
 #include "chunk.h"
-#include <iostream>
+#include "basicshader.h"
 
 class World
 {
@@ -11,8 +11,8 @@ public:
     World();  // TODO: World flags
     ~World();
 
-    void Update(InputHandler input);
-    void Render();
+    void Update(InputHandler& input);
+    void Render(BasicShader& shader);
     std::vector<AABB> GetBlockAABBs(glm::vec3 location);
     std::vector<AABB> GetIntersectingAABBs(AABB aabb);
 

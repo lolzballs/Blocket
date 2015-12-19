@@ -1,5 +1,9 @@
 #include "shader.h"
 
+#include <iostream>
+#include <fstream>
+#include <memory>
+
 Shader::Shader(std::string location)
     : m_vertSource(LoadShaderFromFile(location + ".vs")),
       m_fragSource(LoadShaderFromFile(location + ".fs")),
@@ -18,32 +22,6 @@ Shader::Shader(std::string location)
     {
         return;
     }
-
-    glAttachShader(m_program, m_vertShader);
-    glAttachShader(m_program, m_fragShader);
-
-    GLint status;
-    glLinkProgram(m_program);
-    glGetProgramiv(m_program, GL_LINK_STATUS, &status);
-    std::cout << "Finished loading shader: " << location
-              << " with status: " << status << std::endl;
-
-    if (status == 0)
-    {
-        GLint length;
-        char *info;
-        glGetObjectParameterivARB(m_program, GL_OBJECT_INFO_LOG_LENGTH_ARB,
-                                  &length);
-        info = SDL_stack_alloc(char, length++);
-        glGetInfoLogARB(m_program, length, NULL, info);
-
-        std::cout << info << std::endl;
-    }
-
-    glValidateProgram(m_program);
-    glGetProgramiv(m_program, GL_VALIDATE_STATUS, &status);
-    std::cout << "Shader " << location << "compiled with validation: " << status
-              << std::endl;
 }
 
 Shader::~Shader()
@@ -80,22 +58,50 @@ bool Shader::CompileShader(GLhandleARB shader, std::string source)
 
     glShaderSource(shader, 1, &sourceChars, 0);
     glCompileShader(shader);
-    glGetObjectParameterivARB(shader, GL_OBJECT_COMPILE_STATUS_ARB, &status);
+    glGetObjectParameterivARB(shader, GL_COMPILE_STATUS, &status);
 
     if (status == 0)
     {
         GLint length;
-        char *info;
 
-        glGetObjectParameterivARB(shader, GL_OBJECT_INFO_LOG_LENGTH_ARB,
-                                  &length);
-        info = SDL_stack_alloc(char, length++);
-        glGetInfoLogARB(shader, length, NULL, info);
-        std::cerr << "Failed to compile shader: " << info << std::endl;
-        SDL_stack_free(info);
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+		std::unique_ptr<char[]> info(new char[length]);
+		glGetShaderInfoLog(shader, length, nullptr, info.get());
+        std::cerr << "Failed to compile shader: " << info.get() << std::endl;
 
         return false;
     }
 
     return true;
+}
+
+bool Shader::LinkShader()
+{
+	glAttachShader(m_program, m_vertShader);
+	glAttachShader(m_program, m_fragShader);
+	glDeleteShader(m_vertShader);
+	glDeleteShader(m_fragShader);
+
+	GLint status;
+	glLinkProgram(m_program);
+	glGetProgramiv(m_program, GL_LINK_STATUS, &status);
+	std::cout << "Finished loading shader with status: " << status << std::endl;
+
+	if (!status)
+	{
+		GLint length;
+
+		glGetObjectParameterivARB(m_program, GL_INFO_LOG_LENGTH, &length);
+		std::unique_ptr<char[]> info(new char[length]);
+		glGetInfoLogARB(m_program, length, nullptr, info.get());
+
+		std::cout << info.get() << std::endl;
+	}
+
+	glValidateProgram(m_program);
+	glGetProgramiv(m_program, GL_VALIDATE_STATUS, &status);
+	std::cout << "Shader compiled with validation: " << status
+		<< std::endl;
+
+	return status;
 }

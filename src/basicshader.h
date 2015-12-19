@@ -3,15 +3,14 @@
 
 #include "shader.h"
 
-class BasicShader : Shader
+class BasicShader : public Shader
 {
 public:
     BasicShader();
 
     void UpdateUniforms(glm::mat4);
 
-private:
-    int m_uniformTransformation;
+	GLint m_uniformTransformation;
 };
 
 #endif

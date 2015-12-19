@@ -1,22 +1,30 @@
 #include "input.h"
 
-void InputHandler::HandleMouseButton(SDL_MouseButtonEvent event)
+#include <iostream>
+
+void InputHandler::HandleMousePosition(double x, double y)
 {
-    m_buttons[event.button] = event.type == SDL_MOUSEBUTTONDOWN;
+	m_oldMousePosition = m_mousePosition;
+	m_mousePosition = { x, y };
 }
 
-void InputHandler::HandleMouseWheel(SDL_MouseWheelEvent event)
+void InputHandler::HandleMouseButton(int key, int action, int mods)
 {
-    m_mouseScroll += glm::vec2(event.x, event.y);
-    if (m_mouseScroll.x > 0 || m_mouseScroll.y > 0)
-    {
-        m_mouseScroll = glm::vec2(0, 0);
-    }
+	m_buttons[key] = action == GLFW_PRESS;
 }
 
-void InputHandler::HandleKey(SDL_KeyboardEvent event)
+void InputHandler::HandleMouseWheel(double xOffset, double yOffset)
 {
-    m_keys[event.keysym.sym] = event.type == SDL_KEYDOWN;
+	m_mouseScroll += glm::vec2(xOffset, yOffset);
+	if (m_mouseScroll.x > 0 || m_mouseScroll.y > 0)
+	{
+		m_mouseScroll = { 0, 0 };
+	}
+}
+
+void InputHandler::HandleKey(int key, int scancode, int action, int mods)
+{
+    m_keys[key] = action;
 }
 
 bool InputHandler::IsKeyDown(int key)
@@ -27,11 +35,4 @@ bool InputHandler::IsKeyDown(int key)
 bool InputHandler::IsMouseButtonDown(int button)
 {
     return m_buttons[button];
-}
-
-glm::vec2 InputHandler::GetMousePosition()
-{
-    int x, y;
-    SDL_GetRelativeMouseState(&x, &y);
-    return glm::vec2(x, y);
 }

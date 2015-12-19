@@ -36,25 +36,22 @@ void Chunk::InitGL()
     glGenBuffers(1, &m_vbo);
 }
 
-void Chunk::Render()
+void Chunk::Render(BasicShader& shader)
 {
-    // glDisable(GL_CULL_FACE);
+	shader.Enable();
+
+    glDisable(GL_CULL_FACE);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
-                          (GLvoid*)0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
-                          (GLvoid*)12);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float),
-                          (GLvoid*)20);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*)0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*)(5 * sizeof(float)));
 
     glDrawArrays(GL_QUADS, 0, (GLsizei)m_size);
-    //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-    //    glDrawElements(GL_TRIANGLES, m_size, GL_UNSIGNED_INT, 0);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);

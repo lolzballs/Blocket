@@ -1,12 +1,15 @@
 #include "basicshader.h"
 
 BasicShader::BasicShader()
-    : Shader("res/shaders/viewVertex"),
-      m_uniformTransformation(GetUniform("transform"))
+    : Shader("res/shaders/viewVertex")
 {
-    BindAttrib(0, "position");
-    BindAttrib(1, "texCoord");
-    BindAttrib(2, "color");
+	BindAttrib(0, "position");
+	BindAttrib(1, "texCoord");
+	BindAttrib(2, "color");
+
+	LinkShader();
+
+	m_uniformTransformation = GetUniform("transform");
 }
 
 void BasicShader::UpdateUniforms(glm::mat4 projectionMatrix)

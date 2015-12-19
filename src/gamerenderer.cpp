@@ -13,7 +13,7 @@ GameRenderer::~GameRenderer()
 {
 }
 
-void GameRenderer::Update(InputHandler input)
+void GameRenderer::Update(InputHandler& input)
 {
     m_player.Update(input);
     m_world.Update(input);
@@ -26,6 +26,6 @@ void GameRenderer::Render(float delta)
                                       -(m_player.GetPlayerRenderPosition(delta)));
     m_shader.UpdateUniforms(m_perspective * m_transformation);
 
-    m_world.Render();
+    m_world.Render(m_shader);
     m_player.Render(delta);
 }

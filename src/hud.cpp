@@ -1,5 +1,7 @@
 #include "hud.h"
 
+#include <glad/glad.h>
+
 HUD::HUD()
 {
 }
@@ -8,7 +10,7 @@ HUD::~HUD()
 {
 }
 
-void HUD::Update(InputHandler input)
+void HUD::Update(InputHandler& input)
 {
 }
 

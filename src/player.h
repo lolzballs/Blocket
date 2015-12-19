@@ -9,7 +9,7 @@ public:
     Player(World& world, glm::vec3 position, glm::vec2 rotation, float speed);
     ~Player();
 
-    void Update(InputHandler input) override;
+    void Update(InputHandler& input) override;
     void Render(float delta) override;
 
     glm::vec3 GetPlayerRenderPosition(float delta);

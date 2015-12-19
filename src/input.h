@@ -1,29 +1,70 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include <SDL2/SDL.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <map>
 
 class InputHandler
 {
 public:
-    void HandleMouseButton(SDL_MouseButtonEvent event);
-    void HandleMouseWheel(SDL_MouseWheelEvent event);
-    void HandleKey(SDL_KeyboardEvent event);
+	static InputHandler& GetInstance()
+	{
+		static InputHandler instance;
+		return instance;
+	};
+
+	static void MousePositionCallback(GLFWwindow* window, double x, double y)
+	{
+		GetInstance().HandleMousePosition(x, y);
+	};
+
+	static void MouseButtonCallback(GLFWwindow* window, int key, int action, int mods)
+	{
+		GetInstance().HandleMouseButton(key, action, mods);
+	};
+
+	static void MouseWheelCallback(GLFWwindow* window, double xOffset, double yOffset)
+	{
+		GetInstance().HandleMouseWheel(xOffset, yOffset);
+	};
+
+	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
+		GetInstance().HandleKey(key, scancode, action, mods);
+	};
+
+	void HandleMousePosition(double x, double y);
+	void HandleMouseButton(int key, int action, int mods);
+    void HandleMouseWheel(double xOffset, double yOffset);
+    void HandleKey(int key, int scancode, int action, int mods);
     bool IsKeyDown(int key);
     bool IsMouseButtonDown(int button);
 
-    glm::vec2 GetMousePosition();
+	inline glm::vec2 GetMouseDelta() const
+	{
+		return m_mousePosition - m_oldMousePosition;
+	};
 
-    inline glm::vec2 GetMouseScroll()
+    inline glm::vec2 GetMousePosition() const
+    {
+		return m_mousePosition;
+    };
+
+    inline glm::vec2 GetMouseScroll() const
     {
         return -m_mouseScroll;
-    }
+	};
 
 private:
+	InputHandler() {};
+	InputHandler(InputHandler const&);
+	void operator=(InputHandler const&);
+
     std::map<int, bool> m_keys;
-    std::map<int, bool> m_buttons;
+    std::map<int, int> m_buttons;
+	glm::vec2 m_oldMousePosition;
+	glm::vec2 m_mousePosition;
     glm::vec2 m_mouseScroll;
 };
 

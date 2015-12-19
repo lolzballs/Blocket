@@ -1,14 +1,25 @@
 #include "game.h"
 
+#include <glad/glad.h>
+
+#include <iostream>
+
 Game::Game()
     : m_updateTime(1000.0f / 20.0f),
       m_width(800),
       m_height(640),
       m_title("Blocket"),
       m_window(m_width, m_height, m_title),
-      m_gameRenderer(70.0f, (float)m_width / (float)m_height, 0.01f, 1000.0f),
+      m_gameRenderer(70.0f, float(m_width) / float(m_height), 0.01f, 1000.0f),
       m_running(false)
 {
+	GLFWwindow* window = m_window.GetGLFWWindow();
+
+	glfwSetCursorPosCallback(window, &InputHandler::MousePositionCallback);
+	glfwSetMouseButtonCallback(window, &InputHandler::MouseButtonCallback);
+	glfwSetScrollCallback(window, &InputHandler::MouseWheelCallback);
+	glfwSetKeyCallback(window, &InputHandler::KeyCallback);
+
     std::cout << "Game initalized." << std::endl;
 }
 
@@ -34,19 +45,19 @@ void Game::Stop()
 
 void Game::Run()
 {
-    Uint32 lastTime = SDL_GetTicks();
+    double lastTime = glfwGetTime();
 
     int frames = 0;
     int updates = 0;
 
-    Uint32 lastTimer = SDL_GetTicks();
+    double lastTimer = glfwGetTime();
     float delta = 0;
     float lastTick = 0;
     float renderDelta = 0;
 
     while (m_running)
     {
-        Uint32 now = SDL_GetTicks();
+        int now = glfwGetTime() * 1000;
         delta += (now - lastTime) / m_updateTime;
         lastTime = now;
 
@@ -54,19 +65,19 @@ void Game::Run()
         while (delta >= 1.0f)
         {
             updates++;
-            lastTick = SDL_GetTicks();
-            Update(m_window.GetInput());
+            lastTick = glfwGetTime() * 1000;
+            Update();
             delta -= 1.0f;
         }
 
-        renderDelta = (SDL_GetTicks() - lastTick) / m_updateTime;
+        renderDelta = (glfwGetTime() * 1000 - lastTick) / m_updateTime;
 
         // Render cycle
         frames++;
         Render(renderDelta);
         m_window.Update();
 
-        if (SDL_GetTicks() - lastTimer >= 1000)
+        if (glfwGetTime() * 1000 - lastTimer >= 1000)
         {
             lastTimer += 1000;
             std::cout << updates << " TPS, " << frames << " FPS" << std::endl;
@@ -90,12 +101,18 @@ void Game::InitGL()
 }
 
 // Game logic (movement, etc.)
-void Game::Update(InputHandler input)
+void Game::Update()
 {
-    if (input.IsKeyDown(SDLK_ESCAPE) || m_window.IsCloseRequested())
+	auto& input = InputHandler::GetInstance();
+    if (m_window.IsCloseRequested())
     {
         Stop();
     }
+
+	if (input.IsKeyDown(GLFW_KEY_ESCAPE))
+	{
+		glfwSetInputMode(m_window.GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
 
     m_gameRenderer.Update(input);
     m_hud.Update(input);
