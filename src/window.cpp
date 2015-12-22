@@ -42,6 +42,7 @@ void Window::InitGL()
 	gladLoadGL();
 	std::cerr << "OpenGL: " << glGetString(GL_VERSION) << std::endl;
     glViewport(0, 0, m_width, m_height);
+	glEnable(GL_MULTISAMPLE);
 }
 
 void Window::SwapBuffers()

@@ -3,6 +3,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+#include <iostream>
+
 namespace Util
 {
 namespace Texture
@@ -16,7 +18,8 @@ int LoadTexture(std::string filepath)
 
 	if (image == nullptr)
 	{
-		throw(std::string("Failed to load texture: " + filepath));
+		std::cout << "Failed to load texture: " << filepath << std::endl;
+		return 0;
 	}
 
 	GLuint tex;

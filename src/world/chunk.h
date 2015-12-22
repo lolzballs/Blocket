@@ -1,7 +1,6 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
-#include "../block/block.h"
 #include "basicshader.h"
 
 #include <array>

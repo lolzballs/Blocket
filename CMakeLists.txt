@@ -25,7 +25,6 @@ include_directories(src
 
 file(GLOB VENDORS_SOURCES vendor/glad/src/glad.c)
 file(GLOB PROJECT_SOURCES src/*.cpp src/*.h)
-file(GLOB PROJECT_BLOCK_SOURCES src/block/*.cpp src/block/*.h)
 file(GLOB PROJECT_WORLD_SOURCES src/world/*.cpp src/world/*.h)
 file(GLOB PROJECT_UTIL_SOURCES src/util/*.cpp src/util/*.h)
 file(GLOB PROJECT_SHADERS res/shaders/*.*)
@@ -36,7 +35,6 @@ file(GLOB PROJECT_CONFIGS CMakeLists.txt
                          .gitmodules)
 
 source_group("src" FILES ${PROJECT_SOURCES})
-source_group("src\\block" FILES ${PROJECT_BLOCK_SOURCES})
 source_group("src\\world" FILES ${PROJECT_WORLD_SOURCES})
 source_group("src\\util" FILES ${PROJECT_UTIL_SOURCES})
 source_group("shaders" FILES ${PROJECT_SHADERS})
@@ -44,7 +42,7 @@ source_group("vendor" FILES ${VENDORS_SOURCES})
 
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_BLOCK_SOURCES} ${PROJECT_WORLD_SOURCES} ${PROJECT_UTIL_SOURCES}
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_WORLD_SOURCES} ${PROJECT_UTIL_SOURCES}
 			${PROJECT_SHADERS} ${PROJECT_CONFIGS} ${VENDORS_SOURCES})
 target_link_libraries(${PROJECT_NAME} glfw ${GLFW_LIBRARIES} ${GLAD_LIBRARIES})
 set_target_properties(${PROJECT_NAME} PROPERTIES

@@ -58,7 +58,7 @@ bool Shader::CompileShader(GLhandleARB shader, std::string source)
 
     glShaderSource(shader, 1, &sourceChars, 0);
     glCompileShader(shader);
-    glGetObjectParameterivARB(shader, GL_COMPILE_STATUS, &status);
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
     if (status == 0)
     {

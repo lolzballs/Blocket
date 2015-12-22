@@ -19,6 +19,7 @@ public:
 
 private:
     Chunk m_chunk;  // TODO: Find way of handling chunks
+	GLuint m_vbo;
 };
 
 #endif

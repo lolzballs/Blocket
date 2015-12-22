@@ -2,6 +2,7 @@
 
 World::World() : m_chunk(0, 0)
 {
+	glGenBuffers(1, &m_vbo);
 }
 
 World::~World()
@@ -60,19 +61,21 @@ AABB World::Raytrace(glm::vec3 position, glm::vec2 rotation, float reach)
 	center.y = -cos(glm::radians(rotation.x - 90)) * reach + position.y;
 	center.z = -sin(glm::radians(rotation.y + 90)) * reach * cos(glm::radians(rotation.x)) + position.z;
 
-	Geom::Line3 ray{ center, { position.x, position.y, position.z } };
-	AABB checkArea = ray.ToAABB();
+	Geom::Line3 ray{ position, center };
+
 	std::vector<CollisionSide> sides;
+
+	auto checkArea = ray.ToAABB();
 	auto aabbs = GetIntersectingAABBs(checkArea);
-	for (AABB aabb : aabbs)
+	for (auto aabb : aabbs)
 	{
 		if (!checkArea.Intersects(aabb))
 		{
 			continue;
 		}
 
-		glm::vec3 min = aabb.GetAbsMin();
-		glm::vec3 max = aabb.GetAbsMax();
+		auto min = aabb.GetAbsMin();
+		auto max = aabb.GetAbsMax();
 
 		sides.push_back(CollisionSide(Geom::Quad3
 		{
@@ -121,12 +124,11 @@ AABB World::Raytrace(glm::vec3 position, glm::vec2 rotation, float reach)
 	std::sort(sides.begin(), sides.end(), CSideCompare());
 
 	bool collide = false;
-	int size = sides.size();
 
 	while (!sides.empty())
 	{
-		CollisionSide side = sides.front();
-		sides.erase(sides.begin());
+		CollisionSide side = sides.back();
+		sides.pop_back();
 
 		if ((side.GetType() == CSide::XP || side.GetType() == CSide::XN) && !collide)
 		{

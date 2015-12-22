@@ -31,7 +31,7 @@ void Player::BufferBoundingBox(float delta)
 //  std::array<Vertex, 32> playerVertices = lerped.GetBoundingBoxVertices();
 //	float* playerData = Vertex::GetFloatArray(playerVertices.data(), playerVertices.size());
 
-	glm::vec3 expand(0.0005);
+	glm::vec3 expand(0.005);
 	std::array<Vertex, 32> selectVertices = m_blockSelected.Expand(expand).Expand(-expand).GetBoundingBoxVertices(glm::vec4(0, 0, 0, 1));
 	float* selectData = Vertex::GetFloatArray(selectVertices.data(), selectVertices.size());
 	
@@ -129,5 +129,5 @@ void Player::Render(float delta)
 
 glm::vec3 Player::GetPlayerRenderPosition(float delta)
 {
-    return GetRenderPosition(delta) + glm::vec3(0, 1.6, 0);
+    return GetRenderPosition(delta) + glm::vec3(0, 1.5, 0);
 }

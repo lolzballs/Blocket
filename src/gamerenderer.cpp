@@ -5,7 +5,8 @@
 
 GameRenderer::GameRenderer(float fov, float aspect, float zNear, float zFar)
     : m_player(Player(m_world, glm::vec3(0, 10, 0), glm::vec2(), 0.05f)),
-      m_perspective(glm::perspective(glm::radians(fov), aspect, zNear, zFar))
+      m_perspective(glm::perspective(glm::radians(fov), aspect, zNear, zFar)),
+	  m_spritesheet(Util::Texture::LoadTexture("./res/textures/blocks.png"))
 {
 }
 
@@ -26,6 +27,9 @@ void GameRenderer::Render(float delta)
                                       -(m_player.GetPlayerRenderPosition(delta)));
     m_shader.UpdateUniforms(m_perspective * m_transformation);
 
+	glBindTexture(GL_TEXTURE_2D, m_spritesheet);
     m_world.Render(m_shader);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
     m_player.Render(delta);
 }
