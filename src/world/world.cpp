@@ -2,7 +2,6 @@
 
 World::World() : m_chunk(0, 0)
 {
-	glGenBuffers(1, &m_vbo);
 }
 
 World::~World()
