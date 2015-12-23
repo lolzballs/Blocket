@@ -157,6 +157,7 @@ void Chunk::RebufferChunk()
 						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, { 1, 0 }));
 						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, { 0, 0 }));
 					}
+					delete[] facesNeeded;
                 }
             }
         }
