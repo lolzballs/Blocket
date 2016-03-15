@@ -28,9 +28,6 @@ void GameRenderer::Render(float delta)
                                       -(m_player.GetPlayerRenderPosition(delta)));
     m_shader.UpdateUniforms(m_perspective * m_transformation);
 
-    m_blocksheet.BindTexture();
     m_world.Render(m_shader);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
     m_player.Render(delta);
 }
