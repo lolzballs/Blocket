@@ -1,29 +1,11 @@
 #include "util.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
-#include <iostream>
-
 namespace Util
 {
 namespace Texture
 {
-int LoadTexture(std::string filepath)
+void LoadTexture(GLuint tex, unsigned char* image, int w, int h, int comp)
 {
-	int w;
-	int h;
-	int comp;
-	unsigned char* image = stbi_load(filepath.c_str(), &w, &h, &comp, STBI_rgb_alpha);
-
-	if (image == nullptr)
-	{
-		std::cout << "Failed to load texture: " << filepath << std::endl;
-		return 0;
-	}
-
-	GLuint tex;
-	glGenTextures(1, &tex);
 	glBindTexture(GL_TEXTURE_2D, tex);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -39,10 +21,6 @@ int LoadTexture(std::string filepath)
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-	stbi_image_free(image);
-
-    return tex;
 }
 }
 

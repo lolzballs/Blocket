@@ -21,11 +21,11 @@ public:
 
 private:
     BasicShader m_shader;
+    Spritesheet m_blocksheet;
     World m_world;
     Player m_player;
     glm::mat4 m_perspective;
     glm::mat4 m_transformation;
-	GLuint m_spritesheet;
 };
 
 #endif

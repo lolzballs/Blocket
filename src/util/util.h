@@ -10,7 +10,7 @@ namespace Util
 {
 namespace Texture
 {
-int LoadTexture(std::string filepath);
+void LoadTexture(GLuint tex, unsigned char* image, int w, int h, int comp);
 }
 
 namespace Vector

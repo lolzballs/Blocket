@@ -2,30 +2,30 @@
 #define CHUNK_H
 
 #include "basicshader.h"
-
-#include <array>
+#include "util/spritesheet.h"
 
 #define CHUNK_SIZE 16
 
 class Chunk
 {
 public:
-    Chunk(int x, int y);
+    Chunk(Spritesheet& blocksheet, int x, int y, int z);
     ~Chunk();
 
     void Render(BasicShader& shader);
     void Update();
-    void AddBlock(int blockID, glm::vec3 position);
-    int GetBlockAtPosition(glm::vec3 position);
+    void AddBlock(int x, int y, int z, int blockID);
+    int GetBlockAtPosition(glm::ivec3 position);
 
-    inline const glm::vec2 GetPosition()
+    inline glm::vec3 GetPosition() const
     {
         return m_position;
     }
 
 private:
-    glm::vec2 m_position;
-    std::array<int, CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE> m_blocks;
+    Spritesheet& m_blocksheet;
+    glm::vec3 m_position;
+	int*** m_blocks;
     GLuint m_vbo;
     GLsizei m_size;
     bool m_changed;
@@ -33,9 +33,6 @@ private:
     void InitGL();
     void RebufferChunk();
     bool* GetFacesRequired(glm::vec3 position);
-
-    int GetArrayPosition(int x, int y, int z);
-    int GetArrayPosition(glm::vec3 position);
 };
 
 #endif

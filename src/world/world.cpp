@@ -1,6 +1,6 @@
 #include "world.h"
 
-World::World() : m_chunk(0, 0)
+World::World(Spritesheet& blocksheet) : m_chunk(blocksheet, 0, 0, 0)
 {
 }
 
@@ -14,7 +14,7 @@ void World::Update(InputHandler& input)
     {
         for (int i = 0; i < 16; i++)
         {
-            m_chunk.AddBlock(1, glm::vec3(i, i, i));
+            m_chunk.AddBlock(i, i, i, 2);
         }
     }
 

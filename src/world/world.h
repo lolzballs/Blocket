@@ -1,6 +1,8 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#define CHUNK_VIEW_DISTANCE 2
+
 #include "../input.h"
 #include "chunk.h"
 #include "basicshader.h"
@@ -9,7 +11,7 @@
 class World
 {
 public:
-    World();  // TODO: World flags
+    World(Spritesheet& blocksheet);  // TODO: World flags
     ~World();
 
     void Update(InputHandler& input);
