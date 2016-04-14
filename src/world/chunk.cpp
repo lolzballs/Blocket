@@ -1,9 +1,6 @@
 #include "chunk.h"
 #include "../util/vertex.h"
-#include "../util/util.h"
 
-#include <iostream>
-#include <string>
 #include <vector>
 #include <array>
 
