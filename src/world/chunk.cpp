@@ -133,43 +133,43 @@ void Chunk::RebufferChunk()
 					if (facesNeeded[0])  // Top
 					{
 						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, tc[0]));
-						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, { tc[0].x, tc[1].y }));
+						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, glm::vec2(tc[0].x, tc[1].y)));
 						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, tc[1]));
-						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, { tc[1].x, tc[0].y }));
+						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, glm::vec2(tc[1].x, tc[0].y )));
 					}
 					if (facesNeeded[1])  // Down
 					{
 						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, tc[0]));
-						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, { tc[0].x, tc[1].y }));
+						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, glm::vec2(tc[0].x, tc[1].y)));
 						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, tc[1]));
-						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, { tc[1].x, tc[0].y }));
+						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, glm::vec2(tc[1].x, tc[0].y)));
 					}
 					if (facesNeeded[2])  // Left
 					{
-						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, { tc[1].x, tc[0].y }));
+						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, glm::vec2(tc[1].x, tc[0].y)));
 						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, tc[0]));
-						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, { tc[0].x, tc[1].y }));
+						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, glm::vec2(tc[0].x, tc[1].y)));
 						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, tc[1]));
 					}
 					if (facesNeeded[3])  // Right
 					{
-						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, { tc[0].x, tc[1].y }));
+						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, glm::vec2(tc[0].x, tc[1].y)));
 						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, tc[1]));
-						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, { tc[1].x, tc[0].y }));
+						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, glm::vec2(tc[1].x, tc[0].y)));
 						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, tc[0]));
 					}
 					if (facesNeeded[4])  // Front
 					{
-						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, { tc[1].x, tc[0].y }));
+						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, glm::vec2(tc[1].x, tc[0].y)));
 						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, tc[0]));
-						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, { tc[0].x, tc[1].y }));
+						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, glm::vec2(tc[0].x, tc[1].y)));
 						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, tc[1]));
 					}
 					if (facesNeeded[5])  // Back
 					{
-						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, { tc[0].x, tc[1].y }));
+						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, glm::vec2(tc[0].x, tc[1].y)));
 						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, tc[1]));
-						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, { tc[1].x, tc[0].y }));
+						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, glm::vec2(tc[1].x, tc[0].y)));
 						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, tc[0]));
 					}
 					delete[] facesNeeded;
