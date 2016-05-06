@@ -2,6 +2,7 @@
 #define SPRITESHEET_H
 
 #include <string>
+#include <array>
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>

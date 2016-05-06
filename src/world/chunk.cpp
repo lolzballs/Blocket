@@ -130,6 +130,7 @@ void Chunk::RebufferChunk()
                 {
                     auto tc = m_blocksheet.GetTexCoords(blockID);
                     bool* facesNeeded = GetFacesRequired(position);
+<<<<<<< HEAD
                     if (facesNeeded[0])  // Top
                     {
                         vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, tc[0]));
