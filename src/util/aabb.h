@@ -67,7 +67,7 @@ public:
     bool Intersects(AABB other);
     std::array<Vertex, 32> GetBoundingBoxVertices(glm::vec4 color = glm::vec4(1, 1, 1, 1));
 
-	static std::vector<AABB> GetAllAABBs(AABB area);
+    static std::vector<AABB> GetAllAABBs(AABB area);
     static bool Contains(glm::vec2 point, glm::vec2 points[4]);
     static bool Intersects(Geom::Quad2 quad, Geom::Line2 line);
     static bool IntersectX(Geom::Quad3 quad, Geom::Quad3 qSta, glm::vec3 velocity);

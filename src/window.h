@@ -40,12 +40,12 @@ public:
 
     inline glm::vec2 GetCenter() const
     {
-        return glm::vec2((float)m_width / 2.0f, (float)m_height / 2.0f);
+        return glm::vec2((float) m_width / 2.0f, (float) m_height / 2.0f);
     }
 
-	inline GLFWwindow* GetGLFWWindow() const
+    inline GLFWwindow* GetGLFWWindow() const
     {
-		return m_window;
+        return m_window;
     }
 
 private:

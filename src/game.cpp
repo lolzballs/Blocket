@@ -6,19 +6,19 @@
 
 Game::Game()
     : m_updateTime(1000.0f / 20.0f),
-      m_width(800),
-      m_height(640),
-      m_title("Blocket"),
-      m_window(m_width, m_height, m_title),
-      m_gameRenderer(70.0f, float(m_width) / float(m_height), 0.01f, 1000.0f),
-      m_running(false)
+    m_width(800),
+    m_height(640),
+    m_title("Blocket"),
+    m_window(m_width, m_height, m_title),
+    m_gameRenderer(70.0f, float(m_width) / float(m_height), 0.01f, 1000.0f),
+    m_running(false)
 {
-	GLFWwindow* window = m_window.GetGLFWWindow();
+    GLFWwindow* window = m_window.GetGLFWWindow();
 
-	glfwSetCursorPosCallback(window, &InputHandler::MousePositionCallback);
-	glfwSetMouseButtonCallback(window, &InputHandler::MouseButtonCallback);
-	glfwSetScrollCallback(window, &InputHandler::MouseWheelCallback);
-	glfwSetKeyCallback(window, &InputHandler::KeyCallback);
+    glfwSetCursorPosCallback(window, &InputHandler::MousePositionCallback);
+    glfwSetMouseButtonCallback(window, &InputHandler::MouseButtonCallback);
+    glfwSetScrollCallback(window, &InputHandler::MouseWheelCallback);
+    glfwSetKeyCallback(window, &InputHandler::KeyCallback);
 
     std::cout << "Game initalized." << std::endl;
 }
@@ -103,16 +103,16 @@ void Game::InitGL()
 // Game logic (movement, etc.)
 void Game::Update()
 {
-	auto& input = InputHandler::GetInstance();
+    auto& input = InputHandler::GetInstance();
     if (m_window.IsCloseRequested())
     {
         Stop();
     }
 
-	if (input.IsKeyDown(GLFW_KEY_ESCAPE))
-	{
-		glfwSetInputMode(m_window.GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	}
+    if (input.IsKeyDown(GLFW_KEY_ESCAPE))
+    {
+        glfwSetInputMode(m_window.GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
 
     m_gameRenderer.Update(input);
     m_hud.Update(input);

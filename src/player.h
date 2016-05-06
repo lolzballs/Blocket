@@ -15,7 +15,7 @@ public:
     glm::vec3 GetPlayerRenderPosition(float delta);
 private:
     GLuint m_vbo;
-	AABB m_blockSelected;
+    AABB m_blockSelected;
 
     void InitGL();
     void BufferBoundingBox(float delta);

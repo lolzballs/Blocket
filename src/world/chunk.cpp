@@ -6,16 +6,16 @@
 
 Chunk::Chunk(Spritesheet& blocksheet, int x, int y, int z)
     : m_blocksheet(blocksheet),
-      m_position(x, y, z),
-      m_size(0)
+    m_position(x, y, z),
+    m_size(0)
 {
-	m_blocks = new int**[CHUNK_SIZE];
+    m_blocks = new int**[CHUNK_SIZE];
     for (int i = 0; i < CHUNK_SIZE; i++)
     {
-		m_blocks[i] = new int*[CHUNK_SIZE];
+        m_blocks[i] = new int*[CHUNK_SIZE];
         for (int j = 0; j < CHUNK_SIZE; j++)
         {
-			m_blocks[i][j] = new int[CHUNK_SIZE];
+            m_blocks[i][j] = new int[CHUNK_SIZE];
             for (int k = 0; k < CHUNK_SIZE; k++)
             {
                 if (j == 0)
@@ -38,15 +38,15 @@ Chunk::~Chunk()
 {
     glDeleteBuffers(1, &m_vbo);
 
-	for (int i = 0; i < CHUNK_SIZE; i++)
-	{
-		for (int j = 0; j < CHUNK_SIZE; j++)
-		{
-			delete[] m_blocks[i][j];
-		}
-		delete[] m_blocks[i];
-	}
-	delete[] m_blocks;
+    for (int i = 0; i < CHUNK_SIZE; i++)
+    {
+        for (int j = 0; j < CHUNK_SIZE; j++)
+        {
+            delete[] m_blocks[i][j];
+        }
+        delete[] m_blocks[i];
+    }
+    delete[] m_blocks;
 }
 
 void Chunk::InitGL()
@@ -56,7 +56,7 @@ void Chunk::InitGL()
 
 void Chunk::Render(BasicShader& shader)
 {
-	shader.Enable();
+    shader.Enable();
 
     m_blocksheet.BindTexture();
 
@@ -66,17 +66,17 @@ void Chunk::Render(BasicShader& shader)
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*)0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*)(3 * sizeof(float)));
-    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*)(5 * sizeof(float)));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*) 0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*) (3 * sizeof(float)));
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(float), (GLvoid*) (5 * sizeof(float)));
 
-    glDrawArrays(GL_QUADS, 0, (GLsizei)m_size);
+    glDrawArrays(GL_QUADS, 0, (GLsizei) m_size);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Chunk::Update()
@@ -130,61 +130,61 @@ void Chunk::RebufferChunk()
                 {
                     auto tc = m_blocksheet.GetTexCoords(blockID);
                     bool* facesNeeded = GetFacesRequired(position);
-					if (facesNeeded[0])  // Top
-					{
-						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, tc[0]));
-						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, { tc[0].x, tc[1].y }));
-						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, tc[1]));
-						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, { tc[1].x, tc[0].y }));
-					}
-					if (facesNeeded[1])  // Down
-					{
-						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, tc[0]));
-						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, { tc[0].x, tc[1].y }));
-						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, tc[1]));
-						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, { tc[1].x, tc[0].y }));
-					}
-					if (facesNeeded[2])  // Left
-					{
-						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, { tc[1].x, tc[0].y }));
-						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, tc[0]));
-						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, { tc[0].x, tc[1].y }));
-						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, tc[1]));
-					}
-					if (facesNeeded[3])  // Right
-					{
-						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, { tc[0].x, tc[1].y }));
-						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, tc[1]));
-						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, { tc[1].x, tc[0].y }));
-						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, tc[0]));
-					}
-					if (facesNeeded[4])  // Front
-					{
-						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, { tc[1].x, tc[0].y }));
-						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, tc[0]));
-						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, { tc[0].x, tc[1].y }));
-						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, tc[1]));
-					}
-					if (facesNeeded[5])  // Back
-					{
-						vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, { tc[0].x, tc[1].y }));
-						vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, tc[1]));
-						vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, { tc[1].x, tc[0].y }));
-						vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, tc[0]));
-					}
-					delete[] facesNeeded;
+                    if (facesNeeded[0])  // Top
+                    {
+                        vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, tc[0]));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, {tc[0].x, tc[1].y}));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, tc[1]));
+                        vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, {tc[1].x, tc[0].y}));
+                    }
+                    if (facesNeeded[1])  // Down
+                    {
+                        vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, tc[0]));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, {tc[0].x, tc[1].y}));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, tc[1]));
+                        vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, {tc[1].x, tc[0].y}));
+                    }
+                    if (facesNeeded[2])  // Left
+                    {
+                        vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, {tc[1].x, tc[0].y}));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, tc[0]));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, {tc[0].x, tc[1].y}));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, tc[1]));
+                    }
+                    if (facesNeeded[3])  // Right
+                    {
+                        vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, {tc[0].x, tc[1].y}));
+                        vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, tc[1]));
+                        vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, {tc[1].x, tc[0].y}));
+                        vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, tc[0]));
+                    }
+                    if (facesNeeded[4])  // Front
+                    {
+                        vertices.push_back(Vertex(glm::vec3(0.5, 0.5, 0.5) + position, {tc[1].x, tc[0].y}));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, 0.5) + position, tc[0]));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, 0.5) + position, {tc[0].x, tc[1].y}));
+                        vertices.push_back(Vertex(glm::vec3(0.5, -0.5, 0.5) + position, tc[1]));
+                    }
+                    if (facesNeeded[5])  // Back
+                    {
+                        vertices.push_back(Vertex(glm::vec3(0.5, -0.5, -0.5) + position, {tc[0].x, tc[1].y}));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, -0.5, -0.5) + position, tc[1]));
+                        vertices.push_back(Vertex(glm::vec3(-0.5, 0.5, -0.5) + position, {tc[1].x, tc[0].y}));
+                        vertices.push_back(Vertex(glm::vec3(0.5, 0.5, -0.5) + position, tc[0]));
+                    }
+                    delete[] facesNeeded;
                 }
             }
         }
     }
 
-    m_size = (GLsizei)vertices.size();
+    m_size = (GLsizei) vertices.size();
 
     float* floatVertices = Vertex::GetFloatArray(&vertices[0], m_size);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, m_size * VERTEX_SIZE * sizeof(float),
-                 floatVertices, GL_DYNAMIC_DRAW);
+        floatVertices, GL_DYNAMIC_DRAW);
 
     delete[] floatVertices;
 }

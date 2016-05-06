@@ -13,7 +13,7 @@ public:
     virtual ~Shader();
 
     virtual void UpdateUniforms(glm::mat4 projectionMatrix) = 0;
-	bool LinkShader();
+    bool LinkShader();
 
     inline void Enable()
     {

@@ -25,7 +25,7 @@ public:
 private:
     Spritesheet& m_blocksheet;
     glm::vec3 m_position;
-	int*** m_blocks;
+    int*** m_blocks;
     GLuint m_vbo;
     GLsizei m_size;
     bool m_changed;

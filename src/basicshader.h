@@ -10,7 +10,7 @@ public:
 
     void UpdateUniforms(glm::mat4);
 
-	GLint m_uniformTransformation;
+    GLint m_uniformTransformation;
 };
 
 #endif

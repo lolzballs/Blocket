@@ -33,10 +33,10 @@ bool AABB::Contains(glm::vec2 point, glm::vec2 points[4])
     for (unsigned int i = 0; i < 4; j = i++)
     {
         if ((((points[i].y <= point.y) && (point.y < points[j].y)) ||
-             ((points[j].y <= point.y) && (point.y < points[i].y))) &&
+            ((points[j].y <= point.y) && (point.y < points[i].y))) &&
             (point.x < (points[j].x - points[i].x) * (point.y - points[i].y) /
-                               (points[j].y - points[i].y) +
-                           points[i].x))
+            (points[j].y - points[i].y) +
+                points[i].x))
         {
             oddNodes = !oddNodes;
         }
@@ -88,7 +88,7 @@ std::array<Vertex, 32> AABB::GetBoundingBoxVertices(glm::vec4 color)
     std::array<Vertex, 32> vertices{
         {// back
          Vertex(min, color),
-		 Vertex(min + glm::vec3(0, size.y, 0), color),
+         Vertex(min + glm::vec3(0, size.y, 0), color),
          Vertex(min + glm::vec3(size.x, size.y, 0), color),
          Vertex(min + glm::vec3(size.x, 0, 0), color),
          // front

@@ -34,18 +34,18 @@ void HUD::Render()
     }
     glEnd();
 
-	glEnable(GL_COLOR_LOGIC_OP);
-	glLogicOp(GL_XOR);
-	glBegin(GL_LINES);
+    glEnable(GL_COLOR_LOGIC_OP);
+    glLogicOp(GL_XOR);
+    glBegin(GL_LINES);
     {
-		glColor3f(1, 1, 1);
-		glVertex2f(400 - 10, 320);
-		glVertex2f(400 + 10, 320);
-		glVertex2f(400, 320 - 10);
-		glVertex2f(400, 320 + 10);
+        glColor3f(1, 1, 1);
+        glVertex2f(400 - 10, 320);
+        glVertex2f(400 + 10, 320);
+        glVertex2f(400, 320 - 10);
+        glVertex2f(400, 320 + 10);
     }
-	glEnd();
-	glDisable(GL_COLOR_LOGIC_OP);
+    glEnd();
+    glDisable(GL_COLOR_LOGIC_OP);
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);

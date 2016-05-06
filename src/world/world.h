@@ -17,7 +17,7 @@ public:
     void Update(InputHandler& input);
     void Render(BasicShader& shader);
     std::vector<AABB> GetIntersectingAABBs(AABB aabb);
-	AABB Raytrace(glm::vec3 position, glm::vec2 rotation, float reach);
+    AABB Raytrace(glm::vec3 position, glm::vec2 rotation, float reach);
 
 private:
     Chunk m_chunk;  // TODO: Find way of handling chunks

@@ -5,8 +5,8 @@
 
 int main()
 {
-	glfwInit();
+    glfwInit();
     Game().Start();
-	glfwTerminate();
+    glfwTerminate();
     return 0;
 }
